@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-@objc(CartEntity)
+
 public class CartEntity: NSManagedObject {
 
 }

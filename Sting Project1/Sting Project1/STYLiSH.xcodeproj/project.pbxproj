@@ -16,7 +16,7 @@
 		7852C1422C61C86A003EFF11 /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7852C1412C61C869003EFF11 /* TabbarController.swift */; };
 		7852C1452C61F6C6003EFF11 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 7852C1442C61F6C6003EFF11 /* FacebookLogin */; };
 		7856AF3D2C5C69BE0029D861 /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7856AF3C2C5C69BD0029D861 /* CartViewController.swift */; };
-		7874CD7B2C6A073A00CEC3B8 /* CartEntity.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7874CD792C6A073A00CEC3B8 /* CartEntity.xcdatamodeld */; };
+		78678B142C6A381E002240B7 /* CartEntity.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 78678B122C6A381E002240B7 /* CartEntity.xcdatamodeld */; };
 		788955352C5E4DC300FB99A3 /* CheckOutPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788955342C5E4DC300FB99A3 /* CheckOutPageViewController.swift */; };
 		789AB22E2C4A5DC600E6A642 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 789AB22D2C4A5DC600E6A642 /* Kingfisher */; };
 		78CBB3E72C4E043C00E010EA /* CatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CBB3E62C4E043B00E010EA /* CatalogViewController.swift */; };
@@ -70,8 +70,9 @@
 		7852C1412C61C869003EFF11 /* TabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
 		7852C1462C61FD24003EFF11 /* STYLiSH.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = STYLiSH.entitlements; sourceTree = "<group>"; };
 		7856AF3C2C5C69BD0029D861 /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
-		7874CD7A2C6A073A00CEC3B8 /* CartEntity.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CartEntity.xcdatamodel; sourceTree = "<group>"; };
+		78678B132C6A381E002240B7 /* CartEntity.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CartEntity.xcdatamodel; sourceTree = "<group>"; };
 		788955342C5E4DC300FB99A3 /* CheckOutPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckOutPageViewController.swift; sourceTree = "<group>"; };
+		78B4F3002C6A09AE00C5EEE5 /* STYLiSH.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = STYLiSH.xcworkspace; sourceTree = "<group>"; };
 		78CBB3E62C4E043B00E010EA /* CatalogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogViewController.swift; sourceTree = "<group>"; };
 		78D3ACBC2C4BA1300028FBB0 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		78D3ACC32C4BE5A50028FBB0 /* SectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionCell.swift; sourceTree = "<group>"; };
@@ -129,8 +130,8 @@
 			isa = PBXGroup;
 			children = (
 				785097062C4918F500B21007 /* HotProductModel.swift */,
+				78678B122C6A381E002240B7 /* CartEntity.xcdatamodeld */,
 				781D543F2C4F9AF4006A1BE1 /* ProductListModel.swift */,
-				7874CD792C6A073A00CEC3B8 /* CartEntity.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -174,6 +175,7 @@
 		78E02C672C47BC8D00B8C53E = {
 			isa = PBXGroup;
 			children = (
+				78B4F3002C6A09AE00C5EEE5 /* STYLiSH.xcworkspace */,
 				78E02C722C47BC8D00B8C53E /* STYLiSH */,
 				78E02C712C47BC8D00B8C53E /* Products */,
 				AC83181D6B379762789FBA50 /* Pods */,
@@ -379,7 +381,7 @@
 				78D3ACBD2C4BA1300028FBB0 /* ProfileViewController.swift in Sources */,
 				785097052C49091400B21007 /* MarketManager.swift in Sources */,
 				78E44B862C6346FB002CEF84 /* UITableView+Extension拷貝.swift in Sources */,
-				7874CD7B2C6A073A00CEC3B8 /* CartEntity.xcdatamodeld in Sources */,
+				78678B142C6A381E002240B7 /* CartEntity.xcdatamodeld in Sources */,
 				78D3ACC72C4CBF960028FBB0 /* SectionHeader.swift in Sources */,
 				78E02C762C47BC8D00B8C53E /* SceneDelegate.swift in Sources */,
 				78E44B932C6347B7002CEF84 /* STOrderProductCell.swift in Sources */,
@@ -540,7 +542,7 @@
 				CODE_SIGN_ENTITLEMENTS = STYLiSH/STYLiSH.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 9CYNC2N5UU;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = STYLiSH/Info.plist;
@@ -571,7 +573,7 @@
 				CODE_SIGN_ENTITLEMENTS = STYLiSH/STYLiSH.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 9CYNC2N5UU;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = STYLiSH/Info.plist;
@@ -649,14 +651,13 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
-		7874CD792C6A073A00CEC3B8 /* CartEntity.xcdatamodeld */ = {
+		78678B122C6A381E002240B7 /* CartEntity.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				7874CD7A2C6A073A00CEC3B8 /* CartEntity.xcdatamodel */,
+				78678B132C6A381E002240B7 /* CartEntity.xcdatamodel */,
 			);
-			currentVersion = 7874CD7A2C6A073A00CEC3B8 /* CartEntity.xcdatamodel */;
-			name = CartEntity.xcdatamodeld;
-			path = "/Users/sting0923/Desktop/Sting Project1/Sting Project1/STYLiSH/Model/CartEntity.xcdatamodeld";
+			currentVersion = 78678B132C6A381E002240B7 /* CartEntity.xcdatamodel */;
+            path = CartEntity.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
