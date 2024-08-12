@@ -2,10 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../CartEntity+CoreDataClass.swift">
+      location = "group:STYLiSH/Model/CartEntity+CoreDataClass.swift">
    </FileRef>
    <FileRef
-      location = "group:../CartEntity+CoreDataProperties.swift">
+      location = "group:STYLiSH/Model/CartEntity+CoreDataProperties.swift">
    </FileRef>
    <FileRef
       location = "group:STYLiSH.xcodeproj">
