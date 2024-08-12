@@ -2,7 +2,7 @@
 //  CartEntity+CoreDataProperties.swift
 //  
 //
-//  Created by 謝霆 on 2024/8/5.
+//  Created by 謝霆 on 2024/8/12.
 //
 //
 
