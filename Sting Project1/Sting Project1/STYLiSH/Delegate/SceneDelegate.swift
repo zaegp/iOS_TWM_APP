@@ -41,7 +41,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     }catch{
                             fatalError("Failed to fetch data: \(error)")
                         }
-                    // Assuming the tab bar item you want to set badge is the first item
 
                 }
             

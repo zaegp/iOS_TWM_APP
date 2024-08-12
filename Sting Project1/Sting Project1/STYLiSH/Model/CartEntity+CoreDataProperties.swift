@@ -16,12 +16,12 @@ extension CartEntity {
         return NSFetchRequest<CartEntity>(entityName: "CartEntity")
     }
 
-    @NSManaged public var image: NSObject?
-    @NSManaged public var title: NSObject?
-    @NSManaged public var stock: NSObject?
-    @NSManaged public var size: NSObject?
-    @NSManaged public var price: NSObject?
-    @NSManaged public var number: NSObject?
-    @NSManaged public var color: NSObject?
+    @NSManaged public var image: String?
+    @NSManaged public var size: String?
+    @NSManaged public var title: String?
+    @NSManaged public var stock: String?
+    @NSManaged public var color: String?
+    @NSManaged public var price: String?
+    @NSManaged public var number: String?
 
 }
