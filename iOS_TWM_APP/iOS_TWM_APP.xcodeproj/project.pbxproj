@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		51D845972C781FA200781C9A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51D845962C781FA200781C9A /* MapKit.framework */; };
+		51D845992C78200300781C9A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D845982C78200300781C9A /* MapViewController.swift */; };
+		51D8459B2C782CDA00781C9A /* SportsVenue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D8459A2C782CDA00781C9A /* SportsVenue.swift */; };
+		51D8459D2C78325600781C9A /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D8459C2C78325600781C9A /* Cell.swift */; };
+		51D845A42C78773000781C9A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 51D845A32C78773000781C9A /* SnapKit */; };
+		51D845A62C7877C300781C9A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 51D845A52C7877C300781C9A /* Alamofire */; };
 		AC9B2AE22C781F5B00023FB3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B2AE12C781F5B00023FB3 /* LoginViewController.swift */; };
 		AC9B2AF32C785EC700023FB3 /* LoginDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B2AF22C785EC700023FB3 /* LoginDataRequest.swift */; };
 		AC9B2AF52C785EDE00023FB3 /* LoginDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B2AF42C785EDE00023FB3 /* LoginDataModel.swift */; };
-		AC9B2AF82C7861DD00023FB3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = AC9B2AF72C7861DD00023FB3 /* SnapKit */; };
-		AC9B2AFB2C7861E700023FB3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = AC9B2AFA2C7861E700023FB3 /* Alamofire */; };
-		51D845972C781FA200781C9A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51D845962C781FA200781C9A /* MapKit.framework */; };
-		51D845992C78200300781C9A /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D845982C78200300781C9A /* MapVC.swift */; };
-		51D8459B2C782CDA00781C9A /* SportsVenue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D8459A2C782CDA00781C9A /* SportsVenue.swift */; };
-		51D8459D2C78325600781C9A /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D8459C2C78325600781C9A /* Cell.swift */; };
 		C7832B7E2C781DBF0062C6EA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832B7D2C781DBF0062C6EA /* AppDelegate.swift */; };
 		C7832B802C781DBF0062C6EA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832B7F2C781DBF0062C6EA /* SceneDelegate.swift */; };
 		C7832B822C781DBF0062C6EA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832B812C781DBF0062C6EA /* ViewController.swift */; };
@@ -46,13 +46,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		51D845962C781FA200781C9A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		51D845982C78200300781C9A /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		51D8459A2C782CDA00781C9A /* SportsVenue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsVenue.swift; sourceTree = "<group>"; };
+		51D8459C2C78325600781C9A /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		AC9B2AE12C781F5B00023FB3 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		AC9B2AF22C785EC700023FB3 /* LoginDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDataRequest.swift; sourceTree = "<group>"; };
 		AC9B2AF42C785EDE00023FB3 /* LoginDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDataModel.swift; sourceTree = "<group>"; };
-		51D845962C781FA200781C9A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		51D845982C78200300781C9A /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
-		51D8459A2C782CDA00781C9A /* SportsVenue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsVenue.swift; sourceTree = "<group>"; };
-		51D8459C2C78325600781C9A /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		C7832B7A2C781DBF0062C6EA /* iOS_TWM_APP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOS_TWM_APP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7832B7D2C781DBF0062C6EA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7832B7F2C781DBF0062C6EA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -74,9 +74,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC9B2AF82C7861DD00023FB3 /* SnapKit in Frameworks */,
-				AC9B2AFB2C7861E700023FB3 /* Alamofire in Frameworks */,
+				51D845A62C7877C300781C9A /* Alamofire in Frameworks */,
 				51D845972C781FA200781C9A /* MapKit.framework in Frameworks */,
+				51D845A42C78773000781C9A /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,7 +135,7 @@
 				AC9B2AE12C781F5B00023FB3 /* LoginViewController.swift */,
 				AC9B2AF22C785EC700023FB3 /* LoginDataRequest.swift */,
 				AC9B2AF42C785EDE00023FB3 /* LoginDataModel.swift */,
-				51D845982C78200300781C9A /* MapVC.swift */,
+				51D845982C78200300781C9A /* MapViewController.swift */,
 				51D8459A2C782CDA00781C9A /* SportsVenue.swift */,
 				51D8459C2C78325600781C9A /* Cell.swift */,
 				C7832B832C781DBF0062C6EA /* Main.storyboard */,
@@ -181,8 +181,8 @@
 			);
 			name = iOS_TWM_APP;
 			packageProductDependencies = (
-				AC9B2AF72C7861DD00023FB3 /* SnapKit */,
-				AC9B2AFA2C7861E700023FB3 /* Alamofire */,
+				51D845A32C78773000781C9A /* SnapKit */,
+				51D845A52C7877C300781C9A /* Alamofire */,
 			);
 			productName = iOS_TWM_APP;
 			productReference = C7832B7A2C781DBF0062C6EA /* iOS_TWM_APP.app */;
@@ -303,7 +303,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				51D845992C78200300781C9A /* MapVC.swift in Sources */,
+				51D845992C78200300781C9A /* MapViewController.swift in Sources */,
 				C7832B822C781DBF0062C6EA /* ViewController.swift in Sources */,
 				51D8459D2C78325600781C9A /* Cell.swift in Sources */,
 				51D8459B2C782CDA00781C9A /* SportsVenue.swift in Sources */,
@@ -678,12 +678,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		AC9B2AF72C7861DD00023FB3 /* SnapKit */ = {
+		51D845A32C78773000781C9A /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AC9B2AF62C7861DD00023FB3 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
-		AC9B2AFA2C7861E700023FB3 /* Alamofire */ = {
+		51D845A52C7877C300781C9A /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AC9B2AF92C7861E700023FB3 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
