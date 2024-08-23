@@ -11,16 +11,26 @@ class SportsVenue: UIViewController, UITableViewDataSource, UITableViewDelegate 
 
     var tableView: UITableView!
     let numberOfCellsPerPage = 4
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .lightGray
         
-        tableView = UITableView(frame: view.bounds, style: .plain)
+        tableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(Cell.self, forCellReuseIdentifier: "cell")
         view.addSubview(tableView)
-        tableView.backgroundColor = .black
+        tableView.separatorStyle = .none
+        
+        tableView.snp.makeConstraints { make in
+                    make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16) // 距离安全区域顶部 16
+                    make.leading.equalToSuperview().offset(16) // 距离左边缘 16
+                    make.trailing.equalToSuperview().offset(-16) // 距离右边缘 16
+                    make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-16) // 距离底边缘 16
+                }
+        tableView.backgroundColor = .clear
     }
 
     // MARK: - UITableViewDataSource
