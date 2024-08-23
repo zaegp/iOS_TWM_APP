@@ -26,6 +26,8 @@
 		C7832B982C781DC10062C6EA /* iOS_TWM_APPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832B972C781DC10062C6EA /* iOS_TWM_APPTests.swift */; };
 		C7832BA22C781DC10062C6EA /* iOS_TWM_APPUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832BA12C781DC10062C6EA /* iOS_TWM_APPUITests.swift */; };
 		C7832BA42C781DC10062C6EA /* iOS_TWM_APPUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832BA32C781DC10062C6EA /* iOS_TWM_APPUITestsLaunchTests.swift */; };
+		C7832BB12C7859350062C6EA /* TaipeiGymAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832BB02C7859350062C6EA /* TaipeiGymAPI.swift */; };
+		C7832BB92C78622F0062C6EA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = C7832BB82C78622F0062C6EA /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,7 @@
 		C7832B9D2C781DC10062C6EA /* iOS_TWM_APPUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOS_TWM_APPUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7832BA12C781DC10062C6EA /* iOS_TWM_APPUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_TWM_APPUITests.swift; sourceTree = "<group>"; };
 		C7832BA32C781DC10062C6EA /* iOS_TWM_APPUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_TWM_APPUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C7832BB02C7859350062C6EA /* TaipeiGymAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaipeiGymAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,9 +77,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+<<<<<<< HEAD
 				AC9B2AF82C7861DD00023FB3 /* SnapKit in Frameworks */,
 				AC9B2AFB2C7861E700023FB3 /* Alamofire in Frameworks */,
 				51D845972C781FA200781C9A /* MapKit.framework in Frameworks */,
+=======
+				C7832BB92C78622F0062C6EA /* Alamofire in Frameworks */,
+>>>>>>> Leo
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,12 +139,16 @@
 				C7832B7D2C781DBF0062C6EA /* AppDelegate.swift */,
 				C7832B7F2C781DBF0062C6EA /* SceneDelegate.swift */,
 				C7832B812C781DBF0062C6EA /* ViewController.swift */,
+<<<<<<< HEAD
 				AC9B2AE12C781F5B00023FB3 /* LoginViewController.swift */,
 				AC9B2AF22C785EC700023FB3 /* LoginDataRequest.swift */,
 				AC9B2AF42C785EDE00023FB3 /* LoginDataModel.swift */,
 				51D845982C78200300781C9A /* MapVC.swift */,
 				51D8459A2C782CDA00781C9A /* SportsVenue.swift */,
 				51D8459C2C78325600781C9A /* Cell.swift */,
+=======
+				C7832BB02C7859350062C6EA /* TaipeiGymAPI.swift */,
+>>>>>>> Leo
 				C7832B832C781DBF0062C6EA /* Main.storyboard */,
 				C7832B892C781DC10062C6EA /* Assets.xcassets */,
 				C7832B8B2C781DC10062C6EA /* LaunchScreen.storyboard */,
@@ -181,8 +192,12 @@
 			);
 			name = iOS_TWM_APP;
 			packageProductDependencies = (
+<<<<<<< HEAD
 				AC9B2AF72C7861DD00023FB3 /* SnapKit */,
 				AC9B2AFA2C7861E700023FB3 /* Alamofire */,
+=======
+				C7832BB82C78622F0062C6EA /* Alamofire */,
+>>>>>>> Leo
 			);
 			productName = iOS_TWM_APP;
 			productReference = C7832B7A2C781DBF0062C6EA /* iOS_TWM_APP.app */;
@@ -257,8 +272,12 @@
 			);
 			mainGroup = C7832B712C781DBF0062C6EA;
 			packageReferences = (
+<<<<<<< HEAD
 				AC9B2AF62C7861DD00023FB3 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				AC9B2AF92C7861E700023FB3 /* XCRemoteSwiftPackageReference "Alamofire" */,
+=======
+				C7832BB72C78622F0062C6EA /* XCRemoteSwiftPackageReference "Alamofire" */,
+>>>>>>> Leo
 			);
 			productRefGroup = C7832B7B2C781DBF0062C6EA /* Products */;
 			projectDirPath = "";
@@ -308,6 +327,7 @@
 				51D8459D2C78325600781C9A /* Cell.swift in Sources */,
 				51D8459B2C782CDA00781C9A /* SportsVenue.swift in Sources */,
 				C7832B7E2C781DBF0062C6EA /* AppDelegate.swift in Sources */,
+				C7832BB12C7859350062C6EA /* TaipeiGymAPI.swift in Sources */,
 				C7832B882C781DBF0062C6EA /* iOS_TWM_APP.xcdatamodeld in Sources */,
 				AC9B2AF52C785EDE00023FB3 /* LoginDataModel.swift in Sources */,
 				AC9B2AF32C785EC700023FB3 /* LoginDataRequest.swift in Sources */,
@@ -659,6 +679,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+<<<<<<< HEAD
 		AC9B2AF62C7861DD00023FB3 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -670,6 +691,11 @@
 		AC9B2AF92C7861E700023FB3 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+=======
+		C7832BB72C78622F0062C6EA /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+>>>>>>> Leo
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.9.1;
@@ -678,6 +704,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+<<<<<<< HEAD
 		AC9B2AF72C7861DD00023FB3 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AC9B2AF62C7861DD00023FB3 /* XCRemoteSwiftPackageReference "SnapKit" */;
@@ -686,6 +713,11 @@
 		AC9B2AFA2C7861E700023FB3 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AC9B2AF92C7861E700023FB3 /* XCRemoteSwiftPackageReference "Alamofire" */;
+=======
+		C7832BB82C78622F0062C6EA /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C7832BB72C78622F0062C6EA /* XCRemoteSwiftPackageReference "Alamofire" */;
+>>>>>>> Leo
 			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
