@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7816B9AE2C78216E00A59B2C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7816B9AD2C78216E00A59B2C /* MapViewController.swift */; };
+		7816B9B92C787B9200A59B2C /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7816B9B82C787B9200A59B2C /* SnapKit */; };
 		C7832B7E2C781DBF0062C6EA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832B7D2C781DBF0062C6EA /* AppDelegate.swift */; };
 		C7832B802C781DBF0062C6EA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832B7F2C781DBF0062C6EA /* SceneDelegate.swift */; };
 		C7832B822C781DBF0062C6EA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832B812C781DBF0062C6EA /* ViewController.swift */; };
@@ -60,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7816B9B92C787B9200A59B2C /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,6 +152,7 @@
 			);
 			name = iOS_TWM_APP;
 			packageProductDependencies = (
+				7816B9B82C787B9200A59B2C /* SnapKit */,
 			);
 			productName = iOS_TWM_APP;
 			productReference = C7832B7A2C781DBF0062C6EA /* iOS_TWM_APP.app */;
@@ -224,6 +227,7 @@
 			);
 			mainGroup = C7832B712C781DBF0062C6EA;
 			packageReferences = (
+				7816B9B72C787B9200A59B2C /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = C7832B7B2C781DBF0062C6EA /* Products */;
 			projectDirPath = "";
@@ -615,6 +619,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7816B9B72C787B9200A59B2C /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7816B9B82C787B9200A59B2C /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7816B9B72C787B9200A59B2C /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		C7832B862C781DBF0062C6EA /* iOS_TWM_APP.xcdatamodeld */ = {

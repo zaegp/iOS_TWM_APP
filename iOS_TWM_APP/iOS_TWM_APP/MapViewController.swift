@@ -50,9 +50,15 @@ class MapViewController: UIViewController {
     
     let refreshButton = UIButton()
     
+    let refreshButtonContainerView = UIView()
+    
     let locateButton = UIButton()
     
+    let locateButtonContainerView = UIView()
+    
     let searchButton = UIButton()
+    
+    let searchButtonContainerView = UIView()
     
     func configMapView() {
         
@@ -70,7 +76,7 @@ class MapViewController: UIViewController {
             
         }
         
-        mapView.backgroundColor = .systemGray5
+        mapView.backgroundColor = .darkGray
         
     }
     
@@ -83,6 +89,30 @@ class MapViewController: UIViewController {
             bottomMenuView.addSubview($0)
         }
         
+        self.bottomMenuView.addSubview(searchButtonContainerView)
+        
+        self.bottomMenuView.addSubview(locateButtonContainerView)
+
+        self.bottomMenuView.addSubview(refreshButtonContainerView)
+        
+//        searchButtonContainerView.isHidden = true
+//        
+//        locateButtonContainerView.isHidden = true
+//        
+//        refreshButtonContainerView.isHidden = true
+        
+        refreshButtonContainerView.addSubview(refreshButton)
+        
+        locateButtonContainerView.addSubview(locateButton)
+        
+        searchButtonContainerView.addSubview(searchButton)
+        
+        refreshButton.setImage(UIImage(named: "icons8-refresh-60"), for: .normal)
+        
+        locateButton.setImage(UIImage(named: "icons8-location-50"), for: .normal)
+        
+        searchButton.setImage(UIImage(named: "icons8-search-52"), for: .normal)
+
         bottomMenuView.snp.makeConstraints { make in
             
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(670)
@@ -97,7 +127,27 @@ class MapViewController: UIViewController {
         
         bottomMenuView.layer.cornerRadius = 15
         
-        bottomMenuView.backgroundColor = .systemGray3
+        bottomMenuView.backgroundColor = .systemGray5
+        
+        searchButtonContainerView.backgroundColor = .white
+        
+        searchButtonContainerView.layer.cornerRadius = 8
+        
+        searchButtonContainerView.layer.borderColor = UIColor.darkGray.cgColor
+        
+        locateButtonContainerView.backgroundColor = .white
+        
+        locateButtonContainerView.layer.cornerRadius = 8
+        
+        locateButtonContainerView.layer.borderColor = UIColor.darkGray.cgColor
+        
+        refreshButtonContainerView.backgroundColor = .white
+        
+        refreshButtonContainerView.layer.cornerRadius = 8
+        
+        refreshButtonContainerView.layer.borderColor = UIColor.darkGray.cgColor
+        
+        
         
         let tapBottomMenuGesture = UITapGestureRecognizer(target: self, action: #selector(didTappedBottomView))
         
@@ -157,19 +207,67 @@ class MapViewController: UIViewController {
             make.centerX.equalTo(deviceNameLabel.snp.centerX)
         }
         
+        refreshButtonContainerView.snp.makeConstraints { make in
+            
+            make.top.equalTo(recentUpdateLabel.snp.bottom).offset(60)
+            
+            make.left.equalTo(bottomMenuView.snp.left).offset(30)
+            
+            make.height.equalTo(60)
+            
+            make.width.equalTo(60)
+
+        }
+        
+        locateButtonContainerView.snp.makeConstraints { make in
+            
+            make.top.equalTo(recentUpdateLabel.snp.bottom).offset(60)
+            
+            make.centerX.equalTo(deviceNameLabel.snp.centerX)
+            
+            make.height.equalTo(60)
+
+            make.width.equalTo(60)
+            
+        }
+        
+        searchButtonContainerView.snp.makeConstraints { make in
+            
+            make.top.equalTo(recentUpdateLabel.snp.bottom).offset(60)
+            make.centerX.equalTo(bottomMenuView.snp.centerX).offset(140)
+            make.height.equalTo(60)
+            make.width.equalTo(60)
+        }
+        
+        searchButton.snp.makeConstraints { make in
+            
+            make.centerX.equalTo(searchButtonContainerView.snp.centerX)
+            
+            make.centerY.equalTo(searchButtonContainerView.snp.centerY)
+            
+        }
+        
+        refreshButton.snp.makeConstraints { make in
+            
+            make.centerX.equalTo(refreshButtonContainerView.snp.centerX)
+            
+            make.centerY.equalTo(refreshButtonContainerView.snp.centerY)
+            
+        }
+        
+        locateButton.snp.makeConstraints { make in
+            
+            make.centerX.equalTo(locateButtonContainerView.snp.centerX)
+            
+            make.centerY.equalTo(locateButtonContainerView.snp.centerY)
+            
+        }
+        
     }
     
     func addBottonMenuButtons() {
         
-        self.bottomMenuView.addSubview(searchButton)
-        
-        self.bottomMenuView.addSubview(locateButton)
-
-        self.bottomMenuView.addSubview(refreshButton)
-        
-        
-
-        
+      
     }
     
     func customizeLabels() {
@@ -206,29 +304,28 @@ class MapViewController: UIViewController {
             UIView.animate(withDuration: 0.3, animations: {
                 if self.isExpanded == false {
                     self.bottomMenuView.snp.updateConstraints { make in
-                        make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(600)
+                        make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(570)
+                        self.searchButtonContainerView.isHidden = false
+                        
+                        self.locateButtonContainerView.isHidden = false
+                        
+                        self.refreshButtonContainerView.isHidden = false
                     }
                     self.isExpanded = true
                 } else {
                     self.bottomMenuView.snp.updateConstraints { make in
                         make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(670)
+                        
+                        
                     }
                     self.isExpanded = false
+                    
                 }
                 self.view.layoutIfNeeded()  // Apply the constraint changes
             })
             
-            configExtendedText()
+           
         }
-    
-    func configExtendedText() {
-        
-
-        
-        
-        
-    }
-        
     
 
 }
