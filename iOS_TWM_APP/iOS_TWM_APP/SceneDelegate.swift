@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         
         // 創建初始的 view controller
-        let initialViewController = SportsVenue()
+        let initialViewController = MapViewController()
 //        let initialViewController = SportsVenue()
         
         // 設置 rootViewController

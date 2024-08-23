@@ -13,6 +13,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
 
     var mapView: MKMapView!
     let locationManager = CLLocationManager()
+    var userLocation: [Double] = []
+    let gymAPI = TaipeiGymAPI()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,7 +73,15 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         
         let latitude = location.coordinate.latitude
         let longitude = location.coordinate.longitude
-        print("User's location: Latitude \(latitude), Longitude \(longitude)")
+        gymAPI.getLocationDetails(latitude: latitude, longitude: longitude)
+//        userLocation.append(latitude)
+//        userLocation.append(longitude)
+//        
+//        NotificationCenter.default.post(name: .didReceiveLocation, object: nil, userInfo: ["latitude": latitude, "longitude": longitude])
+    }
+    
+    func getUserLocation() -> [Double] {
+        return userLocation
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

@@ -63,7 +63,7 @@ class TaipeiGymAPI: UIViewController{
     var gymDataArray:[Value]? = []
     override func viewDidLoad() {
         super.viewDidLoad()
-        getLocationDetails(latitude: 25.038708007700986, longitude: 121.53235486100805)
+//        getLocationDetails(latitude: 25.038708007700986, longitude: 121.53235486100805)
     }
 }
 
