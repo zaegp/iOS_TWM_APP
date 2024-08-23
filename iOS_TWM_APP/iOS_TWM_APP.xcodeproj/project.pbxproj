@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		51D845972C781FA200781C9A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51D845962C781FA200781C9A /* MapKit.framework */; };
+		51D845992C78200300781C9A /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D845982C78200300781C9A /* MapVC.swift */; };
+		51D8459B2C782CDA00781C9A /* SportsVenue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D8459A2C782CDA00781C9A /* SportsVenue.swift */; };
+		51D8459D2C78325600781C9A /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D8459C2C78325600781C9A /* Cell.swift */; };
+		51D845A02C783C1000781C9A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 51D8459F2C783C1000781C9A /* SnapKit */; };
 		C7832B7E2C781DBF0062C6EA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832B7D2C781DBF0062C6EA /* AppDelegate.swift */; };
 		C7832B802C781DBF0062C6EA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832B7F2C781DBF0062C6EA /* SceneDelegate.swift */; };
 		C7832B822C781DBF0062C6EA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832B812C781DBF0062C6EA /* ViewController.swift */; };
@@ -37,6 +42,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		51D845962C781FA200781C9A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		51D845982C78200300781C9A /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
+		51D8459A2C782CDA00781C9A /* SportsVenue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsVenue.swift; sourceTree = "<group>"; };
+		51D8459C2C78325600781C9A /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		C7832B7A2C781DBF0062C6EA /* iOS_TWM_APP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOS_TWM_APP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7832B7D2C781DBF0062C6EA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7832B7F2C781DBF0062C6EA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +67,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51D845972C781FA200781C9A /* MapKit.framework in Frameworks */,
+				51D845A02C783C1000781C9A /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +89,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		51D845952C781FA200781C9A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				51D845962C781FA200781C9A /* MapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C7832B712C781DBF0062C6EA = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +104,7 @@
 				C7832B962C781DC10062C6EA /* iOS_TWM_APPTests */,
 				C7832BA02C781DC10062C6EA /* iOS_TWM_APPUITests */,
 				C7832B7B2C781DBF0062C6EA /* Products */,
+				51D845952C781FA200781C9A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -104,6 +124,9 @@
 				C7832B7D2C781DBF0062C6EA /* AppDelegate.swift */,
 				C7832B7F2C781DBF0062C6EA /* SceneDelegate.swift */,
 				C7832B812C781DBF0062C6EA /* ViewController.swift */,
+				51D845982C78200300781C9A /* MapVC.swift */,
+				51D8459A2C782CDA00781C9A /* SportsVenue.swift */,
+				51D8459C2C78325600781C9A /* Cell.swift */,
 				C7832B832C781DBF0062C6EA /* Main.storyboard */,
 				C7832B892C781DC10062C6EA /* Assets.xcassets */,
 				C7832B8B2C781DC10062C6EA /* LaunchScreen.storyboard */,
@@ -146,6 +169,9 @@
 			dependencies = (
 			);
 			name = iOS_TWM_APP;
+			packageProductDependencies = (
+				51D8459F2C783C1000781C9A /* SnapKit */,
+			);
 			productName = iOS_TWM_APP;
 			productReference = C7832B7A2C781DBF0062C6EA /* iOS_TWM_APP.app */;
 			productType = "com.apple.product-type.application";
@@ -218,6 +244,9 @@
 				Base,
 			);
 			mainGroup = C7832B712C781DBF0062C6EA;
+			packageReferences = (
+				51D8459E2C783C1000781C9A /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = C7832B7B2C781DBF0062C6EA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -261,7 +290,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51D845992C78200300781C9A /* MapVC.swift in Sources */,
 				C7832B822C781DBF0062C6EA /* ViewController.swift in Sources */,
+				51D8459D2C78325600781C9A /* Cell.swift in Sources */,
+				51D8459B2C782CDA00781C9A /* SportsVenue.swift in Sources */,
 				C7832B7E2C781DBF0062C6EA /* AppDelegate.swift in Sources */,
 				C7832B882C781DBF0062C6EA /* iOS_TWM_APP.xcdatamodeld in Sources */,
 				C7832B802C781DBF0062C6EA /* SceneDelegate.swift in Sources */,
@@ -446,8 +478,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iOS_TWM_APP/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "是否同意使用您的位置";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -458,7 +492,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.shacharumi.iOS-TWM-APP";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rowan.iOS-TWM-APP";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -473,8 +507,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iOS_TWM_APP/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "是否同意使用您的位置";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -485,7 +521,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.shacharumi.iOS-TWM-APP";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rowan.iOS-TWM-APP";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -605,6 +641,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		51D8459E2C783C1000781C9A /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		51D8459F2C783C1000781C9A /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 51D8459E2C783C1000781C9A /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		C7832B862C781DBF0062C6EA /* iOS_TWM_APP.xcdatamodeld */ = {
