@@ -17,6 +17,8 @@
 		C7832B982C781DC10062C6EA /* iOS_TWM_APPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832B972C781DC10062C6EA /* iOS_TWM_APPTests.swift */; };
 		C7832BA22C781DC10062C6EA /* iOS_TWM_APPUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832BA12C781DC10062C6EA /* iOS_TWM_APPUITests.swift */; };
 		C7832BA42C781DC10062C6EA /* iOS_TWM_APPUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832BA32C781DC10062C6EA /* iOS_TWM_APPUITestsLaunchTests.swift */; };
+		C7832BB12C7859350062C6EA /* TaipeiGymAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832BB02C7859350062C6EA /* TaipeiGymAPI.swift */; };
+		C7832BB92C78622F0062C6EA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = C7832BB82C78622F0062C6EA /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,7 @@
 		C7832B9D2C781DC10062C6EA /* iOS_TWM_APPUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOS_TWM_APPUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7832BA12C781DC10062C6EA /* iOS_TWM_APPUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_TWM_APPUITests.swift; sourceTree = "<group>"; };
 		C7832BA32C781DC10062C6EA /* iOS_TWM_APPUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_TWM_APPUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C7832BB02C7859350062C6EA /* TaipeiGymAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaipeiGymAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7832BB92C78622F0062C6EA /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,6 +108,7 @@
 				C7832B7D2C781DBF0062C6EA /* AppDelegate.swift */,
 				C7832B7F2C781DBF0062C6EA /* SceneDelegate.swift */,
 				C7832B812C781DBF0062C6EA /* ViewController.swift */,
+				C7832BB02C7859350062C6EA /* TaipeiGymAPI.swift */,
 				C7832B832C781DBF0062C6EA /* Main.storyboard */,
 				C7832B892C781DC10062C6EA /* Assets.xcassets */,
 				C7832B8B2C781DC10062C6EA /* LaunchScreen.storyboard */,
@@ -146,6 +151,9 @@
 			dependencies = (
 			);
 			name = iOS_TWM_APP;
+			packageProductDependencies = (
+				C7832BB82C78622F0062C6EA /* Alamofire */,
+			);
 			productName = iOS_TWM_APP;
 			productReference = C7832B7A2C781DBF0062C6EA /* iOS_TWM_APP.app */;
 			productType = "com.apple.product-type.application";
@@ -218,6 +226,9 @@
 				Base,
 			);
 			mainGroup = C7832B712C781DBF0062C6EA;
+			packageReferences = (
+				C7832BB72C78622F0062C6EA /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = C7832B7B2C781DBF0062C6EA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -263,6 +274,7 @@
 			files = (
 				C7832B822C781DBF0062C6EA /* ViewController.swift in Sources */,
 				C7832B7E2C781DBF0062C6EA /* AppDelegate.swift in Sources */,
+				C7832BB12C7859350062C6EA /* TaipeiGymAPI.swift in Sources */,
 				C7832B882C781DBF0062C6EA /* iOS_TWM_APP.xcdatamodeld in Sources */,
 				C7832B802C781DBF0062C6EA /* SceneDelegate.swift in Sources */,
 			);
@@ -446,6 +458,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iOS_TWM_APP/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -473,6 +486,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iOS_TWM_APP/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -605,6 +619,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C7832BB72C78622F0062C6EA /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C7832BB82C78622F0062C6EA /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C7832BB72C78622F0062C6EA /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		C7832B862C781DBF0062C6EA /* iOS_TWM_APP.xcdatamodeld */ = {
