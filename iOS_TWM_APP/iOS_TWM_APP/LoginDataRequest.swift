@@ -12,6 +12,9 @@ import Alamofire
 
 class LoginDataRequest {
     
+    //let loginVC = LoginViewController()
+    //let mapVC = MapVC()
+    
     var token: String = ""
 
     func registerData(userID: String, password: String) {
@@ -63,11 +66,21 @@ class LoginDataRequest {
                         print("Decoded Response: \(decodeData)")
                         self.token = decodeData.accessToken
                         self.getInformation(self.token)
+                        
+                       // self.navigationController?.pushViewController(self.mapVC, animated: true)
+//                        
+//                        if self.loginVC.checkButton.isSelected {
+//                            let expiresIn: TimeInterval = 60
+//                            self.loginVC.saveLoginState(token: self.token, expiresIn: expiresIn)
+//                        }
+                        
                     } catch let decodingError {
                         print("Decoding Error: \(decodingError)")
+                        
                     }
                 case .failure(let error):
                     print("Error: \(error)")
+                    
                 }
             }
         }
