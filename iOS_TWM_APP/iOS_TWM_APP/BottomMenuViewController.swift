@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class MapViewController: UIViewController {
+class BottomMenuViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,11 +95,11 @@ class MapViewController: UIViewController {
 
         self.bottomMenuView.addSubview(refreshButtonContainerView)
         
-//        searchButtonContainerView.isHidden = true
-//        
-//        locateButtonContainerView.isHidden = true
-//        
-//        refreshButtonContainerView.isHidden = true
+        searchButtonContainerView.isHidden = true
+
+        locateButtonContainerView.isHidden = true
+
+        refreshButtonContainerView.isHidden = true
         
         refreshButtonContainerView.addSubview(refreshButton)
         

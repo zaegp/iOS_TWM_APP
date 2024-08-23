@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7816B9AE2C78216E00A59B2C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7816B9AD2C78216E00A59B2C /* MapViewController.swift */; };
 		7816B9B92C787B9200A59B2C /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7816B9B82C787B9200A59B2C /* SnapKit */; };
+		7816B9BD2C78933C00A59B2C /* BottomMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7816B9BC2C78933C00A59B2C /* BottomMenuViewController.swift */; };
 		C7832B7E2C781DBF0062C6EA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832B7D2C781DBF0062C6EA /* AppDelegate.swift */; };
 		C7832B802C781DBF0062C6EA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832B7F2C781DBF0062C6EA /* SceneDelegate.swift */; };
 		C7832B822C781DBF0062C6EA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832B812C781DBF0062C6EA /* ViewController.swift */; };
@@ -39,7 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		7816B9AD2C78216E00A59B2C /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		7816B9BC2C78933C00A59B2C /* BottomMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomMenuViewController.swift; sourceTree = "<group>"; };
 		C7832B7A2C781DBF0062C6EA /* iOS_TWM_APP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOS_TWM_APP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7832B7D2C781DBF0062C6EA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7832B7F2C781DBF0062C6EA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -108,7 +108,7 @@
 				C7832B7D2C781DBF0062C6EA /* AppDelegate.swift */,
 				C7832B7F2C781DBF0062C6EA /* SceneDelegate.swift */,
 				C7832B812C781DBF0062C6EA /* ViewController.swift */,
-				7816B9AD2C78216E00A59B2C /* MapViewController.swift */,
+				7816B9BC2C78933C00A59B2C /* BottomMenuViewController.swift */,
 				C7832B832C781DBF0062C6EA /* Main.storyboard */,
 				C7832B892C781DC10062C6EA /* Assets.xcassets */,
 				C7832B8B2C781DC10062C6EA /* LaunchScreen.storyboard */,
@@ -272,10 +272,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7816B9BD2C78933C00A59B2C /* BottomMenuViewController.swift in Sources */,
 				C7832B822C781DBF0062C6EA /* ViewController.swift in Sources */,
 				C7832B7E2C781DBF0062C6EA /* AppDelegate.swift in Sources */,
 				C7832B882C781DBF0062C6EA /* iOS_TWM_APP.xcdatamodeld in Sources */,
-				7816B9AE2C78216E00A59B2C /* MapViewController.swift in Sources */,
 				C7832B802C781DBF0062C6EA /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
