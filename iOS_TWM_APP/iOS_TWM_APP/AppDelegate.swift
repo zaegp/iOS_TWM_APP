@@ -17,20 +17,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let locationmanager = CLLocationManager()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        locationmanager.requestWhenInUseAuthorization()
-        
-        let loginVC = LoginViewController()
-        let MapViewController = MapViewController()
-        var navigationController = UINavigationController()
-        
-        if loginVC.isTokenValid() {
-            navigationController = UINavigationController(rootViewController: loginVC)
-        } else {
-            navigationController = UINavigationController(rootViewController: MapViewController)
-        }
-        
-        window?.rootViewController = navigationController
-        window?.makeKeyAndVisible()
+//        locationmanager.requestWhenInUseAuthorization()
+//        
+//        let loginVC = LoginViewController()
+//        let MapViewController = MapViewController()
+//        var navigationController = UINavigationController()
+//        
+//        if loginVC.isTokenValid() {
+//            navigationController = UINavigationController(rootViewController: loginVC)
+//        } else {
+//            navigationController = UINavigationController(rootViewController: MapViewController)
+//        }
+//        
+//        window?.rootViewController = navigationController
+//        window?.makeKeyAndVisible()
         
         return true
     }

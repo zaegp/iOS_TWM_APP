@@ -17,6 +17,7 @@ class LoginDataRequest {
     
     var token: String = ""
 
+    
     func registerData(userID: String, password: String) {
         let parameters: [String: Any] =
         [
@@ -43,7 +44,8 @@ class LoginDataRequest {
         }
     }
     
-    func loginData(userID: String, password: String) {
+    func loginData(userID: String, password: String, completion: @escaping (String?) -> Void) {
+        
         let parameters: [String: String] = [
             "grant_type": "",
             "username": userID,
@@ -52,7 +54,6 @@ class LoginDataRequest {
             "client_id": "",
             "client_secret": ""
         ]
-        DispatchQueue.main.async {
             AF.request("https://fastapi-production-a532.up.railway.app/login",
                        method: .post,
                        parameters: parameters,
@@ -66,13 +67,8 @@ class LoginDataRequest {
                         print("Decoded Response: \(decodeData)")
                         self.token = decodeData.accessToken
                         self.getInformation(self.token)
-                        
-                       // self.navigationController?.pushViewController(self.mapVC, animated: true)
-//                        
-//                        if self.loginVC.checkButton.isSelected {
-//                            let expiresIn: TimeInterval = 60
-//                            self.loginVC.saveLoginState(token: self.token, expiresIn: expiresIn)
-//                        }
+                        completion(self.token)
+ 
                         
                     } catch let decodingError {
                         print("Decoding Error: \(decodingError)")
@@ -83,7 +79,7 @@ class LoginDataRequest {
                     
                 }
             }
-        }
+        
     }
     
     func getInformation(_ token: String) {
