@@ -20,13 +20,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         locationmanager.requestWhenInUseAuthorization()
         
         let loginVC = LoginViewController()
-        let mapVC = MapVC()
+        let MapViewController = MapViewController()
         var navigationController = UINavigationController()
         
         if loginVC.isTokenValid() {
             navigationController = UINavigationController(rootViewController: loginVC)
         } else {
-            navigationController = UINavigationController(rootViewController: mapVC)
+            navigationController = UINavigationController(rootViewController: MapViewController)
         }
         
         window?.rootViewController = navigationController
