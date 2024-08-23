@@ -12,7 +12,8 @@
 		51D8459B2C782CDA00781C9A /* SportsVenue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D8459A2C782CDA00781C9A /* SportsVenue.swift */; };
 		51D8459D2C78325600781C9A /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D8459C2C78325600781C9A /* Cell.swift */; };
 		51D845A42C78773000781C9A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 51D845A32C78773000781C9A /* SnapKit */; };
-		51D845A62C7877C300781C9A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 51D845A52C7877C300781C9A /* Alamofire */; };
+		51D845A92C788E3400781C9A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 51D845A82C788E3400781C9A /* Alamofire */; };
+		51D845AC2C788E4400781C9A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 51D845AB2C788E4400781C9A /* SnapKit */; };
 		AC9B2AE22C781F5B00023FB3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B2AE12C781F5B00023FB3 /* LoginViewController.swift */; };
 		AC9B2AF32C785EC700023FB3 /* LoginDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B2AF22C785EC700023FB3 /* LoginDataRequest.swift */; };
 		AC9B2AF52C785EDE00023FB3 /* LoginDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B2AF42C785EDE00023FB3 /* LoginDataModel.swift */; };
@@ -26,6 +27,7 @@
 		C7832B982C781DC10062C6EA /* iOS_TWM_APPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832B972C781DC10062C6EA /* iOS_TWM_APPTests.swift */; };
 		C7832BA22C781DC10062C6EA /* iOS_TWM_APPUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832BA12C781DC10062C6EA /* iOS_TWM_APPUITests.swift */; };
 		C7832BA42C781DC10062C6EA /* iOS_TWM_APPUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832BA32C781DC10062C6EA /* iOS_TWM_APPUITestsLaunchTests.swift */; };
+		C7832BB12C7859350062C6EA /* TaipeiGymAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832BB02C7859350062C6EA /* TaipeiGymAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,7 @@
 		C7832B9D2C781DC10062C6EA /* iOS_TWM_APPUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOS_TWM_APPUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7832BA12C781DC10062C6EA /* iOS_TWM_APPUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_TWM_APPUITests.swift; sourceTree = "<group>"; };
 		C7832BA32C781DC10062C6EA /* iOS_TWM_APPUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_TWM_APPUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C7832BB02C7859350062C6EA /* TaipeiGymAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaipeiGymAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +77,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				51D845A62C7877C300781C9A /* Alamofire in Frameworks */,
+				51D845A92C788E3400781C9A /* Alamofire in Frameworks */,
+				51D845AC2C788E4400781C9A /* SnapKit in Frameworks */,
 				51D845972C781FA200781C9A /* MapKit.framework in Frameworks */,
 				51D845A42C78773000781C9A /* SnapKit in Frameworks */,
 			);
@@ -138,6 +142,7 @@
 				51D845982C78200300781C9A /* MapViewController.swift */,
 				51D8459A2C782CDA00781C9A /* SportsVenue.swift */,
 				51D8459C2C78325600781C9A /* Cell.swift */,
+				C7832BB02C7859350062C6EA /* TaipeiGymAPI.swift */,
 				C7832B832C781DBF0062C6EA /* Main.storyboard */,
 				C7832B892C781DC10062C6EA /* Assets.xcassets */,
 				C7832B8B2C781DC10062C6EA /* LaunchScreen.storyboard */,
@@ -182,7 +187,8 @@
 			name = iOS_TWM_APP;
 			packageProductDependencies = (
 				51D845A32C78773000781C9A /* SnapKit */,
-				51D845A52C7877C300781C9A /* Alamofire */,
+				51D845A82C788E3400781C9A /* Alamofire */,
+				51D845AB2C788E4400781C9A /* SnapKit */,
 			);
 			productName = iOS_TWM_APP;
 			productReference = C7832B7A2C781DBF0062C6EA /* iOS_TWM_APP.app */;
@@ -257,8 +263,8 @@
 			);
 			mainGroup = C7832B712C781DBF0062C6EA;
 			packageReferences = (
-				AC9B2AF62C7861DD00023FB3 /* XCRemoteSwiftPackageReference "SnapKit" */,
-				AC9B2AF92C7861E700023FB3 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				51D845A72C788E3400781C9A /* XCRemoteSwiftPackageReference "Alamofire" */,
+				51D845AA2C788E4400781C9A /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = C7832B7B2C781DBF0062C6EA /* Products */;
 			projectDirPath = "";
@@ -308,6 +314,7 @@
 				51D8459D2C78325600781C9A /* Cell.swift in Sources */,
 				51D8459B2C782CDA00781C9A /* SportsVenue.swift in Sources */,
 				C7832B7E2C781DBF0062C6EA /* AppDelegate.swift in Sources */,
+				C7832BB12C7859350062C6EA /* TaipeiGymAPI.swift in Sources */,
 				C7832B882C781DBF0062C6EA /* iOS_TWM_APP.xcdatamodeld in Sources */,
 				AC9B2AF52C785EDE00023FB3 /* LoginDataModel.swift in Sources */,
 				AC9B2AF32C785EC700023FB3 /* LoginDataRequest.swift in Sources */,
@@ -659,20 +666,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		AC9B2AF62C7861DD00023FB3 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.7.1;
-			};
-		};
-		AC9B2AF92C7861E700023FB3 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		51D845A72C788E3400781C9A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.9.1;
+			};
+		};
+		51D845AA2C788E4400781C9A /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -682,10 +689,15 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = SnapKit;
 		};
-		51D845A52C7877C300781C9A /* Alamofire */ = {
+		51D845A82C788E3400781C9A /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AC9B2AF92C7861E700023FB3 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			package = 51D845A72C788E3400781C9A /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		51D845AB2C788E4400781C9A /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 51D845AA2C788E4400781C9A /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 
