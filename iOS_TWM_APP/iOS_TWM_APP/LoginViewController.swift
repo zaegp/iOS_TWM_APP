@@ -30,6 +30,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.navigationBar.backgroundColor = .clear
         loginDataRequest.delegate = self
+
         setupLoginPage()
         setupTextFieldAction()
         setupButtonAction()
@@ -184,6 +185,7 @@ class LoginViewController: UIViewController {
             return
         }
         
+
         
         self.loginDataRequest.loginData(userID: userID, password: passwordText)
         
@@ -206,6 +208,7 @@ class LoginViewController: UIViewController {
 //        } else {
 //            print("------no token")
 //        }
+
         
     }
     
@@ -227,6 +230,7 @@ class LoginViewController: UIViewController {
         }
     }
     
+
     func saveLoginState(token: String, expiresIn: TimeInterval) {
         print("存進去～～～")
         let defaults = UserDefaults.standard
@@ -241,6 +245,7 @@ class LoginViewController: UIViewController {
         
         return UserDefaults.standard.string(forKey: "userToken")
     }
+
     
     func isTokenValid() -> Bool {
         let defaults = UserDefaults.standard
@@ -273,7 +278,7 @@ extension LoginViewController: LoginDataRequestDelegate {
     func didGetToken(token: String) {
         if !token.isEmpty {
             if let navgationController = self.navigationController {
-                let mapVC = MapVC()
+                let mapVC = MapViewController()
                 navgationController.pushViewController(mapVC, animated: true)
             }
             

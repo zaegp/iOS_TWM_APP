@@ -17,29 +17,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let locationmanager = CLLocationManager()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+
         locationmanager.requestWhenInUseAuthorization()
         
         let loginVC = LoginViewController()
-        let mapVC = MapVC()
+        let mapVC = MapViewController()
         
         var navigationController: UINavigationController?
         navigationController = UINavigationController(rootViewController: FirstViewController())
-        
-//        if loginVC.isTokenValid() {
-//            navigationController = UINavigationController(rootViewController: mapVC)
-//            window?.rootViewController = navigationController
-//            window?.makeKeyAndVisible()
-//            print("導航到map")
-//        } else {
-//            navigationController = UINavigationController(rootViewController: loginVC)
-//            window?.rootViewController = navigationController
-//            window?.makeKeyAndVisible()
-//            print("導航到login")
-//        }
-        
+ 
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
-        
+
         return true
     }
 

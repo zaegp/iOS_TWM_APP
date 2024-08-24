@@ -1,66 +1,58 @@
-//
-//  SceneDelegate.swift
-//  iOS_TWM_APP
-//
-//  Created by shachar on 2024/8/23.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
-
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        // 創建 window
         window = UIWindow(windowScene: windowScene)
         
+
         // 創建初始的 view controller
 //        let initialViewController = LoginViewController()
 //        let initialViewController = SportsVenue()
         
-        let loginVC = LoginViewController()
+        
         let navigationController = UINavigationController(rootViewController: FirstViewController())
         
-        // 設置 rootViewController
+
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
-
-    func sceneDidDisconnect(_ scene: UIScene) {
-        // Called as the scene is being released by the system.
-        // This occurs shortly after the scene enters the background, or when its session is discarded.
-        // Release any resources associated with this scene that can be re-created the next time the scene connects.
-        // The scene may re-connect later, as its session was not necessarily discarded (see `application:didDiscardSceneSessions` instead).
-    }
-
-    func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
-    }
-
-    func sceneWillResignActive(_ scene: UIScene) {
-        // Called when the scene will move from an active state to an inactive state.
-        // This may occur due to temporary interruptions (ex. an incoming phone call).
-    }
-
-    func sceneWillEnterForeground(_ scene: UIScene) {
-        // Called as the scene transitions from the background to the foreground.
-        // Use this method to undo the changes made on entering the background.
-    }
-
+    
     func sceneDidEnterBackground(_ scene: UIScene) {
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
-
-        // Save changes in the application's managed object context when the application transitions to the background.
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        let currentTime = Date()
+        UserDefaults.standard.set(currentTime, forKey: "lastCloseTime")
+        print("應用進入背景，記錄時間：\(currentTime)")
     }
-
-
+    
+    func sceneDidBecomeActive(_ scene: UIScene) {
+        if let lastCloseTime = UserDefaults.standard.value(forKey: "lastCloseTime") as? Date {
+            let elapsedTime = Date().timeIntervalSince(lastCloseTime)
+            print("從背景返回，距離上次關閉已過 \(elapsedTime) 秒")
+            
+            if elapsedTime >= 60 {
+                print("超過 60 秒，返回登錄頁面")
+                navigateToLogin()
+            } else {
+                print("未超過 60 秒，保持當前狀態")
+            }
+        } else {
+            print("沒有找到上次關閉的時間記錄，保持當前狀態")
+        }
+    }
+    
+    private func navigateToLogin() {
+        if let navigationController = window?.rootViewController as? UINavigationController {
+            let loginVC = LoginViewController()
+            navigationController.setViewControllers([loginVC], animated: true)
+        } else {
+            let loginVC = LoginViewController()
+            let navigationController = UINavigationController(rootViewController: loginVC)
+            window?.rootViewController = navigationController
+            window?.makeKeyAndVisible()
+        }
+    }
 }
-

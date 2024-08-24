@@ -21,7 +21,7 @@ class FirstViewController: UIViewController {
             print("yes token~ so map")
             // 如果有 token，显示地图页面
             token = getToken()
-            let mapVC = MapVC()
+            let mapVC = MapViewController()
             addChild(mapVC)
             view.addSubview(mapVC.view)
             mapVC.view.frame = view.bounds

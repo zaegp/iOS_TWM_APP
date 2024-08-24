@@ -17,8 +17,10 @@ protocol LoginDataRequestDelegate {
 class LoginDataRequest {
     
     var delegate: LoginDataRequestDelegate?
+
     var token: String = ""
 
+    
     func registerData(userID: String, password: String) {
         let parameters: [String: Any] =
         [
@@ -45,7 +47,8 @@ class LoginDataRequest {
         }
     }
     
-    func loginData(userID: String, password: String) {
+    func loginData(userID: String, password: String/*, completion: @escaping (String?) -> Void*/) {
+        
         let parameters: [String: String] = [
             "grant_type": "",
             "username": userID,
@@ -54,7 +57,6 @@ class LoginDataRequest {
             "client_id": "",
             "client_secret": ""
         ]
-        DispatchQueue.main.async {
             AF.request("https://fastapi-production-a532.up.railway.app/login",
                        method: .post,
                        parameters: parameters,
@@ -69,6 +71,7 @@ class LoginDataRequest {
                         self.token = decodeData.accessToken
                         self.getInformation(self.token)
                         self.delegate?.didGetToken(token: self.token)
+
                     } catch let decodingError {
                         print("Decoding Error: \(decodingError)")
                         
@@ -78,7 +81,7 @@ class LoginDataRequest {
                     
                 }
             }
-        }
+        
     }
     
     func getInformation(_ token: String) {
@@ -95,6 +98,29 @@ class LoginDataRequest {
                      let decoder = JSONDecoder()
                      let decodeData = try decoder.decode(Register.self, from: data)
                      print("Decoded Response: \(decodeData)")
+                 } catch let decodingError {
+                     print("Decoding Error: \(decodingError)")
+                 }
+             case .failure(let error):
+                 print("Error: \(error)")
+             }
+         }
+     }
+    
+    func getMockData(_ token: String) {
+        let headers: HTTPHeaders = [
+             "Authorization": "Bearer \(token)",
+             "accept": "application/json"
+         ]
+
+         AF.request("https://fastapi-production-a532.up.railway.app/Info/",
+                    method: .get, headers: headers).responseData { response in
+             switch response.result {
+             case .success(let data):
+                 do {
+                     let decoder = JSONDecoder()
+                     let decodeData = try decoder.decode(MockData.self, from: data)
+                     print("MockData Response: \(decodeData)")
                  } catch let decodingError {
                      print("Decoding Error: \(decodingError)")
                  }
