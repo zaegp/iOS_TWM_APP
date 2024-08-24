@@ -136,7 +136,7 @@ class BottomMenuViewController: UIViewController {
         
         bottomMenuView.addGestureRecognizer(tapBottomMenuGesture)
         
-        refreshButton.addTarget(self, action: #selector(getInformation), for: .touchUpInside)
+        refreshButton.addTarget(self, action: #selector(tappedRefreshButton), for: .touchUpInside)
         
         setBottomViewConstraint()
         
@@ -279,21 +279,28 @@ class BottomMenuViewController: UIViewController {
        
     }
     
-    @objc func getInformation() {
+    @objc func tappedRefreshButton () {
+        
+        guard let userToken = userToken else {return}
+        
+        getMockData(userToken)
+        
+    }
+    
+    @objc func getMockData(_ token: String) {
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(String(describing: userToken))",
+             "Authorization": "Bearer \(token)",
              "accept": "application/json"
          ]
 
-         AF.request("https://fastapi-production-a532.up.railway.app/info",
+         AF.request("https://fastapi-production-a532.up.railway.app/Info/",
                     method: .get, headers: headers).responseData { response in
              switch response.result {
              case .success(let data):
                  do {
                      let decoder = JSONDecoder()
-                     let decodeData = try decoder.decode(Register.self, from: data)
-                     print("Decoded Response: \(decodeData)")
-
+                     let decodeData = try decoder.decode(MockData.self, from: data)
+                     print("MockData Response: \(decodeData)")
                  } catch let decodingError {
                      print("Decoding Error: \(decodingError)")
                  }
