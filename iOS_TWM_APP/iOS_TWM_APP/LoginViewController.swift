@@ -179,25 +179,25 @@ class LoginViewController: UIViewController {
             return
         }
         
-        self.loginDataRequest.loginData(userID: userID, password: passwordText) { token in
-            DispatchQueue.main.async {
-                if let token = token, !token.isEmpty {
-                    if let navController = self.navigationController {
+//        self.loginDataRequest.loginData(userID: userID, password: passwordText) { token in
+//            DispatchQueue.main.async {
+//                if let token = token, !token.isEmpty {
+//                    if let navController = self.navigationController {
                         let mapVC = MapViewController()
                         self.navigationController?.pushViewController(mapVC, animated: true)
-                    }
-                    if self.checkButton.isSelected {
-                        print("要記住")
-                        //let expiresIn: TimeInterval = 60
-                        // self.saveLoginState(token: token, expiresIn: expiresIn)
-                    } else {
-                        print("沒有記住")
-                    }
-                } else {
-                    print("------no token")
-                }
-            }
-        }
+//                    }
+//                    if self.checkButton.isSelected {
+//                        print("要記住")
+//                        //let expiresIn: TimeInterval = 60
+//                        // self.saveLoginState(token: token, expiresIn: expiresIn)
+//                    } else {
+//                        print("沒有記住")
+//                    }
+//                } else {
+//                    print("------no token")
+//                }
+//            }
+//        }
         
     }
     

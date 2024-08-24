@@ -99,7 +99,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         gymAPI.getLocationDetails(latitude: latitude, longitude: longitude)
         gymAPI.onGymDataReceived = { [weak self] gymDataArray in
             self?.receivedGymDataArray = gymDataArray
-            // 在這裡你可以更新 UI 或者執行其他操作
             //            print("Received Gym Data: \(gymDataArray)")
         }
         

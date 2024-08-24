@@ -101,7 +101,7 @@ class Cell: UITableViewCell {
             make.bottom.equalTo(imageBackgroundView.snp.bottom).offset(-8)
         }
         
-        contentView.backgroundColor = .lightGray // Optional to match your cell design
+        contentView.backgroundColor = .lightGray 
     }
     
     required init?(coder: NSCoder) {
