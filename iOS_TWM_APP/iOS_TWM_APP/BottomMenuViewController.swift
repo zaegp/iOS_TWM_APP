@@ -60,6 +60,8 @@ class BottomMenuViewController: UIViewController {
     
     let searchButtonContainerView = UIView()
     
+    let searchTextField = UITextField()
+    
     func configMapView() {
         
         view.addSubview(mapView)
@@ -152,6 +154,8 @@ class BottomMenuViewController: UIViewController {
         let tapBottomMenuGesture = UITapGestureRecognizer(target: self, action: #selector(didTappedBottomView))
         
         bottomMenuView.addGestureRecognizer(tapBottomMenuGesture)
+        
+        searchButton.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
         
         setBottomViewConstraint()
         
@@ -326,6 +330,26 @@ class BottomMenuViewController: UIViewController {
             
            
         }
+    
+    @objc func didTapSearchButton() {
+        
+        view.addSubview(searchTextField)
+        
+        self.bottomMenuView.snp.updateConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(470)
+        }
+        
+        searchTextField.snp.makeConstraints { make in
+            make.top.equalTo(bottomMenuView).offset(25)
+            make.width.equalTo(bottomMenuView).multipliedBy(0.9)
+            make.height.equalTo(50)
+            make.centerX.equalTo(bottomMenuView)
+        }
+        
+        searchTextField.backgroundColor = .white
+        searchTextField.layer.cornerRadius = 7
+        
+    }
     
 
 }
