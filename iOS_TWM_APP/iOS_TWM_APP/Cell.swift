@@ -1,3 +1,10 @@
+//
+//  Cell.swift
+//  iOS_TWM_APP
+//
+//  Created by Rowan Su on 2024/8/23.
+//
+
 import UIKit
 import SnapKit
 import Kingfisher
@@ -40,12 +47,8 @@ class Cell: UITableViewCell {
         view.backgroundColor = .white
         view.layer.cornerRadius = 5
         view.layer.masksToBounds = false
-        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.borderColor = UIColor.lightGray.cgColor
         view.layer.borderWidth = 1
-//        view.layer.shadowColor = UIColor.black.cgColor
-//        view.layer.shadowOffset = CGSize(width: 0, height: 2)
-//        view.layer.shadowOpacity = 0.2
-//        view.layer.shadowRadius = 5
         return view
     }()
     
@@ -68,7 +71,7 @@ class Cell: UITableViewCell {
         imageBackgroundView.addSubview(venueImageView)
         
         containerView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(2) // Optional inset
+            make.edges.equalToSuperview().inset(2)
         }
         
         venueTitleLabel.snp.makeConstraints { make in
@@ -101,7 +104,7 @@ class Cell: UITableViewCell {
             make.bottom.equalTo(imageBackgroundView.snp.bottom).offset(-8)
         }
         
-        contentView.backgroundColor = .lightGray 
+        contentView.backgroundColor = UIColor(red: 0.83, green: 0.83, blue: 0.83, alpha: 1.00)
     }
     
     required init?(coder: NSCoder) {

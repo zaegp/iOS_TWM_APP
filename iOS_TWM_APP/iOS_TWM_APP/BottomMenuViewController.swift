@@ -1,5 +1,5 @@
 //
-//  MapViewController.swift
+//  BottomMenuViewController.swift
 //  iOS_TWM_APP
 //
 //  Created by 謝霆 on 2024/8/23.
@@ -10,12 +10,12 @@ import UIKit
 import SnapKit
 
 class BottomMenuViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        configMapView()
+        self.view.frame = CGRectMake(0, 720, 393, 132)
         
         configBottomMenuView()
         
@@ -23,8 +23,6 @@ class BottomMenuViewController: UIViewController {
         
     }
     
-    
-    let mapView = UIView()
     
     let bottomMenuView = UIView()
     
@@ -60,26 +58,6 @@ class BottomMenuViewController: UIViewController {
     
     let searchButtonContainerView = UIView()
     
-    func configMapView() {
-        
-        view.addSubview(mapView)
-        
-        mapView.snp.makeConstraints { make in
-            
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-            
-            make.left.equalTo(view.safeAreaLayoutGuide.snp.left)
-            
-            make.right.equalTo(view.safeAreaLayoutGuide.snp.right)
-            
-        }
-        
-        mapView.backgroundColor = .darkGray
-        
-    }
-    
     func configBottomMenuView() {
         
         view.addSubview(bottomMenuView)
@@ -92,13 +70,13 @@ class BottomMenuViewController: UIViewController {
         self.bottomMenuView.addSubview(searchButtonContainerView)
         
         self.bottomMenuView.addSubview(locateButtonContainerView)
-
+        
         self.bottomMenuView.addSubview(refreshButtonContainerView)
         
         searchButtonContainerView.isHidden = true
-
+        
         locateButtonContainerView.isHidden = true
-
+        
         refreshButtonContainerView.isHidden = true
         
         refreshButtonContainerView.addSubview(refreshButton)
@@ -112,10 +90,10 @@ class BottomMenuViewController: UIViewController {
         locateButton.setImage(UIImage(named: "icons8-location-50"), for: .normal)
         
         searchButton.setImage(UIImage(named: "icons8-search-52"), for: .normal)
-
+        
         bottomMenuView.snp.makeConstraints { make in
             
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(670)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             
             make.bottom.equalTo(view)
             
@@ -147,7 +125,7 @@ class BottomMenuViewController: UIViewController {
         
         refreshButtonContainerView.layer.borderColor = UIColor.darkGray.cgColor
         
-        
+        locateButton.addTarget(self, action: #selector(locateButtonTapped), for: .touchUpInside)
         
         let tapBottomMenuGesture = UITapGestureRecognizer(target: self, action: #selector(didTappedBottomView))
         
@@ -160,8 +138,8 @@ class BottomMenuViewController: UIViewController {
     func setBottomViewConstraint() {
         
         let commonYAnchor = deviceNameLabel.snp.bottom
-
-                
+        
+        
         recentUpdateLabel.snp.makeConstraints { make in
             make.top.equalTo(commonYAnchor).offset(8)
             make.left.equalTo(bottomMenuView.snp.left).offset(40)
@@ -216,7 +194,7 @@ class BottomMenuViewController: UIViewController {
             make.height.equalTo(60)
             
             make.width.equalTo(60)
-
+            
         }
         
         locateButtonContainerView.snp.makeConstraints { make in
@@ -226,7 +204,7 @@ class BottomMenuViewController: UIViewController {
             make.centerX.equalTo(deviceNameLabel.snp.centerX)
             
             make.height.equalTo(60)
-
+            
             make.width.equalTo(60)
             
         }
@@ -265,10 +243,6 @@ class BottomMenuViewController: UIViewController {
         
     }
     
-    func addBottonMenuButtons() {
-        
-      
-    }
     
     func customizeLabels() {
         recentUpdateLabel.text = "最近更新"
@@ -295,37 +269,45 @@ class BottomMenuViewController: UIViewController {
         frequencyValueLabel.font = .systemFont(ofSize: 24)
         deviceNameLabel.font = .systemFont(ofSize: 24)
         dateLabel.font = .systemFont(ofSize: 12)
-       
+        
     }
     
-        
-        @objc func didTappedBottomView() {
-            
-            UIView.animate(withDuration: 0.3, animations: {
-                if self.isExpanded == false {
-                    self.bottomMenuView.snp.updateConstraints { make in
-                        make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(570)
-                        self.searchButtonContainerView.isHidden = false
-                        
-                        self.locateButtonContainerView.isHidden = false
-                        
-                        self.refreshButtonContainerView.isHidden = false
-                    }
-                    self.isExpanded = true
-                } else {
-                    self.bottomMenuView.snp.updateConstraints { make in
-                        make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(670)
-                        
-                        
-                    }
-                    self.isExpanded = false
-                    
-                }
-                self.view.layoutIfNeeded()  // Apply the constraint changes
-            })
-            
-           
-        }
+    @objc func locateButtonTapped() {
+        NotificationCenter.default.post(name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
+    }
     
-
+    @objc func didTappedBottomView() {
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            if self.isExpanded == false {
+                
+                self.view.frame = CGRectMake(0, 640, 393, 212)
+                
+                self.searchButtonContainerView.isHidden = false
+                
+                self.locateButtonContainerView.isHidden = false
+                
+                self.refreshButtonContainerView.isHidden = false
+                
+                self.isExpanded = true
+            } else {
+                
+                self.view.frame = CGRectMake(0, 720, 393, 132)
+                
+                self.searchButtonContainerView.isHidden = true
+                
+                self.locateButtonContainerView.isHidden = true
+                
+                self.refreshButtonContainerView.isHidden = true
+                
+                self.isExpanded = false
+                
+            }
+            self.view.layoutIfNeeded()  // Apply the constraint changes
+        })
+        
+        
+    }
+    
+    
 }
