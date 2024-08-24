@@ -70,6 +70,7 @@ class LoginDataRequest {
                         print("Decoded Response: \(decodeData)")
                         self.token = decodeData.accessToken
                         self.getInformation(self.token)
+                        self.getMockData(self.token)
                         self.delegate?.didGetToken(token: self.token)
 
                     } catch let decodingError {
@@ -98,6 +99,7 @@ class LoginDataRequest {
                      let decoder = JSONDecoder()
                      let decodeData = try decoder.decode(Register.self, from: data)
                      print("Decoded Response: \(decodeData)")
+                     
                  } catch let decodingError {
                      print("Decoding Error: \(decodingError)")
                  }
@@ -129,4 +131,5 @@ class LoginDataRequest {
              }
          }
      }
+    
 }

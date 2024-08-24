@@ -186,6 +186,7 @@ class LoginViewController: UIViewController {
         }
         
 
+
         
         self.loginDataRequest.loginData(userID: userID, password: passwordText)
         
@@ -209,6 +210,7 @@ class LoginViewController: UIViewController {
 //            print("------no token")
 //        }
 
+
         
     }
     
@@ -217,6 +219,8 @@ class LoginViewController: UIViewController {
         if let userID = userIDTextField.text, let passwordText = passwordTextField.text {
             loginDataRequest.registerData(userID: userID, password: passwordText)
         }
+        
+        
     }
     
     @objc func textFieldsDidChange() {
