@@ -9,18 +9,32 @@ import UIKit
 
 import SnapKit
 
+import Alamofire
+
 class BottomMenuViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        
+        
         self.view.frame = CGRectMake(0, 720, 393, 132)
         
         configBottomMenuView()
         
         customizeLabels()
+
         
+        
+        let userToken = UserDefaults.standard.string(forKey: "userToken")
+        
+        guard let userToken = userToken else{return}
+        
+        
+        self.getMockData(userToken)
+        
+                
     }
     
     
@@ -57,6 +71,11 @@ class BottomMenuViewController: UIViewController {
     let searchButton = UIButton()
     
     let searchButtonContainerView = UIView()
+    
+
+    let date = Date()
+    
+    let calendar = Calendar.current
     
     func configBottomMenuView() {
         
@@ -130,6 +149,8 @@ class BottomMenuViewController: UIViewController {
         let tapBottomMenuGesture = UITapGestureRecognizer(target: self, action: #selector(didTappedBottomView))
         
         bottomMenuView.addGestureRecognizer(tapBottomMenuGesture)
+        
+        refreshButton.addTarget(self, action: #selector(tappedRefreshButton), for: .touchUpInside)
         
         setBottomViewConstraint()
         
@@ -245,9 +266,13 @@ class BottomMenuViewController: UIViewController {
     
     
     func customizeLabels() {
+        let hour = calendar.component(.hour, from: date)
+        
+        let minutes = calendar.component(.minute, from: date)
+        
         recentUpdateLabel.text = "最近更新"
-        timeLabel.text = "08:08"
-        dateLabel.text = "01/01"
+//        timeLabel.text = "\(hour):\(minutes)"
+//        dateLabel.text = "\(Calendar.current)"
         deviceNameLabel.text = "DeviceName"
         stepCountTextLabel.text = "今日步數"
         stepCountValueLabel.text = "0"
@@ -308,6 +333,93 @@ class BottomMenuViewController: UIViewController {
         
         
     }
+
+    @objc func tappedRefreshButton () {
+        
+        let userToken = UserDefaults.standard.string(forKey: "userToken")
+        
+        
+        guard let userToken = userToken else {
+            
+            print("userToken not found")
+            
+            return}
+            
+        self.getMockData(userToken)
+            
+        
+        
+    }
     
+    @objc func getMockData(_ token: String) {
+        let headers: HTTPHeaders = [
+             "Authorization": "Bearer \(token)",
+             "accept": "application/json"
+         ]
+        
+        let hour = calendar.component(.hour, from: date)
+        let minutes = calendar.component(.minute, from: date)
+
+         AF.request("https://fastapi-production-a532.up.railway.app/Info/",
+                    method: .get, headers: headers).responseData { response in
+             switch response.result {
+             case .success(let data):
+                 do {
+                     let decoder = JSONDecoder()
+                     let decodeData = try decoder.decode(MockData.self, from: data)
+                     print("MockData Response: \(decodeData)")
+                     
+                     let formatter = DateFormatter()
+                     formatter.dateFormat = "MM/dd"
+                     
+                     self.dateLabel.text = formatter.string(from: self.date)
+                     self.timeLabel.text = String(format: "%02d:%02d", hour, minutes)
+                     self.deviceNameLabel.text = decodeData.deviceName
+                     self.stepCountValueLabel.text = String(decodeData.step)
+                     
+//                     self.group.leave()
+                     
+                 } catch let decodingError {
+                     print("Decoding Error: \(decodingError)")
+                 }
+             case .failure(let error):
+                 print("Error: \(error)")
+             }
+         }
+     }
+
     
+        
+//        @objc func didTappedBottomView() {
+//            
+//            UIView.animate(withDuration: 0.3, animations: {
+//                if self.isExpanded == false {
+//                    
+//                    self.view.frame = CGRectMake(0, 640, 393, 212)
+//                    
+//                        self.searchButtonContainerView.isHidden = false
+//                        
+//                        self.locateButtonContainerView.isHidden = false
+//                        
+//                        self.refreshButtonContainerView.isHidden = false
+//                    
+//                    self.isExpanded = true
+//                } else {
+//                    
+//                    self.view.frame = CGRectMake(0, 720, 393, 132)
+//                    
+//                    self.searchButtonContainerView.isHidden = true
+//
+//                    self.locateButtonContainerView.isHidden = true
+//
+//                    self.refreshButtonContainerView.isHidden = true
+//                    
+//                    self.isExpanded = false
+//                    
+//                }
+//                self.view.layoutIfNeeded()  // Apply the constraint changes
+//            })
+//            
+//           
+//        }
 }
