@@ -1,5 +1,5 @@
 //
-//  SportsVenue.swift
+//  SportsVenueViewController.swift
 //  iOS_TWM_APP
 //
 //  Created by Rowan Su on 2024/8/23.
@@ -18,7 +18,7 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .lightGray
+        view.backgroundColor = UIColor(red: 0.83, green: 0.83, blue: 0.83, alpha: 1.00)
         
         tableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self
@@ -38,7 +38,6 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
 //        let taipeiGymAPI = TaipeiGymAPI()
 //                taipeiGymAPI.onGymDataReceived = { [weak self] gymDataArray in
 //                    self?.receivedGymDataArray = gymDataArray
-//                    // 在這裡你可以更新 UI 或者執行其他操作
 //                    print("Received Gym Data: \(gymDataArray)")
 //                }
 //                self.present(taipeiGymAPI, animated: true, completion: nil)
@@ -55,7 +54,7 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
         print(receivedGymDataArray)
         cell.setTitle(receivedGymDataArray[indexPath.row].name)
         cell.setLocation(receivedGymDataArray[indexPath.row].address)
-        cell.setFacilities(receivedGymDataArray[indexPath.row].gymFuncList)
+        cell.setFacilities("場館設施: " + receivedGymDataArray[indexPath.row].gymFuncList)
         cell.setImage(receivedGymDataArray[indexPath.row].photo1)
         return cell
     }

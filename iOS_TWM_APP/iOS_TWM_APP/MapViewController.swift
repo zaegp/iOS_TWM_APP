@@ -1,5 +1,5 @@
 //
-//  MapVC.swift
+//  MapViewController.swift
 //  iOS_TWM_APP
 //
 //  Created by Rowan Su on 2024/8/23.
@@ -33,42 +33,28 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         
-        //        addAnnotationAtCoordinate(coordinate: initialLocation.coordinate)
         
         mapView.showsUserLocation = true
         
-        showGymsButton = UIButton(type: .system)
-        showGymsButton.setTitle("Show Gyms", for: .normal)
-        showGymsButton.addTarget(self, action: #selector(showGymsButtonTapped), for: .touchUpInside)
         
-        // Add the button to the view
-        view.addSubview(showGymsButton)
-        showGymsButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            showGymsButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            showGymsButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            showGymsButton.widthAnchor.constraint(equalToConstant: 120),
-            showGymsButton.heightAnchor.constraint(equalToConstant: 44)
-        ])
-        view.bringSubviewToFront(showGymsButton)
-        
-        // 大頭針
-
-//        let pin = MKPointAnnotation()
-//        pin.coordinate = CLLocation(latitude: 25.038405, longitude:     121.53235).coordinate
-//        mapView.addAnnotation(pin)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleLocateButtonTappedNotification(_:)), name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
         
         self.view.addSubview(bottomMenu.view)
-
     }
     
-    @objc func showGymsButtonTapped() {
+    
+    @objc func handleLocateButtonTappedNotification(_ notification: Notification) {
         let sportsVenueVC = SportsVenueViewController()
         sportsVenueVC.receivedGymDataArray = receivedGymDataArray
-        if sportsVenueVC.receivedGymDataArray != nil {
+        if sportsVenueVC.receivedGymDataArray.count != 0 {
             navigationController?.pushViewController(sportsVenueVC, animated: true)
         }
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
+    }
+    
     // 用戶位置授權
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
@@ -89,12 +75,15 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
-    //    func addAnnotationAtCoordinate(coordinate: CLLocationCoordinate2D) {
-    //        let annotation = MKPointAnnotation()
-    //        annotation.title = "My Location"
-    //        annotation.coordinate = coordinate
-    //        mapView.addAnnotation(annotation)
-    //    }
+    // 大頭針
+    func addAnnotationAtCoordinate(coordinate: CLLocationCoordinate2D) {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
+        mapView.addAnnotation(annotation)
+    }
+    
+    
+
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
@@ -105,8 +94,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         gymAPI.getLocationDetails(latitude: latitude, longitude: longitude)
         gymAPI.onGymDataReceived = { [weak self] gymDataArray in
             self?.receivedGymDataArray = gymDataArray
-            // 在這裡你可以更新 UI 或者執行其他操作
-            //            print("Received Gym Data: \(gymDataArray)")
+            for i in 0...5 {
+                let latitude = gymDataArray[i].latLng.components(separatedBy: ",")[0]
+                let longitude =  gymDataArray[i].latLng.components(separatedBy: ",")[1]
+                let pinLocation = CLLocation(latitude: Double(latitude)!, longitude: Double(longitude)!)
+                self?.addAnnotationAtCoordinate(coordinate: pinLocation.coordinate)
+            }
         }
         
     }

@@ -12,12 +12,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // 創建初始的 view controller
         let initialViewController = MapViewController()
-//        let initialViewController = LoginViewController()
-//        let initialViewController = SportsVenue()
+      
         
         
         let navigationController = UINavigationController(rootViewController: FirstViewController())
-        
 
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
