@@ -17,8 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let locationmanager = CLLocationManager()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
-        
+//        locationmanager.requestWhenInUseAuthorization()
+//
 //        let loginVC = LoginViewController()
 //        let MapViewController = MapViewController()
 //        var navigationController = UINavigationController()
