@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		51D7B7832C79E261002ED13A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 78431CD72C79BD7C0064DB80 /* Kingfisher */; };
-		51D7B7842C79E38F002ED13A /* BottomMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7816B9BC2C78933C00A59B2C /* BottomMenuViewController.swift */; };
 		51D845972C781FA200781C9A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51D845962C781FA200781C9A /* MapKit.framework */; };
 		51D845992C78200300781C9A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D845982C78200300781C9A /* MapViewController.swift */; };
 		51D8459D2C78325600781C9A /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D8459C2C78325600781C9A /* Cell.swift */; };
@@ -340,7 +339,6 @@
 				AC9B2AF52C785EDE00023FB3 /* LoginDataModel.swift in Sources */,
 				AC9B2AF32C785EC700023FB3 /* LoginDataRequest.swift in Sources */,
 				AC9B2AE22C781F5B00023FB3 /* LoginViewController.swift in Sources */,
-				51D7B7842C79E38F002ED13A /* BottomMenuViewController.swift in Sources */,
 				C7832B802C781DBF0062C6EA /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -73,16 +73,22 @@ class BottomMenuViewController: UIViewController {
     let searchButtonContainerView = UIView()
     
 
+    let searchTextField = UITextField()
+    
+    var closeSearchTextFieldButton = UIButton(type: .close)
+
+
     let date = Date()
     
     let calendar = Calendar.current
+
     
     func configBottomMenuView() {
         
         view.addSubview(bottomMenuView)
         
         [recentUpdateLabel, timeLabel, dateLabel, deviceNameLabel, stepCountTextLabel,
-         stepCountValueLabel, frequencyLabel, frequencyValueLabel].forEach {
+         stepCountValueLabel, frequencyLabel, frequencyValueLabel, searchTextField, closeSearchTextFieldButton].forEach {
             bottomMenuView.addSubview($0)
         }
         
@@ -98,6 +104,10 @@ class BottomMenuViewController: UIViewController {
         
         refreshButtonContainerView.isHidden = true
         
+        searchTextField.isHidden = true
+        
+        closeSearchTextFieldButton.isHidden = true
+        
         refreshButtonContainerView.addSubview(refreshButton)
         
         locateButtonContainerView.addSubview(locateButton)
@@ -109,6 +119,8 @@ class BottomMenuViewController: UIViewController {
         locateButton.setImage(UIImage(named: "icons8-location-50"), for: .normal)
         
         searchButton.setImage(UIImage(named: "icons8-search-52"), for: .normal)
+        
+        
         
         bottomMenuView.snp.makeConstraints { make in
             
@@ -150,7 +162,13 @@ class BottomMenuViewController: UIViewController {
         
         bottomMenuView.addGestureRecognizer(tapBottomMenuGesture)
         
+        closeSearchTextFieldButton.addTarget(self, action: #selector(didTapCloseSearchTextFieldButton), for: .touchUpInside)
+        
+
+        searchButton.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
+
         refreshButton.addTarget(self, action: #selector(tappedRefreshButton), for: .touchUpInside)
+
         
         setBottomViewConstraint()
         
@@ -301,6 +319,52 @@ class BottomMenuViewController: UIViewController {
         NotificationCenter.default.post(name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
     }
     
+    
+    @objc func didTapSearchButton() {
+        
+        searchTextField.isHidden = false
+        closeSearchTextFieldButton.isHidden = false
+        
+        self.view.frame = CGRectMake(0, 560, 393, 292)
+        
+        self.deviceNameLabel.snp.updateConstraints { make in
+            make.centerY.equalTo(bottomMenuView.snp.top).offset(105)
+        }
+        
+        searchTextField.snp.makeConstraints { make in
+            make.top.equalTo(bottomMenuView).offset(25)
+            make.width.equalTo(bottomMenuView).multipliedBy(0.8)
+            make.height.equalTo(40)
+            make.leading.equalTo(bottomMenuView).offset(20)
+        }
+        
+        closeSearchTextFieldButton.snp.makeConstraints { make in
+            make.width.equalTo(15)
+            make.height.equalTo(15)
+            make.leading.equalTo(searchTextField.snp.trailing).offset(20)
+            make.centerY.equalTo(searchTextField)
+        }
+        
+        searchTextField.backgroundColor = .white
+        searchTextField.layer.cornerRadius = 10
+        
+        self.view.layoutIfNeeded()
+        
+    }
+    
+    @objc func didTapCloseSearchTextFieldButton() {
+        
+        searchTextField.isHidden = true
+        closeSearchTextFieldButton.isHidden = true
+        
+        self.view.frame = CGRectMake(0, 640, 393, 212)
+        
+        self.deviceNameLabel.snp.updateConstraints { make in
+            make.centerY.equalTo(bottomMenuView.snp.top).offset(25)
+        }
+    }
+    
+
     @objc func didTappedBottomView() {
         
         UIView.animate(withDuration: 0.3, animations: {
@@ -333,6 +397,7 @@ class BottomMenuViewController: UIViewController {
         
         
     }
+
 
     @objc func tappedRefreshButton () {
         
@@ -387,6 +452,7 @@ class BottomMenuViewController: UIViewController {
              }
          }
      }
+    
 
     
         
