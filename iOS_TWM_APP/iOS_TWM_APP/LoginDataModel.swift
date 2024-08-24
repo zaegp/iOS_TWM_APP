@@ -19,4 +19,17 @@ struct Login: Codable {
         case accessToken = "access_token"
         case tokenType = "token_type"
     }
+    
+    
 }
+
+
+// MARK: - MockData
+struct MockData: Codable {
+    let deviceName: String
+    let power: Int
+    let trackingModeColor, connected, connectStatus: String
+    let step: Int
+    let lockMode: String
+}
+

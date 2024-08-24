@@ -26,8 +26,6 @@ class BottomMenuViewController: UIViewController {
     }
     
     
-//    let mapView = UIView()
-    
     let bottomMenuView = UIView()
     
     var isExpanded: Bool? = false

@@ -61,9 +61,11 @@ class TaipeiGymAPI: UIViewController{
     var City: String = ""
     var Country: String = ""
     var gymDataArray:[Value]? = []
+    var onGymDataReceived: (([Value]) -> Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        getLocationDetails(latitude: 25.038708007700986, longitude: 121.53235486100805)
+//        getLocationDetails(latitude: 25.038708007700986, longitude: 121.53235486100805)
     }
 }
 
@@ -85,8 +87,8 @@ extension TaipeiGymAPI {
                 let town = placemark.locality ?? "未知鄉鎮"
                 self.City = CityName.getCityName(from: county)
                 self.Country = town
-                print("縣市: \(self.City), 鄉鎮: \(self.Country)")
-                self.searchGym("24.558967514449424", "120.81637543839314")
+//                print("縣市: \(self.City), 鄉鎮: \(self.Country)")
+                self.searchGym(String(latitude), String(longitude))
 
 
             }
@@ -106,19 +108,24 @@ extension TaipeiGymAPI {
             "top": 3,
             "orderby": "Distance asc"
         ]
-        print(parameters)
+//        print(parameters)
         AF.request(url, parameters: parameters, headers: headers).responseDecodable(of: GymData.self) {
             response in
 
             switch response.result {
             case .success(let gymData):
-                for value in gymData.value {
-                    self.gymDataArray?.append(value)
-                    print("Gym Name: \(value.name), Address: \(value.address)")
-                    print("==============")
-                    print(self.gymDataArray)
-                    print("==============")
-                }
+                self.gymDataArray = gymData.value
+                                // 傳遞 gymDataArray 給 closure
+                                if let gymDataArray = self.gymDataArray {
+                                    self.onGymDataReceived?(gymDataArray)
+                                }
+//                for value in gymData.value {
+//                    self.gymDataArray?.append(value)
+//                    print("Gym Name: \(value.name), Address: \(value.address)")
+//                    print("==============")
+//                    print(self.gymDataArray)
+//                    print("==============")
+//                }
             case .failure(let error):
                 print("Error: \(error)")
             }
