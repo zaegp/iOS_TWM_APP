@@ -15,7 +15,7 @@ class BottomMenuViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        configMapView()
+        self.view.frame = CGRectMake(0, 720, 393, 132)
         
         configBottomMenuView()
         
@@ -24,7 +24,7 @@ class BottomMenuViewController: UIViewController {
     }
     
     
-    let mapView = UIView()
+//    let mapView = UIView()
     
     let bottomMenuView = UIView()
     
@@ -60,25 +60,6 @@ class BottomMenuViewController: UIViewController {
     
     let searchButtonContainerView = UIView()
     
-    func configMapView() {
-        
-        view.addSubview(mapView)
-        
-        mapView.snp.makeConstraints { make in
-            
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-            
-            make.left.equalTo(view.safeAreaLayoutGuide.snp.left)
-            
-            make.right.equalTo(view.safeAreaLayoutGuide.snp.right)
-            
-        }
-        
-        mapView.backgroundColor = .darkGray
-        
-    }
     
     func configBottomMenuView() {
         
@@ -115,7 +96,7 @@ class BottomMenuViewController: UIViewController {
 
         bottomMenuView.snp.makeConstraints { make in
             
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(670)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             
             make.bottom.equalTo(view)
             
@@ -265,10 +246,6 @@ class BottomMenuViewController: UIViewController {
         
     }
     
-    func addBottonMenuButtons() {
-        
-      
-    }
     
     func customizeLabels() {
         recentUpdateLabel.text = "最近更新"
@@ -303,21 +280,26 @@ class BottomMenuViewController: UIViewController {
             
             UIView.animate(withDuration: 0.3, animations: {
                 if self.isExpanded == false {
-                    self.bottomMenuView.snp.updateConstraints { make in
-                        make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(570)
+                    
+                    self.view.frame = CGRectMake(0, 640, 393, 212)
+                    
                         self.searchButtonContainerView.isHidden = false
                         
                         self.locateButtonContainerView.isHidden = false
                         
                         self.refreshButtonContainerView.isHidden = false
-                    }
+                    
                     self.isExpanded = true
                 } else {
-                    self.bottomMenuView.snp.updateConstraints { make in
-                        make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(670)
-                        
-                        
-                    }
+                    
+                    self.view.frame = CGRectMake(0, 720, 393, 132)
+                    
+                    self.searchButtonContainerView.isHidden = true
+
+                    self.locateButtonContainerView.isHidden = true
+
+                    self.refreshButtonContainerView.isHidden = true
+                    
                     self.isExpanded = false
                     
                 }

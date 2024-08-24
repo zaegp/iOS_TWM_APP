@@ -13,6 +13,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
 
     var mapView: MKMapView!
     let locationManager = CLLocationManager()
+    
+    let bottomMenu = BottomMenuViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +38,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
 //        let pin = MKPointAnnotation()
 //        pin.coordinate = CLLocation(latitude: 25.038405, longitude:     121.53235).coordinate
 //        mapView.addAnnotation(pin)
+        
+        self.view.addSubview(bottomMenu.view)
     }
     
     // 用戶位置授權
