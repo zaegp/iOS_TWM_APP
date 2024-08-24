@@ -23,9 +23,12 @@ class LoginViewController: UIViewController {
     let loginButton = UIButton()
     
     var loginDataRequest = LoginDataRequest()
+    let group = DispatchGroup()
+    let concurrentQueue = DispatchQueue(label: "com.example.concurrentQueue", attributes: .concurrent)
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.backgroundColor = .clear
         setupLoginPage()
         setupTextFieldAction()
         setupButtonAction()
@@ -168,14 +171,40 @@ class LoginViewController: UIViewController {
     
     @objc func checkboxTapped(_ sender: UIButton) {
         sender.isSelected.toggle()
-        self.saveToken(token: loginDataRequest.token)
     }
     
     @objc func loginButtonTapped() {
+        
         print("------tap login")
-        if let userID = userIDTextField.text, let passwordText = passwordTextField.text {
-            loginDataRequest.loginData(userID: userID, password: passwordText)
+        
+        guard let userID = userIDTextField.text, let passwordText = passwordTextField.text else {
+            print("------no userID or password")
+            return
         }
+        
+        
+        self.loginDataRequest.loginData(userID: userID, password: passwordText)
+        
+        
+        
+        
+//        if !self.loginDataRequest.token.isEmpty {
+            if let navController = self.navigationController {
+                let mapVC = MapViewController()
+                navController.pushViewController(mapVC, animated: true)
+            }
+            if self.checkButton.isSelected {
+                print("拿到token")
+                let token = self.loginDataRequest.token
+                let expiresIn: TimeInterval = 60
+                self.saveLoginState(token: self.loginDataRequest.token, expiresIn: expiresIn)
+            } else {
+                print("沒有token")
+            }
+//        } else {
+//            print("------no token")
+//        }
+        
     }
     
     @objc func signinButtonTapped() {
@@ -196,14 +225,36 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func saveToken(token: String) {
+    func saveLoginState(token: String, expiresIn: TimeInterval) {
+        let defaults = UserDefaults.standard
+        defaults.set(token, forKey: "userToken")
         
-        UserDefaults.standard.set(token, forKey: "userToken")
+        let expirationDate = Date().addingTimeInterval(expiresIn)
+        defaults.set(expirationDate, forKey: "tokenExpirationDate")
     }
     
-    func getToken() -> String? {
+    func isTokenValid() -> Bool {
+        let defaults = UserDefaults.standard
         
-        return UserDefaults.standard.string(forKey: "userToken")
+        if let expirationDate = defaults.object(forKey: "tokenExpirationDate") as? Date {
+            // 比較當前時間和 token 的過期時間
+            if Date() < expirationDate {
+                return true
+            } else {
+                // Token 過期
+                clearLoginState()
+                return false
+            }
+        } else {
+            // 如果找不到 tokenExpirationDate，表示沒有登入狀態
+            return false
+        }
+    }
+
+    func clearLoginState() {
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: "userToken")
+        defaults.removeObject(forKey: "tokenExpirationDate")
     }
     
 }

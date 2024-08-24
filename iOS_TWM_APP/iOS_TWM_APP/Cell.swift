@@ -1,5 +1,6 @@
 import UIKit
 import SnapKit
+import Kingfisher
 
 class Cell: UITableViewCell {
     
@@ -13,7 +14,7 @@ class Cell: UITableViewCell {
     
     var venueTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 32)
+        label.font = UIFont.systemFont(ofSize: 28)
         label.textColor = .black
         return label
     }()
@@ -22,6 +23,7 @@ class Cell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = .black
+        label.numberOfLines = 0
         return label
     }()
     
@@ -29,20 +31,21 @@ class Cell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = .black
+        label.numberOfLines = 0
         return label
     }()
     
     var imageBackgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = .lightGray
-        view.layer.cornerRadius = 10
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 5
         view.layer.masksToBounds = false
         view.layer.borderColor = UIColor.black.cgColor
-        view.layer.borderWidth = 2
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 2)
-        view.layer.shadowOpacity = 0.2
-        view.layer.shadowRadius = 5
+        view.layer.borderWidth = 1
+//        view.layer.shadowColor = UIColor.black.cgColor
+//        view.layer.shadowOffset = CGSize(width: 0, height: 2)
+//        view.layer.shadowOpacity = 0.2
+//        view.layer.shadowRadius = 5
         return view
     }()
     
@@ -50,7 +53,7 @@ class Cell: UITableViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 10
+        imageView.layer.cornerRadius = 5
         return imageView
     }()
     
@@ -76,11 +79,13 @@ class Cell: UITableViewCell {
         venueLocationLabel.snp.makeConstraints { make in
             make.top.equalTo(venueTitleLabel.snp.bottom).offset(8)
             make.leading.equalTo(containerView.snp.leading).offset(16)
+            make.width.equalTo(160)
         }
         
         venueFacilitiesLabel.snp.makeConstraints { make in
             make.top.equalTo(venueLocationLabel.snp.bottom).offset(8)
             make.leading.equalTo(containerView.snp.leading).offset(16)
+            make.width.equalTo(160)
         }
         
         imageBackgroundView.snp.makeConstraints { make in
@@ -115,7 +120,8 @@ class Cell: UITableViewCell {
         venueFacilitiesLabel.text = facilities
     }
     
-    func setImage(_ image: UIImage?) {
-        venueImageView.image = image
+    func setImage(_ image: String) {
+        let url = URL(string: image)
+        venueImageView.kf.setImage(with: url)
     }
 }
