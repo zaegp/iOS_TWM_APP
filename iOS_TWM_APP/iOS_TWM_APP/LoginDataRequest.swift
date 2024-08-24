@@ -67,7 +67,9 @@ class LoginDataRequest {
                         print("Decoded Response: \(decodeData)")
                         self.token = decodeData.accessToken
                         self.getInformation(self.token)
+                        self.getMockData(self.token)
                         completion(self.token)
+                        
  
                         
                     } catch let decodingError {
@@ -96,6 +98,29 @@ class LoginDataRequest {
                      let decoder = JSONDecoder()
                      let decodeData = try decoder.decode(Register.self, from: data)
                      print("Decoded Response: \(decodeData)")
+                 } catch let decodingError {
+                     print("Decoding Error: \(decodingError)")
+                 }
+             case .failure(let error):
+                 print("Error: \(error)")
+             }
+         }
+     }
+    
+    func getMockData(_ token: String) {
+        let headers: HTTPHeaders = [
+             "Authorization": "Bearer \(token)",
+             "accept": "application/json"
+         ]
+
+         AF.request("https://fastapi-production-a532.up.railway.app/Info/",
+                    method: .get, headers: headers).responseData { response in
+             switch response.result {
+             case .success(let data):
+                 do {
+                     let decoder = JSONDecoder()
+                     let decodeData = try decoder.decode(MockData.self, from: data)
+                     print("MockData Response: \(decodeData)")
                  } catch let decodingError {
                      print("Decoding Error: \(decodingError)")
                  }
