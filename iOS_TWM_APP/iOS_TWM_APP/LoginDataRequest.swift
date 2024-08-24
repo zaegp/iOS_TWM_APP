@@ -9,9 +9,14 @@ import Foundation
 import UIKit
 import Alamofire
 
+protocol LoginDataRequestDelegate {
+    func didGetToken(token: String)
+}
+
 
 class LoginDataRequest {
     
+    var delegate: LoginDataRequestDelegate?
     var token: String = ""
 
     func registerData(userID: String, password: String) {
@@ -63,11 +68,14 @@ class LoginDataRequest {
                         print("Decoded Response: \(decodeData)")
                         self.token = decodeData.accessToken
                         self.getInformation(self.token)
+                        self.delegate?.didGetToken(token: self.token)
                     } catch let decodingError {
                         print("Decoding Error: \(decodingError)")
+                        
                     }
                 case .failure(let error):
                     print("Error: \(error)")
+                    
                 }
             }
         }
