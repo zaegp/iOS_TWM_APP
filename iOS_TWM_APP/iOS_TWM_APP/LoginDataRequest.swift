@@ -9,12 +9,15 @@ import Foundation
 import UIKit
 import Alamofire
 
+protocol LoginDataRequestDelegate {
+    func didGetToken(token: String)
+}
+
 
 class LoginDataRequest {
     
-    //let loginVC = LoginViewController()
-    //let mapVC = MapVC()
-    
+    var delegate: LoginDataRequestDelegate?
+
     var token: String = ""
 
     
@@ -44,7 +47,7 @@ class LoginDataRequest {
         }
     }
     
-    func loginData(userID: String, password: String, completion: @escaping (String?) -> Void) {
+    func loginData(userID: String, password: String/*, completion: @escaping (String?) -> Void*/) {
         
         let parameters: [String: String] = [
             "grant_type": "",
@@ -67,11 +70,8 @@ class LoginDataRequest {
                         print("Decoded Response: \(decodeData)")
                         self.token = decodeData.accessToken
                         self.getInformation(self.token)
-                        self.getMockData(self.token)
-                        completion(self.token)
-                        
- 
-                        
+                        self.delegate?.didGetToken(token: self.token)
+
                     } catch let decodingError {
                         print("Decoding Error: \(decodingError)")
                         
