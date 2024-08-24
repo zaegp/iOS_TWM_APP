@@ -65,5 +65,12 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
         let screenHeight = UIScreen.main.bounds.height
         return screenHeight / CGFloat(numberOfCellsPerPage)
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailSportPage = DetailSportsPageViewController()
+        detailSportPage.selectGymID = receivedGymDataArray[indexPath.row].gymID
+        self.navigationController?.pushViewController(detailSportPage, animated: true)
+        
+    }
 }
 

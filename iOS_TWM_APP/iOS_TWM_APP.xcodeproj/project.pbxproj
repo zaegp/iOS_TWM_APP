@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		51D7B7832C79E261002ED13A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 78431CD72C79BD7C0064DB80 /* Kingfisher */; };
-		51D7B7842C79E38F002ED13A /* BottomMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7816B9BC2C78933C00A59B2C /* BottomMenuViewController.swift */; };
 		51D845972C781FA200781C9A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51D845962C781FA200781C9A /* MapKit.framework */; };
 		51D845992C78200300781C9A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D845982C78200300781C9A /* MapViewController.swift */; };
 		51D8459D2C78325600781C9A /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D8459C2C78325600781C9A /* Cell.swift */; };
@@ -16,11 +14,14 @@
 		51D845B02C78B77900781C9A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 51D845AF2C78B77900781C9A /* SnapKit */; };
 		51D845B32C78BEB200781C9A /* SportsVenueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D8459A2C782CDA00781C9A /* SportsVenueViewController.swift */; };
 		7816B9C72C796BF000A59B2C /* BottomMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7816B9C62C796BF000A59B2C /* BottomMenuViewController.swift */; };
-		78431CD52C79BD730064DB80 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 78431CD42C79BD730064DB80 /* Alamofire */; };
-		78431CDB2C79BD880064DB80 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 78431CDA2C79BD880064DB80 /* SnapKit */; };
 		AC9B2AE22C781F5B00023FB3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B2AE12C781F5B00023FB3 /* LoginViewController.swift */; };
 		AC9B2AF32C785EC700023FB3 /* LoginDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B2AF22C785EC700023FB3 /* LoginDataRequest.swift */; };
 		AC9B2AF52C785EDE00023FB3 /* LoginDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B2AF42C785EDE00023FB3 /* LoginDataModel.swift */; };
+		C742DADC2C7A0ABB0007DE5A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C742DADB2C7A0ABB0007DE5A /* Kingfisher */; };
+		C742DADF2C7A0AC30007DE5A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C742DADE2C7A0AC30007DE5A /* SnapKit */; };
+		C742DAE22C7A0ACF0007DE5A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = C742DAE12C7A0ACF0007DE5A /* Alamofire */; };
+		C742DAE42C7A24430007DE5A /* DetailSportsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C742DAE32C7A24430007DE5A /* DetailSportsPageViewController.swift */; };
+		C742DAE82C7A2DAE0007DE5A /* DetailGymPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C742DAE72C7A2DAE0007DE5A /* DetailGymPageCell.swift */; };
 		C7832B7E2C781DBF0062C6EA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832B7D2C781DBF0062C6EA /* AppDelegate.swift */; };
 		C7832B802C781DBF0062C6EA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832B7F2C781DBF0062C6EA /* SceneDelegate.swift */; };
 		C7832B822C781DBF0062C6EA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832B812C781DBF0062C6EA /* ViewController.swift */; };
@@ -61,6 +62,8 @@
 		AC9B2AE12C781F5B00023FB3 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		AC9B2AF22C785EC700023FB3 /* LoginDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDataRequest.swift; sourceTree = "<group>"; };
 		AC9B2AF42C785EDE00023FB3 /* LoginDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDataModel.swift; sourceTree = "<group>"; };
+		C742DAE32C7A24430007DE5A /* DetailSportsPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSportsPageViewController.swift; sourceTree = "<group>"; };
+		C742DAE72C7A2DAE0007DE5A /* DetailGymPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGymPageCell.swift; sourceTree = "<group>"; };
 		C7832B7A2C781DBF0062C6EA /* iOS_TWM_APP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOS_TWM_APP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7832B7D2C781DBF0062C6EA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7832B7F2C781DBF0062C6EA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -83,12 +86,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				51D7B7832C79E261002ED13A /* Kingfisher in Frameworks */,
+				C742DADC2C7A0ABB0007DE5A /* Kingfisher in Frameworks */,
 				51D845B02C78B77900781C9A /* SnapKit in Frameworks */,
-				78431CD52C79BD730064DB80 /* Alamofire in Frameworks */,
 				51D845A92C788E3400781C9A /* (null) in Frameworks */,
-				78431CDB2C79BD880064DB80 /* SnapKit in Frameworks */,
+				C742DAE22C7A0ACF0007DE5A /* Alamofire in Frameworks */,
 				51D845972C781FA200781C9A /* MapKit.framework in Frameworks */,
+				C742DADF2C7A0AC30007DE5A /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,6 +162,8 @@
 				AC9B2AF42C785EDE00023FB3 /* LoginDataModel.swift */,
 				51D845982C78200300781C9A /* MapViewController.swift */,
 				51D8459A2C782CDA00781C9A /* SportsVenueViewController.swift */,
+				C742DAE32C7A24430007DE5A /* DetailSportsPageViewController.swift */,
+				C742DAE72C7A2DAE0007DE5A /* DetailGymPageCell.swift */,
 				51D8459C2C78325600781C9A /* Cell.swift */,
 				C7832BB02C7859350062C6EA /* TaipeiGymAPI.swift */,
 				C7832B832C781DBF0062C6EA /* Main.storyboard */,
@@ -205,9 +210,9 @@
 			name = iOS_TWM_APP;
 			packageProductDependencies = (
 				51D845AF2C78B77900781C9A /* SnapKit */,
-				78431CD42C79BD730064DB80 /* Alamofire */,
-				78431CD72C79BD7C0064DB80 /* Kingfisher */,
-				78431CDA2C79BD880064DB80 /* SnapKit */,
+				C742DADB2C7A0ABB0007DE5A /* Kingfisher */,
+				C742DADE2C7A0AC30007DE5A /* SnapKit */,
+				C742DAE12C7A0ACF0007DE5A /* Alamofire */,
 			);
 			productName = iOS_TWM_APP;
 			productReference = C7832B7A2C781DBF0062C6EA /* iOS_TWM_APP.app */;
@@ -282,9 +287,9 @@
 			);
 			mainGroup = C7832B712C781DBF0062C6EA;
 			packageReferences = (
-				78431CD32C79BD730064DB80 /* XCRemoteSwiftPackageReference "Alamofire" */,
-				78431CD62C79BD7C0064DB80 /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				78431CD92C79BD880064DB80 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				C742DADA2C7A0ABB0007DE5A /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				C742DADD2C7A0AC30007DE5A /* XCRemoteSwiftPackageReference "SnapKit" */,
+				C742DAE02C7A0ACF0007DE5A /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = C7832B7B2C781DBF0062C6EA /* Products */;
 			projectDirPath = "";
@@ -333,14 +338,15 @@
 				51D845992C78200300781C9A /* MapViewController.swift in Sources */,
 				C7832B822C781DBF0062C6EA /* ViewController.swift in Sources */,
 				51D8459D2C78325600781C9A /* Cell.swift in Sources */,
+				C742DAE42C7A24430007DE5A /* DetailSportsPageViewController.swift in Sources */,
 				51D845B32C78BEB200781C9A /* SportsVenueViewController.swift in Sources */,
 				C7832B7E2C781DBF0062C6EA /* AppDelegate.swift in Sources */,
 				C7832BB12C7859350062C6EA /* TaipeiGymAPI.swift in Sources */,
 				C7832B882C781DBF0062C6EA /* iOS_TWM_APP.xcdatamodeld in Sources */,
+				C742DAE82C7A2DAE0007DE5A /* DetailGymPageCell.swift in Sources */,
 				AC9B2AF52C785EDE00023FB3 /* LoginDataModel.swift in Sources */,
 				AC9B2AF32C785EC700023FB3 /* LoginDataRequest.swift in Sources */,
 				AC9B2AE22C781F5B00023FB3 /* LoginViewController.swift in Sources */,
-				51D7B7842C79E38F002ED13A /* BottomMenuViewController.swift in Sources */,
 				C7832B802C781DBF0062C6EA /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -688,28 +694,28 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		78431CD32C79BD730064DB80 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		C742DADA2C7A0ABB0007DE5A /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.9.1;
-			};
-		};
-		78431CD62C79BD7C0064DB80 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 7.12.0;
 			};
 		};
-		78431CD92C79BD880064DB80 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		C742DADD2C7A0AC30007DE5A /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.7.1;
+			};
+		};
+		C742DAE02C7A0ACF0007DE5A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -719,20 +725,20 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = SnapKit;
 		};
-		78431CD42C79BD730064DB80 /* Alamofire */ = {
+		C742DADB2C7A0ABB0007DE5A /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 78431CD32C79BD730064DB80 /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
-		};
-		78431CD72C79BD7C0064DB80 /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 78431CD62C79BD7C0064DB80 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			package = C742DADA2C7A0ABB0007DE5A /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
 		};
-		78431CDA2C79BD880064DB80 /* SnapKit */ = {
+		C742DADE2C7A0AC30007DE5A /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 78431CD92C79BD880064DB80 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = C742DADD2C7A0AC30007DE5A /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		C742DAE12C7A0ACF0007DE5A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C742DAE02C7A0ACF0007DE5A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 

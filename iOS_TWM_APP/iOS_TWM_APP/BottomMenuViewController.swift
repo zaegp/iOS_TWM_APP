@@ -152,6 +152,9 @@ class BottomMenuViewController: UIViewController {
         
         refreshButton.addTarget(self, action: #selector(tappedRefreshButton), for: .touchUpInside)
         
+        //test
+        searchButton.addTarget(self, action: #selector(testPush), for: .touchUpInside)
+        
         setBottomViewConstraint()
         
     }
@@ -387,6 +390,10 @@ class BottomMenuViewController: UIViewController {
              }
          }
      }
+    
+    @objc func testPush() {
+        self.navigationController?.pushViewController(SportsVenueViewController(), animated: true)
+    }
 
     
         
