@@ -9,6 +9,8 @@ import UIKit
 
 import SnapKit
 
+import Alamofire
+
 class BottomMenuViewController: UIViewController {
 
     override func viewDidLoad() {
@@ -59,6 +61,8 @@ class BottomMenuViewController: UIViewController {
     let searchButton = UIButton()
     
     let searchButtonContainerView = UIView()
+    
+    let userToken = UserDefaults.standard.string(forKey: "userToken")
     
     
     func configBottomMenuView() {
@@ -133,6 +137,8 @@ class BottomMenuViewController: UIViewController {
         let tapBottomMenuGesture = UITapGestureRecognizer(target: self, action: #selector(didTappedBottomView))
         
         bottomMenuView.addGestureRecognizer(tapBottomMenuGesture)
+        
+        refreshButton.addTarget(self, action: #selector(getInformation), for: .touchUpInside)
         
         setBottomViewConstraint()
         
@@ -274,6 +280,31 @@ class BottomMenuViewController: UIViewController {
         dateLabel.font = .systemFont(ofSize: 12)
        
     }
+    
+    @objc func getInformation() {
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(String(describing: userToken))",
+             "accept": "application/json"
+         ]
+
+         AF.request("https://fastapi-production-a532.up.railway.app/info",
+                    method: .get, headers: headers).responseData { response in
+             switch response.result {
+             case .success(let data):
+                 do {
+                     let decoder = JSONDecoder()
+                     let decodeData = try decoder.decode(Register.self, from: data)
+                     print("Decoded Response: \(decodeData)")
+
+                 } catch let decodingError {
+                     print("Decoding Error: \(decodingError)")
+                 }
+             case .failure(let error):
+                 print("Error: \(error)")
+             }
+         }
+     }
+
     
         
         @objc func didTappedBottomView() {

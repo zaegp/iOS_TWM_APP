@@ -87,6 +87,7 @@ class LoginDataRequest {
                      let decoder = JSONDecoder()
                      let decodeData = try decoder.decode(Register.self, from: data)
                      print("Decoded Response: \(decodeData)")
+                     
                  } catch let decodingError {
                      print("Decoding Error: \(decodingError)")
                  }
