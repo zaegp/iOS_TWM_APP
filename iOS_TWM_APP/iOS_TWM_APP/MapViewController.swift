@@ -13,6 +13,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     var mapView: MKMapView!
     let locationManager = CLLocationManager()
+    
+    let bottomMenu = BottomMenuViewController()
     var userLocation: [Double] = []
     let gymAPI = TaipeiGymAPI()
     var receivedGymDataArray: [Value] = []
@@ -51,9 +53,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         view.bringSubviewToFront(showGymsButton)
         
         // 大頭針
-        //        let pin = MKPointAnnotation()
-        //        pin.coordinate = CLLocation(latitude: 25.038405, longitude:     121.53235).coordinate
-        //        mapView.addAnnotation(pin)
+
+//        let pin = MKPointAnnotation()
+//        pin.coordinate = CLLocation(latitude: 25.038405, longitude:     121.53235).coordinate
+//        mapView.addAnnotation(pin)
+        
+        self.view.addSubview(bottomMenu.view)
+
     }
     
     @objc func showGymsButtonTapped() {
