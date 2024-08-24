@@ -170,7 +170,7 @@ class LoginViewController: UIViewController {
     @objc func checkboxTapped(_ sender: UIButton) {
         sender.isSelected.toggle()
     }
-  
+    
     @objc func loginButtonTapped() {
         print("------tap login")
         
@@ -179,26 +179,25 @@ class LoginViewController: UIViewController {
             return
         }
         
-        
         self.loginDataRequest.loginData(userID: userID, password: passwordText) { token in
-                DispatchQueue.main.async {
-                    if let token = token, !token.isEmpty {
-                        if let navController = self.navigationController {
-                            let mapVC = MapViewController()
-                            navController.pushViewController(mapVC, animated: true)
-                        }
-                        if self.checkButton.isSelected {
-                            print("要記住")
-                            //let expiresIn: TimeInterval = 60
-                           // self.saveLoginState(token: token, expiresIn: expiresIn)
-                        } else {
-                            print("沒有記住")
-                        }
-                    } else {
-                        print("------no token")
+            DispatchQueue.main.async {
+                if let token = token, !token.isEmpty {
+                    if let navController = self.navigationController {
+                        let mapVC = MapViewController()
+                        self.navigationController?.pushViewController(mapVC, animated: true)
                     }
+                    if self.checkButton.isSelected {
+                        print("要記住")
+                        //let expiresIn: TimeInterval = 60
+                        // self.saveLoginState(token: token, expiresIn: expiresIn)
+                    } else {
+                        print("沒有記住")
+                    }
+                } else {
+                    print("------no token")
                 }
             }
+        }
         
     }
     
@@ -220,36 +219,36 @@ class LoginViewController: UIViewController {
         }
     }
     
-//    func saveLoginState(token: String, expiresIn: TimeInterval) {
-//        let defaults = UserDefaults.standard
-//        defaults.set(token, forKey: "userToken")
-//
-//        let expirationDate = Date().addingTimeInterval(expiresIn)
-//        defaults.set(expirationDate, forKey: "tokenExpirationDate")
-//    }
-//
-//    func isTokenValid() -> Bool {
-//        let defaults = UserDefaults.standard
-//
-//        if let expirationDate = defaults.object(forKey: "tokenExpirationDate") as? Date {
-//            // 比較當前時間和 token 的過期時間
-//            if Date() < expirationDate {
-//                return true
-//            } else {
-//                // Token 過期
-//                clearLoginState()
-//                return false
-//            }
-//        } else {
-//            // 如果找不到 tokenExpirationDate，表示沒有登入狀態
-//            return false
-//        }
-//    }
-//
-//    func clearLoginState() {
-//        let defaults = UserDefaults.standard
-//        defaults.removeObject(forKey: "userToken")
-//        defaults.removeObject(forKey: "tokenExpirationDate")
-//    }
+    //    func saveLoginState(token: String, expiresIn: TimeInterval) {
+    //        let defaults = UserDefaults.standard
+    //        defaults.set(token, forKey: "userToken")
+    //
+    //        let expirationDate = Date().addingTimeInterval(expiresIn)
+    //        defaults.set(expirationDate, forKey: "tokenExpirationDate")
+    //    }
+    //
+    //    func isTokenValid() -> Bool {
+    //        let defaults = UserDefaults.standard
+    //
+    //        if let expirationDate = defaults.object(forKey: "tokenExpirationDate") as? Date {
+    //            // 比較當前時間和 token 的過期時間
+    //            if Date() < expirationDate {
+    //                return true
+    //            } else {
+    //                // Token 過期
+    //                clearLoginState()
+    //                return false
+    //            }
+    //        } else {
+    //            // 如果找不到 tokenExpirationDate，表示沒有登入狀態
+    //            return false
+    //        }
+    //    }
+    //
+    //    func clearLoginState() {
+    //        let defaults = UserDefaults.standard
+    //        defaults.removeObject(forKey: "userToken")
+    //        defaults.removeObject(forKey: "tokenExpirationDate")
+    //    }
     
 }

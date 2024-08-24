@@ -6,15 +6,18 @@
 //
 
 import UIKit
+import Kingfisher
 
-class SportsVenue: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
+class SportsVenueViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    var receivedGymDataArray: [Value] = []
     var tableView: UITableView!
     let numberOfCellsPerPage = 4
-    
+    let gymAPI = TaipeiGymAPI()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .lightGray
         
         tableView = UITableView(frame: .zero, style: .plain)
@@ -25,25 +28,35 @@ class SportsVenue: UIViewController, UITableViewDataSource, UITableViewDelegate 
         tableView.separatorStyle = .none
         
         tableView.snp.makeConstraints { make in
-                    make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16) // 距离安全区域顶部 16
-                    make.leading.equalToSuperview().offset(16) // 距离左边缘 16
-                    make.trailing.equalToSuperview().offset(-16) // 距离右边缘 16
-                    make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-16) // 距离底边缘 16
+                    make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16)
+                    make.leading.equalToSuperview().offset(16)
+                    make.trailing.equalToSuperview().offset(-16)
+                    make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-16)
                 }
         tableView.backgroundColor = .clear
+        
+//        let taipeiGymAPI = TaipeiGymAPI()
+//                taipeiGymAPI.onGymDataReceived = { [weak self] gymDataArray in
+//                    self?.receivedGymDataArray = gymDataArray
+//                    // 在這裡你可以更新 UI 或者執行其他操作
+//                    print("Received Gym Data: \(gymDataArray)")
+//                }
+//                self.present(taipeiGymAPI, animated: true, completion: nil)
     }
 
     // MARK: - UITableViewDataSource
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 40
+        return 5
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! Cell
-        cell.setTitle("Title")
-        cell.setLocation("Location")
-        cell.setFacilities("Facilities")
+        print(receivedGymDataArray)
+        cell.setTitle(receivedGymDataArray[indexPath.row].name)
+        cell.setLocation(receivedGymDataArray[indexPath.row].address)
+        cell.setFacilities(receivedGymDataArray[indexPath.row].gymFuncList)
+        cell.setImage(receivedGymDataArray[indexPath.row].photo1)
         return cell
     }
 
