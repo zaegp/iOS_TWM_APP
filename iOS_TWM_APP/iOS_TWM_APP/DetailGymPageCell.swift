@@ -3,7 +3,7 @@ import SnapKit
 
 class DetailGymPageCell: UITableViewCell {
     
-    // MARK: - Properties
+   
     
     let borderView: UIView = {
         let view = UIView()
@@ -21,12 +21,14 @@ class DetailGymPageCell: UITableViewCell {
         return imageView
     }()
     
-    let titleLabel: UILabel = {
+    var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "defaulttext"
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 12)
-        label.numberOfLines = 0 // 允許多行文本
+        label.numberOfLines = 2
+        label.lineBreakMode = .byTruncatingTail
+
         return label
     }()
     
@@ -48,21 +50,24 @@ class DetailGymPageCell: UITableViewCell {
     
     // MARK: - Setup Constraints
     private func setupConstraints() {
+        
+        
         borderView.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(10)
             make.left.equalTo(contentView).offset(16)
             make.width.height.equalTo(30)
+            make.bottom.equalTo(contentView).offset(-10)
+
         }
         
         viewImage.snp.makeConstraints { make in
-            make.edges.equalTo(borderView).inset(3) // 留出邊框
+            make.edges.equalTo(borderView).inset(3)
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(borderView) // 垂直居中
-            make.left.equalTo(borderView.snp.right).offset(10) // 與 borderView 保持間距
-            make.right.equalTo(contentView).offset(-16) // 與 contentView 的右邊界保持間距
-            make.bottom.equalTo(contentView).offset(-10) // 添加底部約束
+            make.centerY.equalTo(borderView)
+            make.left.equalTo(borderView.snp.right).offset(10)
+            make.right.equalTo(contentView).offset(-16)
         }
     }
 }
