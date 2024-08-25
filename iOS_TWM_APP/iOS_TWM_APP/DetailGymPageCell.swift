@@ -3,7 +3,7 @@ import SnapKit
 
 class DetailGymPageCell: UITableViewCell {
     
-   
+    let iconArray = ["detail-icon-announcement", "detail-icon-location", "detail-icon-bus", "detail-icon-telephone", "detail-icon-website", "detail-icon-buildings", "detail-icon-parking", "detail-icon-wheelchair", "detail-icon-gender", "detail-icon-photo"]
     
     let borderView: UIView = {
         let view = UIView()
@@ -17,7 +17,7 @@ class DetailGymPageCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 15
+        imageView.layer.cornerRadius = 2
         return imageView
     }()
     
@@ -25,7 +25,7 @@ class DetailGymPageCell: UITableViewCell {
         let label = UILabel()
         label.text = "defaulttext"
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 2
         label.lineBreakMode = .byTruncatingTail
 
@@ -51,17 +51,15 @@ class DetailGymPageCell: UITableViewCell {
     // MARK: - Setup Constraints
     private func setupConstraints() {
         
-        
         borderView.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(10)
             make.left.equalTo(contentView).offset(16)
             make.width.height.equalTo(30)
             make.bottom.equalTo(contentView).offset(-10)
-
         }
         
         viewImage.snp.makeConstraints { make in
-            make.edges.equalTo(borderView).inset(3)
+            make.edges.equalTo(borderView).inset(5)
         }
         
         titleLabel.snp.makeConstraints { make in
@@ -70,4 +68,5 @@ class DetailGymPageCell: UITableViewCell {
             make.right.equalTo(contentView).offset(-16)
         }
     }
+    
 }

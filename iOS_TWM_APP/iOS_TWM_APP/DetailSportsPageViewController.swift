@@ -2,6 +2,8 @@ import UIKit
 
 class DetailSportsPageViewController: UIViewController {
     
+//    let iconArray = ["detail-icon-announcement", "detail-icon-location", "detail-icon-bus", "detail-icon-telephone", "detail-icon-website", "detail-icon-buildings", "detail-icon-parking", "detail-icon-wheelchair", "detail-icon-gender", "detail-icon-photo"]
+    
     let detailGymAPI = LoginDataRequest()
     var selectGymID: Int?
     var gymDetails: GymDetailData?
@@ -124,7 +126,7 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
             print("default error")
         }
         
-        
+        cell.viewImage.image = UIImage(named: cell.iconArray[indexPath.row])
         
         return cell
     }
