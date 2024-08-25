@@ -132,4 +132,38 @@ class LoginDataRequest {
          }
      }
     
+    func getDetailGymPageData(_ gymID: Int, completion: @escaping (GymDetailData?) -> Void) {
+        let headers: HTTPHeaders = [
+             "format": "application/json",
+             "odata.metadata": "none"
+         ]
+
+         let urlString = "https://iplay.sa.gov.tw/odata/Gym(\(gymID))"
+         print("==============================================")
+         AF.request(urlString, method: .get, headers: headers).responseData { response in
+             switch response.result {
+             case .success(let data):
+                 do {
+                     print("==============================================")
+                     if let json = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) {
+                                         print("Raw JSON Response: \(json)")
+                                     }                    
+                     print("==============================================")
+
+                     let decoder = JSONDecoder()
+                     let decodeData = try decoder.decode(GymDetailData.self, from: data)
+                     print("MockData Response: \(decodeData)")
+                     completion(decodeData) 
+                 } catch let decodingError {
+                     print("Decoding Error: \(decodingError)")
+                     completion(nil)
+                 }
+             case .failure(let error):
+                 print("Error: \(error)")
+                 completion(nil)
+             }
+         }
+    }
+    
+    
 }

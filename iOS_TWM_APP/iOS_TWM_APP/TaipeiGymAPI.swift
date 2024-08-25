@@ -105,7 +105,7 @@ extension TaipeiGymAPI {
             "Country": Country,
             "Latitude": Latitude,
             "Longitude": Longitude,
-            "top": 3,
+            "top": 1,
             "orderby": "Distance asc"
         ]
 //        print(parameters)
