@@ -9,37 +9,31 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MapViewController: UIViewController, CLLocationManagerDelegate {
+class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     var mapView: MKMapView!
+    var showGymsButton: UIButton!
     let locationManager = CLLocationManager()
-    
+    let gymAPI = TaipeiGymAPI()
     let bottomMenu = BottomMenuViewController()
     var userLocation: [Double] = []
-    let gymAPI = TaipeiGymAPI()
     var receivedGymDataArray: [Value] = []
-    var showGymsButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mapView = MKMapView(frame: view.bounds)
-        view.addSubview(mapView)
+        mapView.showsUserLocation = true
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        mapView.delegate = self
         
-        //        let initialLocation = CLLocation(latitude: 25.038405, longitude:     121.53235)
-        //        centerMapOnLocation(location: initialLocation)
+        view.addSubview(mapView)
+        view.addSubview(bottomMenu.view)
         
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         
-        
-        mapView.showsUserLocation = true
-        
-        
         NotificationCenter.default.addObserver(self, selector: #selector(handleLocateButtonTappedNotification(_:)), name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
-        
-        self.view.addSubview(bottomMenu.view)
     }
     
     
@@ -82,26 +76,25 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         mapView.addAnnotation(annotation)
     }
     
-    
-
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
         centerMapOnLocation(location: location)
+        locationManager.stopUpdatingLocation()
         
         let latitude = location.coordinate.latitude
         let longitude = location.coordinate.longitude
         gymAPI.getLocationDetails(latitude: latitude, longitude: longitude)
         gymAPI.onGymDataReceived = { [weak self] gymDataArray in
             self?.receivedGymDataArray = gymDataArray
-            for i in 0...5 {
-                let latitude = gymDataArray[i].latLng.components(separatedBy: ",")[0]
-                let longitude =  gymDataArray[i].latLng.components(separatedBy: ",")[1]
-                let pinLocation = CLLocation(latitude: Double(latitude)!, longitude: Double(longitude)!)
-                self?.addAnnotationAtCoordinate(coordinate: pinLocation.coordinate)
+            let count = min(gymDataArray.count, 6)
+            for i in 0..<count {
+                let latLng = gymDataArray[i].latLng.components(separatedBy: ",")
+                if let latitude = Double(latLng[0]), let longitude = Double(latLng[1]) {
+                    let pinLocation = CLLocation(latitude: latitude, longitude: longitude)
+                    self?.addAnnotationAtCoordinate(coordinate: pinLocation.coordinate)
+                }
             }
         }
-        
     }
     
     func getUserLocation() -> [Double] {
@@ -110,5 +103,23 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Failed to find user's location: \(error.localizedDescription)")
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard !(annotation is MKUserLocation) else { return nil }
+        
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "pin")
+        
+        if annotationView == nil {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "pin")
+            annotationView?.canShowCallout = true
+            annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        } else {
+            annotationView?.annotation = annotation
+        }
+        
+        annotationView?.image = UIImage(systemName: "pin.fill")
+        
+        return annotationView
     }
 }
