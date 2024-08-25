@@ -9,12 +9,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-
-        // 創建初始的 view controller
         let initialViewController = MapViewController()
       
-        
-        
         let navigationController = UINavigationController(rootViewController: FirstViewController())
 
         window?.rootViewController = navigationController
