@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		51A2DA352C7B75900062A55A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 51A2DA342C7B75900062A55A /* Kingfisher */; };
+		51A2DA372C7B759E0062A55A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 51A2DA362C7B759E0062A55A /* Alamofire */; };
 		51D845972C781FA200781C9A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51D845962C781FA200781C9A /* MapKit.framework */; };
 		51D845992C78200300781C9A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D845982C78200300781C9A /* MapViewController.swift */; };
 		51D8459D2C78325600781C9A /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D8459C2C78325600781C9A /* Cell.swift */; };
@@ -29,10 +31,7 @@
 		C7832BA22C781DC10062C6EA /* iOS_TWM_APPUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832BA12C781DC10062C6EA /* iOS_TWM_APPUITests.swift */; };
 		C7832BA42C781DC10062C6EA /* iOS_TWM_APPUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832BA32C781DC10062C6EA /* iOS_TWM_APPUITestsLaunchTests.swift */; };
 		C7832BB12C7859350062C6EA /* TaipeiGymAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832BB02C7859350062C6EA /* TaipeiGymAPI.swift */; };
-		C7BC054B2C7B5710004ABFD8 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 51D845AF2C78B77900781C9A /* SnapKit */; };
-		C7BC054E2C7B577D004ABFD8 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = C7BC054D2C7B577D004ABFD8 /* Alamofire */; };
 		C7BC05512C7B5788004ABFD8 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C7BC05502C7B5788004ABFD8 /* SnapKit */; };
-		C7BC05542C7B5790004ABFD8 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C7BC05532C7B5790004ABFD8 /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,9 +85,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7BC05542C7B5790004ABFD8 /* Kingfisher in Frameworks */,
-				C7BC054B2C7B5710004ABFD8 /* SnapKit in Frameworks */,
-				C7BC054E2C7B577D004ABFD8 /* Alamofire in Frameworks */,
+				51A2DA372C7B759E0062A55A /* Alamofire in Frameworks */,
+				51A2DA352C7B75900062A55A /* Kingfisher in Frameworks */,
 				51D845A92C788E3400781C9A /* (null) in Frameworks */,
 				51D845972C781FA200781C9A /* MapKit.framework in Frameworks */,
 				C7BC05512C7B5788004ABFD8 /* SnapKit in Frameworks */,
@@ -209,10 +207,9 @@
 			);
 			name = iOS_TWM_APP;
 			packageProductDependencies = (
-				51D845AF2C78B77900781C9A /* SnapKit */,
-				C7BC054D2C7B577D004ABFD8 /* Alamofire */,
 				C7BC05502C7B5788004ABFD8 /* SnapKit */,
-				C7BC05532C7B5790004ABFD8 /* Kingfisher */,
+				51A2DA342C7B75900062A55A /* Kingfisher */,
+				51A2DA362C7B759E0062A55A /* Alamofire */,
 			);
 			productName = iOS_TWM_APP;
 			productReference = C7832B7A2C781DBF0062C6EA /* iOS_TWM_APP.app */;
@@ -721,24 +718,18 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		51D845AF2C78B77900781C9A /* SnapKit */ = {
+		51A2DA342C7B75900062A55A /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = SnapKit;
+			productName = Kingfisher;
 		};
-		C7BC054D2C7B577D004ABFD8 /* Alamofire */ = {
+		51A2DA362C7B759E0062A55A /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C7BC054C2C7B577D004ABFD8 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
 		C7BC05502C7B5788004ABFD8 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C7BC054F2C7B5788004ABFD8 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
-		};
-		C7BC05532C7B5790004ABFD8 /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C7BC05522C7B5790004ABFD8 /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 

@@ -21,6 +21,13 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
         super.viewDidLoad()
         
         view.backgroundColor = UIColor(red: 0.83, green: 0.83, blue: 0.83, alpha: 1.00)
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.backgroundColor = .white
+        if #available(iOS 13.0, *) {
+            let statusBar = UIView(frame: UIApplication.shared.statusBarFrame)
+            statusBar.backgroundColor = .white
+            view.addSubview(statusBar)
+        }
         
         tableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self

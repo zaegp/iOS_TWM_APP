@@ -36,6 +36,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         NotificationCenter.default.addObserver(self, selector: #selector(handleLocateButtonTappedNotification(_:)), name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
+    }
+    
     
     @objc func handleLocateButtonTappedNotification(_ notification: Notification) {
         let sportsVenueVC = SportsVenueViewController()
@@ -106,20 +110,30 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard !(annotation is MKUserLocation) else { return nil }
+        if annotation is MKUserLocation {
+            let userLocationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "userLocation")
+            userLocationView.image = UIImage(named: "personal_pin")
+            userLocationView.snp.makeConstraints { make in
+                make.width.height.equalTo(40)
+            }
+            
+            return userLocationView
+        }
         
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "pin")
-        
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "customPin")
         if annotationView == nil {
-            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "pin")
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "customPin")
             annotationView?.canShowCallout = true
             annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         } else {
             annotationView?.annotation = annotation
         }
-        
-        annotationView?.image = UIImage(systemName: "pin.fill")
-        
+
+        annotationView?.image = UIImage(named: "pin")
+        annotationView?.snp.makeConstraints { make in
+            make.width.height.equalTo(40)
+        }
+
         return annotationView
     }
 }

@@ -350,6 +350,10 @@ class BottomMenuViewController: UIViewController {
         
         searchTextField.backgroundColor = .white
         searchTextField.layer.cornerRadius = 10
+        searchTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: searchTextField.frame.height))
+        searchTextField.leftViewMode = .always
+        searchTextField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: searchTextField.frame.height))
+        searchTextField.rightViewMode = .always
         
         self.view.layoutIfNeeded()
         
@@ -369,6 +373,13 @@ class BottomMenuViewController: UIViewController {
     
 
     @objc func didTappedBottomView() {
+        
+        searchTextField.isHidden = true
+        closeSearchTextFieldButton.isHidden = true
+        
+        self.deviceNameLabel.snp.updateConstraints { make in
+            make.centerY.equalTo(bottomMenuView.snp.top).offset(25)
+        }
         
         UIView.animate(withDuration: 0.3, animations: {
             if self.isExpanded == false {
