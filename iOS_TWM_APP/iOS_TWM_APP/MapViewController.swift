@@ -8,6 +8,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import SnapKit
 
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
@@ -53,7 +54,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
     }
     
-    // 用戶位置授權
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .authorizedWhenInUse, .authorizedAlways:
@@ -128,6 +128,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         } else {
             annotationView?.annotation = annotation
         }
+
 
         annotationView?.image = UIImage(named: "pin")
         annotationView?.snp.makeConstraints { make in

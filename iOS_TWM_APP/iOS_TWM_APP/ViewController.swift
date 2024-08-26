@@ -52,7 +52,6 @@ class FirstViewController: UIViewController {
         let defaults = UserDefaults.standard
         
         if let expirationDate = defaults.object(forKey: "tokenExpirationDate") as? Date {
-            // 比較當前時間和 token 的過期時間
             if Date() < expirationDate {
                 return true
             } else {
@@ -61,7 +60,6 @@ class FirstViewController: UIViewController {
                 return false
             }
         } else {
-            // 如果找不到 tokenExpirationDate，表示沒有登入狀態
             return false
         }
     }
