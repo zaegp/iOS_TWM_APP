@@ -19,7 +19,7 @@ class BottomMenuViewController: UIViewController {
         
         
         
-        self.view.frame = CGRectMake(0, screenSize.height * 0.8 , screenSize.width, screenSize.height * 0.85)
+        self.view.frame = CGRectMake(0, self.screenSize.height * 0.85, self.screenSize.width, self.screenSize.height * 0.15)
         
         configBottomMenuView()
         
@@ -72,19 +72,17 @@ class BottomMenuViewController: UIViewController {
     
     let searchButtonContainerView = UIView()
     
-    let screenSize: CGRect = UIScreen.main.bounds
-
-    let searchBar = UISearchBar()
+    let screenSize = UIScreen.main.bounds
     
-    var completeSearchButton = UIButton(type: .system)
 
-    var window: UIWindow?
+    let searchTextField = UITextField()
     
+    var closeSearchTextFieldButton = UIButton(type: .close)
+
+
     let date = Date()
     
     let calendar = Calendar.current
-    
-    
 
     
     func configBottomMenuView() {
@@ -92,7 +90,7 @@ class BottomMenuViewController: UIViewController {
         view.addSubview(bottomMenuView)
         
         [recentUpdateLabel, timeLabel, dateLabel, deviceNameLabel, stepCountTextLabel,
-         stepCountValueLabel, frequencyLabel, frequencyValueLabel, searchBar, completeSearchButton].forEach {
+         stepCountValueLabel, frequencyLabel, frequencyValueLabel, searchTextField, closeSearchTextFieldButton].forEach {
             bottomMenuView.addSubview($0)
         }
         
@@ -108,9 +106,9 @@ class BottomMenuViewController: UIViewController {
         
         refreshButtonContainerView.isHidden = true
         
-        searchBar.isHidden = true
+        searchTextField.isHidden = true
         
-        completeSearchButton.isHidden = true
+        closeSearchTextFieldButton.isHidden = true
         
         refreshButtonContainerView.addSubview(refreshButton)
         
@@ -166,13 +164,16 @@ class BottomMenuViewController: UIViewController {
         
         bottomMenuView.addGestureRecognizer(tapBottomMenuGesture)
         
+        closeSearchTextFieldButton.addTarget(self, action: #selector(didTapCloseSearchTextFieldButton), for: .touchUpInside)
+        
+
         searchButton.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
 
         refreshButton.addTarget(self, action: #selector(tappedRefreshButton), for: .touchUpInside)
 
-
+        
         //test
-        //locateButton.addTarget(self, action: #selector(testPush), for: .touchUpInside)
+        searchButton.addTarget(self, action: #selector(testPush), for: .touchUpInside)
         
         setBottomViewConstraint()
         
@@ -230,34 +231,34 @@ class BottomMenuViewController: UIViewController {
         
         refreshButtonContainerView.snp.makeConstraints { make in
             
-            make.top.equalTo(recentUpdateLabel.snp.bottom).offset(screenSize.width * 0.15)
+            make.top.equalTo(recentUpdateLabel.snp.bottom).offset(60)
             
             make.left.equalTo(bottomMenuView.snp.left).offset(30)
             
-            make.height.equalTo(screenSize.width * 0.15)
+            make.height.equalTo(60)
             
-            make.width.equalTo(screenSize.width * 0.15)
+            make.width.equalTo(60)
             
         }
         
         locateButtonContainerView.snp.makeConstraints { make in
             
-            make.top.equalTo(recentUpdateLabel.snp.bottom).offset(screenSize.width * 0.15)
+            make.top.equalTo(recentUpdateLabel.snp.bottom).offset(60)
             
             make.centerX.equalTo(deviceNameLabel.snp.centerX)
             
-            make.height.equalTo(screenSize.width * 0.15)
+            make.height.equalTo(60)
             
-            make.width.equalTo(screenSize.width * 0.15)
+            make.width.equalTo(60)
             
         }
         
         searchButtonContainerView.snp.makeConstraints { make in
             
-            make.top.equalTo(recentUpdateLabel.snp.bottom).offset(screenSize.width * 0.15)
+            make.top.equalTo(recentUpdateLabel.snp.bottom).offset(60)
             make.centerX.equalTo(bottomMenuView.snp.centerX).offset(140)
-            make.height.equalTo(screenSize.width * 0.15)
-            make.width.equalTo(screenSize.width * 0.15)
+            make.height.equalTo(60)
+            make.width.equalTo(60)
         }
         
         searchButton.snp.makeConstraints { make in
@@ -288,7 +289,6 @@ class BottomMenuViewController: UIViewController {
     
     
     func customizeLabels() {
-        
         let hour = calendar.component(.hour, from: date)
         
         let minutes = calendar.component(.minute, from: date)
@@ -300,7 +300,7 @@ class BottomMenuViewController: UIViewController {
         stepCountTextLabel.text = "今日步數"
         stepCountValueLabel.text = "0"
         frequencyLabel.text = "頻率"
-//        frequencyValueLabel.text = "一般"
+        frequencyValueLabel.text = "一般"
         
         recentUpdateLabel.textColor = .systemGray
         
@@ -327,76 +327,57 @@ class BottomMenuViewController: UIViewController {
     
     @objc func didTapSearchButton() {
         
-        searchBar.isHidden = false
-        completeSearchButton.isHidden = false
-        completeSearchButton.isEnabled = true
+        searchTextField.isHidden = false
+        closeSearchTextFieldButton.isHidden = false
         
-        self.view.frame = CGRectMake(0, screenSize.height * 0.60, screenSize.width, screenSize.height * 0.4)
+        self.view.frame = CGRectMake(0, 560, self.screenSize.width, 292)
         
         self.deviceNameLabel.snp.updateConstraints { make in
             make.centerY.equalTo(bottomMenuView.snp.top).offset(105)
         }
         
-        searchBar.snp.makeConstraints { make in
+        searchTextField.snp.makeConstraints { make in
             make.top.equalTo(bottomMenuView).offset(25)
-            make.width.equalTo(bottomMenuView).multipliedBy(0.77)
+            make.width.equalTo(bottomMenuView).multipliedBy(0.8)
             make.height.equalTo(40)
             make.leading.equalTo(bottomMenuView).offset(20)
         }
         
-        completeSearchButton.snp.makeConstraints { make in
-            make.width.equalTo(40)
-            make.height.equalTo(30)
-            make.trailing.equalTo(bottomMenuView.snp.trailing).offset(-15)
-            make.centerY.equalTo(searchBar)
+        closeSearchTextFieldButton.snp.makeConstraints { make in
+            make.width.equalTo(15)
+            make.height.equalTo(15)
+            make.leading.equalTo(searchTextField.snp.trailing).offset(20)
+            make.centerY.equalTo(searchTextField)
         }
         
-        searchBar.text = ""
-        searchBar.backgroundColor = .white
-        searchBar.searchBarStyle = .minimal
-        searchBar.layer.cornerRadius = 10
-        
-        completeSearchButton.setTitle("完成", for: .normal)
-        completeSearchButton.setTitleColor(.systemBlue, for: .normal)
-        
-        completeSearchButton.addTarget(self, action: #selector(didTapCompleteSearchButton), for: .touchUpInside)
+        searchTextField.backgroundColor = .white
+        searchTextField.layer.cornerRadius = 10
+        searchTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: searchTextField.frame.height))
+        searchTextField.leftViewMode = .always
+        searchTextField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: searchTextField.frame.height))
+        searchTextField.rightViewMode = .always
         
         self.view.layoutIfNeeded()
         
     }
     
-    
-    
-    @objc func didTapCompleteSearchButton() {
-//        let sportsVenueVC = SportsVenueViewController()
+    @objc func didTapCloseSearchTextFieldButton() {
         
-
-        self.navigationController?.pushViewController(SportsVenueViewController(), animated: true)
-
-        //self.navigationController?.pushViewController(SportsVenueViewController(), animated: true)
-
-        SportsVenueViewController().searchKeyWords = searchBar.text ?? ""
+        searchTextField.isHidden = true
+        closeSearchTextFieldButton.isHidden = true
         
-
-//        self.view.frame = CGRectMake(0, screenSize.height * 0.86, screenSize.width, screenSize.height * 0.15)
-
+        self.view.frame = CGRectMake(0, screenSize.height * 0.65, screenSize.width, screenSize.height * 0.24)
         
-        
-//        searchBar.isHidden = true
-//        completeSearchButton.isHidden = true
-//        
-//        self.view.frame = CGRectMake(0, 640, 393, 212)
-//        
-//        self.deviceNameLabel.snp.updateConstraints { make in
-//            make.centerY.equalTo(bottomMenuView.snp.top).offset(25)
-//        }
+        self.deviceNameLabel.snp.updateConstraints { make in
+            make.centerY.equalTo(bottomMenuView.snp.top).offset(25)
+        }
     }
     
 
     @objc func didTappedBottomView() {
         
-        searchBar.isHidden = true
-        completeSearchButton.isHidden = true
+        searchTextField.isHidden = true
+        closeSearchTextFieldButton.isHidden = true
         
         self.deviceNameLabel.snp.updateConstraints { make in
             make.centerY.equalTo(bottomMenuView.snp.top).offset(25)
@@ -405,7 +386,7 @@ class BottomMenuViewController: UIViewController {
         UIView.animate(withDuration: 0.3, animations: {
             if self.isExpanded == false {
                 
-                self.view.frame = CGRectMake(0, self.screenSize.height * 0.7, self.screenSize.width, self.screenSize.height * 0.35)
+                self.view.frame = CGRectMake(0, self.screenSize.height * 0.75, self.screenSize.width, self.screenSize.height * 0.25)
                 
                 self.searchButtonContainerView.isHidden = false
                 
@@ -414,18 +395,22 @@ class BottomMenuViewController: UIViewController {
                 self.refreshButtonContainerView.isHidden = false
                 
                 self.searchButtonContainerView.transform = .identity
+                
                 self.locateButtonContainerView.transform = .identity
+                
                 self.refreshButtonContainerView.transform = .identity
                 
                 self.isExpanded = true
+                
             } else {
                 
-                self.view.frame = CGRectMake(0, self.screenSize.height * 0.8, self.screenSize.width, self.screenSize.height * 0.25)
+                self.view.frame = CGRectMake(0, self.screenSize.height * 0.85, self.screenSize.width, self.screenSize.height * 0.15)
                 
-                self.searchButtonContainerView.transform = CGAffineTransform(translationX: 0, y: 60)
-                self.locateButtonContainerView.transform = CGAffineTransform(translationX: 0, y: 60)
-                self.refreshButtonContainerView.transform = CGAffineTransform(translationX: 0, y: 60)
+                self.searchButtonContainerView.transform = CGAffineTransform(translationX: 0, y: 50)
                 
+                self.locateButtonContainerView.transform = CGAffineTransform(translationX: 0, y: 50)
+                
+                self.refreshButtonContainerView.transform = CGAffineTransform(translationX: 0, y: 50)
                 
                 self.isExpanded = false
                 
@@ -480,8 +465,8 @@ class BottomMenuViewController: UIViewController {
                      self.deviceNameLabel.text = decodeData.deviceName
                      self.stepCountValueLabel.text = String(decodeData.step)
                      
-                     self.frequencyValueLabel.text = decodeData.frequency
-                                          
+//                     self.group.leave()
+                     
                  } catch let decodingError {
                      print("Decoding Error: \(decodingError)")
                  }

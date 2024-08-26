@@ -19,6 +19,8 @@ struct Login: Codable {
         case accessToken = "access_token"
         case tokenType = "token_type"
     }
+    
+    
 }
 
 
@@ -29,7 +31,6 @@ struct MockData: Codable {
     let trackingModeColor, connected, connectStatus: String
     let step: Int
     let lockMode: String
-    let frequency: String
 }
 
 
