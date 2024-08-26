@@ -31,6 +31,7 @@ struct MockData: Codable {
     let trackingModeColor, connected, connectStatus: String
     let step: Int
     let lockMode: String
+    let frequency: String
 }
 
 

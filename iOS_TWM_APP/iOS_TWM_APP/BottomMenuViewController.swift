@@ -19,7 +19,7 @@ class BottomMenuViewController: UIViewController {
         
         
         
-        self.view.frame = CGRectMake(0, 720, 393, 132)
+        self.view.frame = CGRectMake(0, screenSize.height * 0.8 , screenSize.width, screenSize.height * 0.85)
         
         configBottomMenuView()
         
@@ -72,6 +72,7 @@ class BottomMenuViewController: UIViewController {
     
     let searchButtonContainerView = UIView()
     
+    let screenSize: CGRect = UIScreen.main.bounds
 
     let searchTextField = UITextField()
     
@@ -229,34 +230,34 @@ class BottomMenuViewController: UIViewController {
         
         refreshButtonContainerView.snp.makeConstraints { make in
             
-            make.top.equalTo(recentUpdateLabel.snp.bottom).offset(60)
+            make.top.equalTo(recentUpdateLabel.snp.bottom).offset(screenSize.width * 0.15)
             
             make.left.equalTo(bottomMenuView.snp.left).offset(30)
             
-            make.height.equalTo(60)
+            make.height.equalTo(screenSize.width * 0.15)
             
-            make.width.equalTo(60)
+            make.width.equalTo(screenSize.width * 0.15)
             
         }
         
         locateButtonContainerView.snp.makeConstraints { make in
             
-            make.top.equalTo(recentUpdateLabel.snp.bottom).offset(60)
+            make.top.equalTo(recentUpdateLabel.snp.bottom).offset(screenSize.width * 0.15)
             
             make.centerX.equalTo(deviceNameLabel.snp.centerX)
             
-            make.height.equalTo(60)
+            make.height.equalTo(screenSize.width * 0.15)
             
-            make.width.equalTo(60)
+            make.width.equalTo(screenSize.width * 0.15)
             
         }
         
         searchButtonContainerView.snp.makeConstraints { make in
             
-            make.top.equalTo(recentUpdateLabel.snp.bottom).offset(60)
+            make.top.equalTo(recentUpdateLabel.snp.bottom).offset(screenSize.width * 0.15)
             make.centerX.equalTo(bottomMenuView.snp.centerX).offset(140)
-            make.height.equalTo(60)
-            make.width.equalTo(60)
+            make.height.equalTo(screenSize.width * 0.15)
+            make.width.equalTo(screenSize.width * 0.15)
         }
         
         searchButton.snp.makeConstraints { make in
@@ -298,7 +299,7 @@ class BottomMenuViewController: UIViewController {
         stepCountTextLabel.text = "今日步數"
         stepCountValueLabel.text = "0"
         frequencyLabel.text = "頻率"
-        frequencyValueLabel.text = "一般"
+//        frequencyValueLabel.text = "一般"
         
         recentUpdateLabel.textColor = .systemGray
         
@@ -328,7 +329,7 @@ class BottomMenuViewController: UIViewController {
         searchTextField.isHidden = false
         closeSearchTextFieldButton.isHidden = false
         
-        self.view.frame = CGRectMake(0, 560, 393, 292)
+        self.view.frame = CGRectMake(0, screenSize.height * 0.8, screenSize.width, screenSize.height * 0.2)
         
         self.deviceNameLabel.snp.updateConstraints { make in
             make.centerY.equalTo(bottomMenuView.snp.top).offset(105)
@@ -364,7 +365,7 @@ class BottomMenuViewController: UIViewController {
         searchTextField.isHidden = true
         closeSearchTextFieldButton.isHidden = true
         
-        self.view.frame = CGRectMake(0, 640, 393, 212)
+        self.view.frame = CGRectMake(0, screenSize.height * 0.86, screenSize.width, screenSize.height * 0.15)
         
         self.deviceNameLabel.snp.updateConstraints { make in
             make.centerY.equalTo(bottomMenuView.snp.top).offset(25)
@@ -384,7 +385,7 @@ class BottomMenuViewController: UIViewController {
         UIView.animate(withDuration: 0.3, animations: {
             if self.isExpanded == false {
                 
-                self.view.frame = CGRectMake(0, 640, 393, 212)
+                self.view.frame = CGRectMake(0, self.screenSize.height * 0.7, self.screenSize.width, self.screenSize.height * 0.35)
                 
                 self.searchButtonContainerView.isHidden = false
                 
@@ -392,16 +393,19 @@ class BottomMenuViewController: UIViewController {
                 
                 self.refreshButtonContainerView.isHidden = false
                 
+                self.searchButtonContainerView.transform = .identity
+                self.locateButtonContainerView.transform = .identity
+                self.refreshButtonContainerView.transform = .identity
+                
                 self.isExpanded = true
             } else {
                 
-                self.view.frame = CGRectMake(0, 720, 393, 132)
+                self.view.frame = CGRectMake(0, self.screenSize.height * 0.8, self.screenSize.width, self.screenSize.height * 0.25)
                 
-                self.searchButtonContainerView.isHidden = true
+                self.searchButtonContainerView.transform = CGAffineTransform(translationX: 0, y: 30)
+                self.locateButtonContainerView.transform = CGAffineTransform(translationX: 0, y: 30)
+                self.refreshButtonContainerView.transform = CGAffineTransform(translationX: 0, y: 30)
                 
-                self.locateButtonContainerView.isHidden = true
-                
-                self.refreshButtonContainerView.isHidden = true
                 
                 self.isExpanded = false
                 
@@ -456,8 +460,8 @@ class BottomMenuViewController: UIViewController {
                      self.deviceNameLabel.text = decodeData.deviceName
                      self.stepCountValueLabel.text = String(decodeData.step)
                      
-//                     self.group.leave()
-                     
+                     self.frequencyValueLabel.text = decodeData.frequency
+                                          
                  } catch let decodingError {
                      print("Decoding Error: \(decodingError)")
                  }
