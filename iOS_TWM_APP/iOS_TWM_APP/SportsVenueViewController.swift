@@ -17,10 +17,19 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
     let gymAPI = TaipeiGymAPI()
     let locationManager = CLLocationManager()
     
+    var searchKeyWords = String()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor(red: 0.83, green: 0.83, blue: 0.83, alpha: 1.00)
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.backgroundColor = .white
+        if #available(iOS 13.0, *) {
+            let statusBar = UIView(frame: UIApplication.shared.statusBarFrame)
+            statusBar.backgroundColor = .white
+            view.addSubview(statusBar)
+        }
         
         tableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self
@@ -53,14 +62,46 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
             print("最新的位置: \(location.coordinate.latitude), \(location.coordinate.longitude)")
             
             gymAPI.getLocationDetails(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-            gymAPI.onGymDataReceived = { [weak self] gymDataArray in
-                self?.receivedGymDataArray = gymDataArray
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                    self?.tableView.refreshControl?.endRefreshing()
-                    self?.locationManager.stopUpdatingLocation()
+            
+            
+            if searchKeyWords == "" {
+                
+                gymAPI.onGymDataReceived = { [weak self] gymDataArray in
+                    self?.receivedGymDataArray = gymDataArray
+                    DispatchQueue.main.async {
+                        self?.tableView.reloadData()
+                        self?.tableView.refreshControl?.endRefreshing()
+                        self?.locationManager.stopUpdatingLocation()
+                    }
                 }
+                
+            } else {
+                
+                gymAPI.onGymDataReceived = { [weak self] gymDataArray in
+                    
+                    for gymData in gymDataArray {
+                        
+                        if gymData.name.contains(self?.searchKeyWords ?? "") {
+                            
+                            self?.receivedGymDataArray.append(gymData)
+                            
+                        } else {
+                            
+                            continue
+                            
+                        }
+                        
+                    }
+                    
+                    
+                    
+                    
+                }
+                
             }
+            
+            
+            
         }
     }
     

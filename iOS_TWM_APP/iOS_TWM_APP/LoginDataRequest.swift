@@ -13,7 +13,6 @@ protocol LoginDataRequestDelegate {
     func didGetToken(token: String)
 }
 
-
 class LoginDataRequest {
     
     var delegate: LoginDataRequestDelegate?

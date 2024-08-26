@@ -86,7 +86,7 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
 
         headerLabel.snp.makeConstraints { make in
             make.left.equalTo(headerView.snp.left).inset(20)
-            make.centerY.equalTo(headerView.snp.centerY) // 确保文本垂直居中
+            make.centerY.equalTo(headerView.snp.centerY) 
         }
         
         return headerView

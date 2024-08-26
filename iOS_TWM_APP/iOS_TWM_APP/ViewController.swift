@@ -19,7 +19,6 @@ class FirstViewController: UIViewController {
         print(getToken())
         if isTokenValid() {
             print("yes token~ so map")
-            // 如果有 token，显示地图页面
             token = getToken()
             let mapVC = MapViewController()
             addChild(mapVC)
@@ -28,7 +27,6 @@ class FirstViewController: UIViewController {
             mapVC.didMove(toParent: self)
         } else {
             print("no token~ so login")
-            // 如果没有 token，显示登录页面
             let loginVC = LoginViewController()
             addChild(loginVC)
             view.addSubview(loginVC.view)
@@ -54,7 +52,6 @@ class FirstViewController: UIViewController {
         let defaults = UserDefaults.standard
         
         if let expirationDate = defaults.object(forKey: "tokenExpirationDate") as? Date {
-            // 比較當前時間和 token 的過期時間
             if Date() < expirationDate {
                 return true
             } else {
@@ -63,7 +60,6 @@ class FirstViewController: UIViewController {
                 return false
             }
         } else {
-            // 如果找不到 tokenExpirationDate，表示沒有登入狀態
             return false
         }
     }
