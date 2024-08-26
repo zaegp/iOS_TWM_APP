@@ -21,17 +21,32 @@ class DetailGymPageCell: UITableViewCell {
         return imageView
     }()
     
-    var titleLabel: UILabel = {
+    var titleButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("defaulttext", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        button.contentHorizontalAlignment = .left
+        button.addTarget(self, action: #selector(toggleDetailLabel), for: .touchUpInside)
+        return button
+    }()
+    
+    var detailLabel: UILabel = {
         let label = UILabel()
-        label.text = "defaulttext"
+        label.text = "default"
         label.textColor = .black
+        label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 14)
-        label.numberOfLines = 2
-        label.lineBreakMode = .byTruncatingTail
-
+        label.numberOfLines = 0
+        label.isHidden = true
         return label
     }()
     
+    private var isDetailLabelVisible = false
+    
+    private var detailLabelBottomConstraint: Constraint?
+    private var borderViewBottomConstraint: Constraint?
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -45,7 +60,8 @@ class DetailGymPageCell: UITableViewCell {
     private func setupViews() {
         contentView.addSubview(borderView)
         borderView.addSubview(viewImage)
-        contentView.addSubview(titleLabel)
+        contentView.addSubview(titleButton)
+        contentView.addSubview(detailLabel)
     }
     
     // MARK: - Setup Constraints
@@ -55,18 +71,54 @@ class DetailGymPageCell: UITableViewCell {
             make.top.equalTo(contentView).offset(10)
             make.left.equalTo(contentView).offset(16)
             make.width.height.equalTo(30)
-            make.bottom.equalTo(contentView).offset(-10)
+            self.borderViewBottomConstraint = make.bottom.equalTo(contentView).offset(-10).constraint
         }
         
         viewImage.snp.makeConstraints { make in
             make.edges.equalTo(borderView).inset(5)
         }
         
-        titleLabel.snp.makeConstraints { make in
+        titleButton.snp.makeConstraints { make in
             make.centerY.equalTo(borderView)
             make.left.equalTo(borderView.snp.right).offset(10)
             make.right.equalTo(contentView).offset(-16)
         }
+        
+        detailLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleButton.snp.bottom).offset(5)
+            make.left.equalTo(borderView.snp.right).offset(10)
+            make.right.equalTo(contentView).offset(-16)
+        }
+        
+        detailLabel.snp.makeConstraints { make in
+            self.detailLabelBottomConstraint = make.bottom.equalTo(contentView).offset(-10).constraint
+        }
     }
     
+    @objc private func toggleDetailLabel() {
+        isDetailLabelVisible.toggle()
+
+        if isDetailLabelVisible {
+            detailLabel.isHidden = false
+            detailLabelBottomConstraint?.activate()
+            borderViewBottomConstraint?.deactivate()
+        } else {
+            detailLabel.isHidden = true
+            detailLabelBottomConstraint?.deactivate()
+            borderView.snp.remakeConstraints { make in
+                make.top.equalTo(contentView).offset(10)
+                make.left.equalTo(contentView).offset(16)
+                make.width.height.equalTo(30)
+                self.borderViewBottomConstraint = make.bottom.equalTo(contentView).offset(-10).constraint
+            }
+        }
+
+        UIView.animate(withDuration: 0.3) {
+            self.contentView.layoutIfNeeded()
+        }
+
+        guard let tableView = self.superview as? UITableView else { return }
+        tableView.beginUpdates()
+        tableView.endUpdates()
+    }
 }

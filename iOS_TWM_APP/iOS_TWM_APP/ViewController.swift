@@ -19,7 +19,6 @@ class FirstViewController: UIViewController {
         print(getToken())
         if isTokenValid() {
             print("yes token~ so map")
-            // 如果有 token，显示地图页面
             token = getToken()
             let mapVC = MapViewController()
             addChild(mapVC)
@@ -28,7 +27,6 @@ class FirstViewController: UIViewController {
             mapVC.didMove(toParent: self)
         } else {
             print("no token~ so login")
-            // 如果没有 token，显示登录页面
             let loginVC = LoginViewController()
             addChild(loginVC)
             view.addSubview(loginVC.view)

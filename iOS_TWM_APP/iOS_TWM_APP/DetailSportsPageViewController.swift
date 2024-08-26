@@ -2,12 +2,12 @@ import UIKit
 
 class DetailSportsPageViewController: UIViewController {
     
-//    let iconArray = ["detail-icon-announcement", "detail-icon-location", "detail-icon-bus", "detail-icon-telephone", "detail-icon-website", "detail-icon-buildings", "detail-icon-parking", "detail-icon-wheelchair", "detail-icon-gender", "detail-icon-photo"]
+
     
     let detailGymAPI = LoginDataRequest()
     var selectGymID: Int?
     var gymDetails: GymDetailData?
-    
+    var gymFuncList: String?
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.delegate = self
@@ -60,14 +60,15 @@ class DetailSportsPageViewController: UIViewController {
             guard let self = self else { return }
             self.gymDetails = data
             
-            // 在主線程中更新 UI
             DispatchQueue.main.async {
-                self.tableView.isHidden = false // 顯示 tableView
-                self.tableView.reloadData() // 刷新 tableView
+                self.tableView.isHidden = false
+                self.tableView.reloadData()
                 self.containerView.isHidden = false
             }
         }
     }
+    
+    
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
@@ -86,7 +87,7 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
 
         headerLabel.snp.makeConstraints { make in
             make.left.equalTo(headerView.snp.left).inset(20)
-            make.centerY.equalTo(headerView.snp.centerY) // 确保文本垂直居中
+            make.centerY.equalTo(headerView.snp.centerY) 
         }
         
         return headerView
@@ -103,32 +104,59 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
         
         switch indexPath.row {
         case 0:
-            cell.titleLabel.text = "場地公告"
+            cell.titleButton.setTitle("場地公告", for: .normal)
+            cell.titleButton.setTitleColor(.blue, for: .normal)
+            cell.detailLabel.isHidden = false
+            cell.detailLabel.text = gymDetails?.introduction
         case 1:
-            cell.titleLabel.text = gymDetails?.addr
+            cell.titleButton.setTitle("\(gymDetails?.addr ?? "無")", for: .normal)
+            cell.detailLabel.isHidden = true
+
         case 2:
-            cell.titleLabel.text = gymDetails?.publicTransport
+            cell.titleButton.setTitle("交通資訊", for: .normal)
+            cell.titleButton.setTitleColor(.blue, for: .normal)
+            cell.detailLabel.isHidden = false
+            cell.detailLabel.text = gymDetails?.publicTransport ?? "無"
         case 3:
-            cell.titleLabel.text = gymDetails?.operationTel
+            cell.titleButton.setTitle("\(gymDetails?.operationTel ?? "無")", for: .normal)
+            cell.detailLabel.isHidden = true
         case 4:
-            cell.titleLabel.text = gymDetails?.webURL
+            cell.titleButton.setTitle("\(gymDetails?.webURL ?? "無")", for: .normal)
+            cell.detailLabel.isHidden = true
         case 5:
-            cell.titleLabel.text = gymDetails?.introduction
+            cell.titleButton.setTitle("場館設施", for: .normal)
+            cell.titleButton.setTitleColor(.blue, for: .normal)
+            cell.detailLabel.isHidden = false
+            cell.detailLabel.text = gymFuncList ?? "無"
         case 6:
-            cell.titleLabel.text = gymDetails?.parkType
+            cell.titleButton.setTitle("一般及無障礙停車場", for: .normal)
+            cell.titleButton.setTitleColor(.blue, for: .normal)
+            cell.detailLabel.isHidden = false
+            cell.detailLabel.text = gymDetails?.parkType ?? "無"
         case 7:
-            cell.titleLabel.text = gymDetails?.passEasyFuncOthers
+            cell.titleButton.setTitle("無障礙設施", for: .normal)
+            cell.titleButton.setTitleColor(.blue, for: .normal)
+            cell.detailLabel.isHidden = false
+            cell.detailLabel.text = 
+            "無障礙電梯: \(gymDetails?.passEasyEle ?? 0)間\n無障礙設施: \(gymDetails?.passEasyFuncOthers ?? "0")\n無障礙停車位: \(gymDetails?.passEasyParking ?? 0)個\n無障礙淋浴間: \(gymDetails?.passEasyShower ?? 0)\n無障礙廁所: \(gymDetails?.passEasyToilet ?? 0)\n無障礙通道: \(gymDetails?.passEasyWay ?? 0)個\n無障礙觀眾席: \(gymDetails?.wheelchairAuditorium ?? 0)"
         case 8:
-            cell.titleLabel.text = "性別友善設施"
+            cell.titleButton.setTitle("性別友善設施", for: .normal)
+            cell.titleButton.setTitleColor(.blue, for: .normal)
+            cell.detailLabel.isHidden = false
+            cell.detailLabel.text = 
+            "性別友善廁所: 0間 \n親子廁所: 0間 \n哺乳室: 0間 \n性別友善淋浴間: 0間\n親子淋浴間: 0間"
         case 9:
-            cell.titleLabel.text = "實際照片"
+            cell.titleButton.setTitle("實際照片", for: .normal)
+            cell.titleButton.setTitleColor(.blue, for: .normal)
         default:
             print("default error")
         }
         
         cell.viewImage.image = UIImage(named: cell.iconArray[indexPath.row])
         
+        
         return cell
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

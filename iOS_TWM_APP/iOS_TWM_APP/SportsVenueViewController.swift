@@ -112,6 +112,8 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailSportPage = DetailSportsPageViewController()
         detailSportPage.selectGymID = receivedGymDataArray[indexPath.row].gymID
+        detailSportPage.gymFuncList = receivedGymDataArray[indexPath.row].gymFuncList
+
         self.navigationController?.pushViewController(detailSportPage, animated: true)
         
     }
