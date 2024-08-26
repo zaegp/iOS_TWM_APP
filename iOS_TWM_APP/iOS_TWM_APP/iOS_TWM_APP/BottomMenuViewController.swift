@@ -386,7 +386,7 @@ class BottomMenuViewController: UIViewController {
         UIView.animate(withDuration: 0.3, animations: {
             if self.isExpanded == false {
                 
-                self.view.frame = CGRectMake(0, self.screenSize.height * 0.75 , self.screenSize.width, self.screenSize.height * 0.25)
+                self.view.frame = CGRectMake(0, self.screenSize.height * 0.75, self.screenSize.width, self.screenSize.height * 0.25)
                 
                 self.searchButtonContainerView.isHidden = false
                 
@@ -394,16 +394,23 @@ class BottomMenuViewController: UIViewController {
                 
                 self.refreshButtonContainerView.isHidden = false
                 
+                self.searchButtonContainerView.transform = .identity
+                
+                self.locateButtonContainerView.transform = .identity
+                
+                self.refreshButtonContainerView.transform = .identity
+                
                 self.isExpanded = true
+                
             } else {
                 
                 self.view.frame = CGRectMake(0, self.screenSize.height * 0.85, self.screenSize.width, self.screenSize.height * 0.15)
                 
-                self.searchButtonContainerView.isHidden = true
+                self.searchButtonContainerView.transform = CGAffineTransform(translationX: 0, y: 50)
                 
-                self.locateButtonContainerView.isHidden = true
+                self.locateButtonContainerView.transform = CGAffineTransform(translationX: 0, y: 50)
                 
-                self.refreshButtonContainerView.isHidden = true
+                self.refreshButtonContainerView.transform = CGAffineTransform(translationX: 0, y: 50)
                 
                 self.isExpanded = false
                 
