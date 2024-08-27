@@ -17,8 +17,6 @@ class BottomMenuViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        
-        
         self.view.frame = CGRectMake(0, screenSize.height * 0.8 , screenSize.width, screenSize.height * 0.85)
         
         configBottomMenuView()
@@ -450,7 +448,6 @@ class BottomMenuViewController: UIViewController {
             
         self.getMockData(userToken)
             
-        
         
     }
     
