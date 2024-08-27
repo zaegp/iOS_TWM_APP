@@ -74,7 +74,7 @@ class BottomMenuViewController: UIViewController {
 
     let searchBar = UISearchBar()
     
-    var completeSearchButton = UIButton(type: .system)
+    var completeSearchButton = UIButton()
 
     var window: UIWindow?
     
@@ -82,7 +82,7 @@ class BottomMenuViewController: UIViewController {
     
     let calendar = Calendar.current
     
-    
+//    var passKeyWords: ((String) -> Void)?
 
     
     func configBottomMenuView() {
@@ -168,9 +168,9 @@ class BottomMenuViewController: UIViewController {
 
         refreshButton.addTarget(self, action: #selector(tappedRefreshButton), for: .touchUpInside)
 
-
+        //completeSearchButton.addTarget(self, action: #selector(didTapCompleteSearchButton), for: .touchUpInside)
         //test
-        //locateButton.addTarget(self, action: #selector(testPush), for: .touchUpInside)
+//        locateButton.addTarget(self, action: #selector(testPush), for: .touchUpInside)
         
         setBottomViewConstraint()
         
@@ -357,7 +357,7 @@ class BottomMenuViewController: UIViewController {
         completeSearchButton.setTitle("完成", for: .normal)
         completeSearchButton.setTitleColor(.systemBlue, for: .normal)
         
-        completeSearchButton.addTarget(self, action: #selector(didTapCompleteSearchButton), for: .touchUpInside)
+        
         
         self.view.layoutIfNeeded()
         
@@ -366,14 +366,17 @@ class BottomMenuViewController: UIViewController {
     
     
     @objc func didTapCompleteSearchButton() {
-//        let sportsVenueVC = SportsVenueViewController()
+
+        SportsVenueViewController().passKeyWords?(searchBar.text ?? "")
+        print("～～～～～－ ", searchBar.text)
         
+        //        let sportsVenueVC = SportsVenueViewController()
+                
 
-        self.navigationController?.pushViewController(SportsVenueViewController(), animated: true)
+        //        self.navigationController?.pushViewController(SportsVenueViewController(), animated: true)
 
-        //self.navigationController?.pushViewController(SportsVenueViewController(), animated: true)
+                //self.navigationController?.pushViewController(SportsVenueViewController(), animated: true)
 
-        SportsVenueViewController().searchKeyWords = searchBar.text ?? ""
         
 
 //        self.view.frame = CGRectMake(0, screenSize.height * 0.86, screenSize.width, screenSize.height * 0.15)

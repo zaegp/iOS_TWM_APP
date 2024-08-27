@@ -10,6 +10,7 @@ import MapKit
 import CoreLocation
 import SnapKit
 
+
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     var mapView: MKMapView!
@@ -21,7 +22,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let bottomMenu = BottomMenuViewController()
     var userLocation: [Double] = []
     var receivedGymDataArray: [Value] = []
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,16 +37,44 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         
+//        bottomMenu.searchBar.delegate = self
+        
         NotificationCenter.default.addObserver(self, selector: #selector(handleLocateButtonTappedNotification(_:)), name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
+        
+        bottomMenu.completeSearchButton.addTarget(self, action: #selector(didTapCompleteSearchButton), for: .touchUpInside)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = true
     }
     
+
+    @objc func didTapCompleteSearchButton() {
+        
+        
+        
+        let sportsVenueViewController = SportsVenueViewController()
+        
+        sportsVenueViewController.searchKeywords = bottomMenu.searchBar.text ?? ""
+        
+        if bottomMenu.searchBar.text != "" {
+            let searchBarArray = gymAPI.gymDataArray
+            sportsVenueViewController.receivedGymDataArray = searchBarArray ?? []
+            
+            sportsVenueViewController.receivedGymDataArray.removeAll{ !($0.name.contains(bottomMenu.searchBar.text ?? "")) }
+            self.navigationController?.pushViewController(sportsVenueViewController, animated: true)
+            
+        } else {
+            sportsVenueViewController.receivedGymDataArray = gymAPI.gymDataArray ?? []
+            self.navigationController?.pushViewController(sportsVenueViewController, animated: true)
+        }
+        
+    }
+        
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         gymAPI.onGymDataReceived = nil
+
     }
     
     @objc func handleLocateButtonTappedNotification(_ notification: Notification) {
@@ -69,6 +98,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             
             let sportsVenueVC = SportsVenueViewController()
             sportsVenueVC.receivedGymDataArray = sortedGymDataArray
+            
             
             if !sortedGymDataArray.isEmpty {
                 self.navigationController?.pushViewController(sportsVenueVC, animated: true)
@@ -225,8 +255,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
+            
             let userLocationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "userLocation")
+            
             userLocationView.image = UIImage(named: "personal_pin")
+            
             userLocationView.snp.makeConstraints { make in
                 make.width.height.equalTo(40)
             }
@@ -251,3 +284,15 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
 
 }
+
+//extension MapViewController: UISearchBarDelegate {
+//    
+//
+//
+//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//        let sportsVenueViewController = SportsVenueViewController()
+//        sportsVenueViewController.searchKeywords = searchText
+//        
+//    }
+//    
+//}
