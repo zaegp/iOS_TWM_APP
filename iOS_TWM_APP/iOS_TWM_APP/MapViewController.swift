@@ -15,6 +15,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     var mapView: MKMapView!
     var showGymsButton: UIButton!
+    var previousVisibleRegion: MKMapRect?
+    var regionChangeWorkItem: DispatchWorkItem?
     let locationManager = CLLocationManager()
     let gymAPI = TaipeiGymAPI()
     let bottomMenu = BottomMenuViewController()
@@ -44,9 +46,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         navigationController?.navigationBar.isHidden = true
     }
     
+
     @objc func didTapCompleteSearchButton() {
         
-//        SportsVenueViewController().passKeyWords?(bottomMenu.searchBar.text ?? "")
+        //        SportsVenueViewController().passKeyWords?(bottomMenu.searchBar.text ?? "")
         let sportsVenueViewController = SportsVenueViewController()
         
         self.navigationController?.pushViewController(sportsVenueViewController, animated: true)
@@ -55,16 +58,40 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         sportsVenueViewController.receivedGymDataArray = receivedGymDataArray
         
-//        delegate?.passData(keyword: bottomMenu.searchBar.text ?? "")
+        //        delegate?.passData(keyword: bottomMenu.searchBar.text ?? "")
+    }
         
-        print("～～～～～－ ", bottomMenu.searchBar.text)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        gymAPI.onGymDataReceived = nil
+
     }
     
     @objc func handleLocateButtonTappedNotification(_ notification: Notification) {
-        let sportsVenueVC = SportsVenueViewController()
-        sportsVenueVC.receivedGymDataArray = receivedGymDataArray
-        if sportsVenueVC.receivedGymDataArray.count != 0 {
-            navigationController?.pushViewController(sportsVenueVC, animated: true)
+        let centerCoordinate = mapView.centerCoordinate
+        gymAPI.getLocationDetails(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
+        
+        gymAPI.onGymDataReceived = { [weak self] gymDataArray in
+            guard let self = self else { return }
+            
+            let userLocation = CLLocation(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
+            
+            let sortedGymDataArray = gymDataArray.sorted { gym1, gym2 in
+                let latLng1 = gym1.latLng.components(separatedBy: ",")
+                let latLng2 = gym2.latLng.components(separatedBy: ",")
+                let location1 = CLLocation(latitude: Double(latLng1[0])!, longitude: Double(latLng1[1])!)
+                let location2 = CLLocation(latitude: Double(latLng2[0])!, longitude: Double(latLng2[1])!)
+                return userLocation.distance(from: location1) < userLocation.distance(from: location2)
+            }
+            
+            self.receivedGymDataArray = sortedGymDataArray
+            
+            let sportsVenueVC = SportsVenueViewController()
+            sportsVenueVC.receivedGymDataArray = sortedGymDataArray
+            
+            if !sortedGymDataArray.isEmpty {
+                self.navigationController?.pushViewController(sportsVenueVC, animated: true)
+            }
         }
     }
     
@@ -78,12 +105,23 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             locationManager.startUpdatingLocation()
             mapView.showsUserLocation = true
         case .denied, .restricted:
-            print("位置訪問被拒絕或受限。")
+            showLocationAccessAlert()
         case .notDetermined:
             print("位置訪問狀態尚未確定。")
         @unknown default:
             break
         }
+    }
+    
+    func showLocationAccessAlert() {
+        let alert = UIAlertController(title: "位置權限被拒絕", message: "應用需要訪問您的位置來顯示附近的健身房。請在設置中啓用位置權限。", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "設置", style: .default) { _ in
+            if let appSettings = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(appSettings)
+            }
+        })
+        present(alert, animated: true)
     }
     
     func centerMapOnLocation(location: CLLocation, regionRadius: CLLocationDistance = 2000) {
@@ -103,14 +141,24 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         centerMapOnLocation(location: location)
         locationManager.stopUpdatingLocation()
         
+        let visibleRegion = mapView.visibleMapRect
         let latitude = location.coordinate.latitude
         let longitude = location.coordinate.longitude
         gymAPI.getLocationDetails(latitude: latitude, longitude: longitude)
         gymAPI.onGymDataReceived = { [weak self] gymDataArray in
-            self?.receivedGymDataArray = gymDataArray
-            let count = min(gymDataArray.count, 6)
-            for i in 0..<count {
-                let latLng = gymDataArray[i].latLng.components(separatedBy: ",")
+            print(gymDataArray)
+            self?.receivedGymDataArray = gymDataArray.filter { gym in
+                let latLng = gym.latLng.components(separatedBy: ",")
+                if let latitude = Double(latLng[0]), let longitude = Double(latLng[1]) {
+                    let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                    let mapPoint = MKMapPoint(coordinate)
+                    return visibleRegion.contains(mapPoint)
+                }
+                return false
+            }
+            
+            for gym in self?.receivedGymDataArray ?? [] {
+                let latLng = gym.latLng.components(separatedBy: ",")
                 if let latitude = Double(latLng[0]), let longitude = Double(latLng[1]) {
                     let pinLocation = CLLocation(latitude: latitude, longitude: longitude)
                     self?.addAnnotationAtCoordinate(coordinate: pinLocation.coordinate)
@@ -118,6 +166,77 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             }
         }
     }
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        let newVisibleRegion = mapView.visibleMapRect
+        
+        if let previousRegion = previousVisibleRegion {
+            let overlap = previousRegion.intersection(newVisibleRegion)
+            let overlapPercentage = (overlap.size.width * overlap.size.height) / (newVisibleRegion.size.width * newVisibleRegion.size.height)
+            
+            if overlapPercentage > 0.7 {
+                return
+            }
+        }
+        
+        let workItem = DispatchWorkItem { [weak self] in
+            self?.updateAnnotationsForVisibleRegion(newVisibleRegion)
+            self?.previousVisibleRegion = newVisibleRegion
+        }
+        
+        regionChangeWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: workItem)
+        
+        updateAnnotationsForVisibleRegion(newVisibleRegion)
+        
+        previousVisibleRegion = newVisibleRegion
+    }
+    
+    func updateAnnotationsForVisibleRegion(_ visibleRegion: MKMapRect) {
+        let centerCoordinate = mapView.centerCoordinate
+        gymAPI.getLocationDetails(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
+        
+        gymAPI.onGymDataReceived = { [weak self] gymDataArray in
+            guard let self = self else { return }
+            
+            let filteredGyms = gymDataArray.filter { gym in
+                let latLng = gym.latLng.components(separatedBy: ",")
+                if let latitude = Double(latLng[0]), let longitude = Double(latLng[1]) {
+                    let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                    let mapPoint = MKMapPoint(coordinate)
+                    return visibleRegion.contains(mapPoint)
+                }
+                return false
+            }
+            
+            var newAnnotations: [MKAnnotation] = []
+            for gym in filteredGyms {
+                let latLng = gym.latLng.components(separatedBy: ",")
+                if let latitude = Double(latLng[0]), let longitude = Double(latLng[1]) {
+                    let pinLocation = CLLocation(latitude: latitude, longitude: longitude)
+                    let annotation = MKPointAnnotation()
+                    annotation.coordinate = pinLocation.coordinate
+                    newAnnotations.append(annotation)
+                }
+            }
+            
+            let currentAnnotations = self.mapView.annotations.filter { !($0 is MKUserLocation) }
+            
+            let annotationsToAdd = newAnnotations.filter { newAnnotation in
+                !currentAnnotations.contains { $0.coordinate.latitude == newAnnotation.coordinate.latitude &&
+                                               $0.coordinate.longitude == newAnnotation.coordinate.longitude }
+            }
+            let annotationsToRemove = currentAnnotations.filter { currentAnnotation in
+                !newAnnotations.contains { $0.coordinate.latitude == currentAnnotation.coordinate.latitude &&
+                                           $0.coordinate.longitude == currentAnnotation.coordinate.longitude }
+            }
+            
+//            self.mapView.removeAnnotations(annotationsToRemove)
+            self.mapView.addAnnotations(annotationsToAdd)
+        }
+    }
+
+    
     
     func getUserLocation() -> [Double] {
         return userLocation
@@ -150,12 +269,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             annotationView?.annotation = annotation
         }
 
-
         annotationView?.image = UIImage(named: "pin")
         annotationView?.snp.makeConstraints { make in
             make.width.height.equalTo(40)
         }
-
+        
         return annotationView
     }
 }
