@@ -112,7 +112,14 @@ class Cell: UITableViewCell {
     }
     
     func setTitle(_ title: String) {
-        venueTitleLabel.text = title
+        if title.count >= 11 {
+            let startIndex = title.startIndex
+            let endIndex = title.index(startIndex, offsetBy: 11)
+            let title = title[startIndex..<endIndex] + "..."
+            venueTitleLabel.text = String(title)
+        } else {
+            venueTitleLabel.text = title
+        }
     }
     
     func setLocation(_ location: String) {
@@ -124,7 +131,9 @@ class Cell: UITableViewCell {
     }
     
     func setImage(_ image: String) {
+        let placeholderImage = UIImage(named: "Image")
         let url = URL(string: image)
-        venueImageView.kf.setImage(with: url)
+        venueImageView.kf.setImage(with: url, placeholder: placeholderImage)
     }
 }
+
