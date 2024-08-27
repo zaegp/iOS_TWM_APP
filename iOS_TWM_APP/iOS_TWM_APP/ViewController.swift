@@ -18,7 +18,8 @@ class FirstViewController: UIViewController {
         
         if isTokenValid() {
             print("yes token~ so map")
-            token = getToken()
+            guard let token = getToken() else { return }
+            loginDataRequest.getInformation(token)
             let mapVC = MapViewController()
             addChild(mapVC)
             view.addSubview(mapVC.view)

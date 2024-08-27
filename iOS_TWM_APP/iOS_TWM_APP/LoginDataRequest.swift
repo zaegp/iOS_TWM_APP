@@ -46,7 +46,7 @@ class LoginDataRequest {
         }
     }
     
-    func loginData(userID: String, password: String/*, completion: @escaping (String?) -> Void*/) {
+    func loginData(userID: String, password: String) {
         
         let parameters: [String: String] = [
             "grant_type": "",
