@@ -17,10 +17,13 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
     let gymAPI = TaipeiGymAPI()
     let locationManager = CLLocationManager()
     
-    var searchKeyWords = String()
+    var searchKeywords = String()
+    var passKeyWords: ((String) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         
         view.backgroundColor = UIColor(red: 0.83, green: 0.83, blue: 0.83, alpha: 1.00)
         navigationController?.navigationBar.isHidden = false
@@ -29,7 +32,20 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
             let statusBar = UIView(frame: UIApplication.shared.statusBarFrame)
             statusBar.backgroundColor = .white
             view.addSubview(statusBar)
+            
+            
+            
+            
         }
+        
+       
+        if searchKeywords != "" {
+            
+            receivedGymDataArray.removeAll{ !($0.name.contains(searchKeywords)) }
+            
+        }
+        
+        
         
         tableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self
@@ -58,16 +74,27 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+
+        
+        
         if let location = locations.last {
             print("最新的位置: \(location.coordinate.latitude), \(location.coordinate.longitude)")
             
             gymAPI.getLocationDetails(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             
             
-            if searchKeyWords == "" {
-                
+             
                 gymAPI.onGymDataReceived = { [weak self] gymDataArray in
                     self?.receivedGymDataArray = gymDataArray
+                   
+                    if self?.searchKeywords != "" {
+                                    
+                        self?.receivedGymDataArray.removeAll{ !($0.name.contains(self?.searchKeywords ?? "")) }
+                                    
+                                }
+
+                    
                     DispatchQueue.main.async {
                         self?.tableView.reloadData()
                         self?.tableView.refreshControl?.endRefreshing()
@@ -75,33 +102,8 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
                     }
                 }
                 
-            } else {
+            
                 
-                gymAPI.onGymDataReceived = { [weak self] gymDataArray in
-                    
-                    for gymData in gymDataArray {
-                        
-                        if gymData.name.contains(self?.searchKeyWords ?? "") {
-                            
-                            self?.receivedGymDataArray.append(gymData)
-                            
-                        } else {
-                            
-                            continue
-                            
-                        }
-                        
-                    }
-                    
-                    
-                    
-                    
-                }
-                
-            }
-            
-            
-            
         }
     }
     
@@ -152,4 +154,5 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
         
     }
 }
+
 

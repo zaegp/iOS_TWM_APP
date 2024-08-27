@@ -10,6 +10,7 @@ import MapKit
 import CoreLocation
 import SnapKit
 
+
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     var mapView: MKMapView!
@@ -19,7 +20,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let bottomMenu = BottomMenuViewController()
     var userLocation: [Double] = []
     var receivedGymDataArray: [Value] = []
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,12 +36,29 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         locationManager.requestWhenInUseAuthorization()
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleLocateButtonTappedNotification(_:)), name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
+        
+        bottomMenu.completeSearchButton.addTarget(self, action: #selector(didTapCompleteSearchButton), for: .touchUpInside)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = true
     }
     
+    @objc func didTapCompleteSearchButton() {
+        
+//        SportsVenueViewController().passKeyWords?(bottomMenu.searchBar.text ?? "")
+        let sportsVenueViewController = SportsVenueViewController()
+        
+        self.navigationController?.pushViewController(sportsVenueViewController, animated: true)
+        
+        sportsVenueViewController.searchKeywords = bottomMenu.searchBar.text ?? "empty"
+        
+        sportsVenueViewController.receivedGymDataArray = receivedGymDataArray
+        
+//        delegate?.passData(keyword: bottomMenu.searchBar.text ?? "")
+        
+        print("～～～～～－ ", bottomMenu.searchBar.text)
+    }
     
     @objc func handleLocateButtonTappedNotification(_ notification: Notification) {
         let sportsVenueVC = SportsVenueViewController()
@@ -111,8 +129,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
+            
             let userLocationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "userLocation")
+            
             userLocationView.image = UIImage(named: "personal_pin")
+            
             userLocationView.snp.makeConstraints { make in
                 make.width.height.equalTo(40)
             }
