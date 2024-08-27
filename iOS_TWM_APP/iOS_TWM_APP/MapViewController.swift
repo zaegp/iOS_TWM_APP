@@ -22,6 +22,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let bottomMenu = BottomMenuViewController()
     var userLocation: [Double] = []
     var receivedGymDataArray: [Value] = []
+    var totalGymDataArray: TotalGymData?
         
     override func viewDidLoad() {
         super.viewDidLoad()

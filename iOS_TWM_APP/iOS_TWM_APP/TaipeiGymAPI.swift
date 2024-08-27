@@ -121,6 +121,8 @@ extension TaipeiGymAPI {
                 for value in gymData.value {
                     if !(self.gymDataArray?.contains(where: { $0.gymID == value.gymID }) ?? false) {
                         self.gymDataArray?.append(value)
+                        print(self.gymDataArray?.count)
+
                     }
                 }
                 
