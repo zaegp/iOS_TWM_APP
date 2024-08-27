@@ -59,7 +59,8 @@ class TaipeiGymAPI: UIViewController{
     var Country: String = ""
     var gymDataArray:[Value]? = []
     var onGymDataReceived: (([Value]) -> Void)?
-    
+    var cache: [String: [Value]] = [:]
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -92,6 +93,15 @@ extension TaipeiGymAPI {
     }
     
     func searchGym(_ Latitude: String, _ Longitude: String, nextPageURL: String? = nil) {
+        let cacheKey = "\(City)-\(Country)"
+        
+        
+        if let cachedData = cache[cacheKey], nextPageURL == nil {
+            self.gymDataArray?.append(contentsOf: cachedData)
+            self.onGymDataReceived?(self.gymDataArray ?? [])
+            return
+        }
+
         let url: String
         if let nextPage = nextPageURL {
             url = nextPage
@@ -121,8 +131,15 @@ extension TaipeiGymAPI {
                 for value in gymData.value {
                     if !(self.gymDataArray?.contains(where: { $0.gymID == value.gymID }) ?? false) {
                         self.gymDataArray?.append(value)
-                        print(self.gymDataArray?.count)
-
+                    }
+                }
+                
+                if nextPageURL == nil {
+                    if var existingData = self.cache[cacheKey] {
+                        existingData.append(contentsOf: self.gymDataArray ?? [])
+                        self.cache[cacheKey] = existingData
+                    } else {
+                        self.cache[cacheKey] = self.gymDataArray
                     }
                 }
                 
@@ -139,6 +156,7 @@ extension TaipeiGymAPI {
             }
         }
     }
+
 
 }
 

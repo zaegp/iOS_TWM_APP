@@ -15,8 +15,7 @@ class FirstViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("======")
-        print(getToken())
+        
         if isTokenValid() {
             print("yes token~ so map")
             token = getToken()

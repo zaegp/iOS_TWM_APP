@@ -22,7 +22,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let bottomMenu = BottomMenuViewController()
     var userLocation: [Double] = []
     var receivedGymDataArray: [Value] = []
-    var totalGymDataArray: TotalGymData?
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +37,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         
+//        bottomMenu.searchBar.delegate = self
+        
         NotificationCenter.default.addObserver(self, selector: #selector(handleLocateButtonTappedNotification(_:)), name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
         
         bottomMenu.completeSearchButton.addTarget(self, action: #selector(didTapCompleteSearchButton), for: .touchUpInside)
@@ -50,16 +51,24 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 
     @objc func didTapCompleteSearchButton() {
         
-        //        SportsVenueViewController().passKeyWords?(bottomMenu.searchBar.text ?? "")
+        
+        
         let sportsVenueViewController = SportsVenueViewController()
         
-        self.navigationController?.pushViewController(sportsVenueViewController, animated: true)
+        sportsVenueViewController.searchKeywords = bottomMenu.searchBar.text ?? ""
         
-        sportsVenueViewController.searchKeywords = bottomMenu.searchBar.text ?? "empty"
+        if bottomMenu.searchBar.text != "" {
+            let searchBarArray = gymAPI.gymDataArray
+            sportsVenueViewController.receivedGymDataArray = searchBarArray ?? []
+            
+            sportsVenueViewController.receivedGymDataArray.removeAll{ !($0.name.contains(bottomMenu.searchBar.text ?? "")) }
+            self.navigationController?.pushViewController(sportsVenueViewController, animated: true)
+            
+        } else {
+            sportsVenueViewController.receivedGymDataArray = gymAPI.gymDataArray ?? []
+            self.navigationController?.pushViewController(sportsVenueViewController, animated: true)
+        }
         
-        sportsVenueViewController.receivedGymDataArray = receivedGymDataArray
-        
-        //        delegate?.passData(keyword: bottomMenu.searchBar.text ?? "")
     }
         
     override func viewWillDisappear(_ animated: Bool) {
@@ -89,6 +98,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             
             let sportsVenueVC = SportsVenueViewController()
             sportsVenueVC.receivedGymDataArray = sortedGymDataArray
+            
             
             if !sortedGymDataArray.isEmpty {
                 self.navigationController?.pushViewController(sportsVenueVC, animated: true)
@@ -131,9 +141,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     // 大頭針
-    func addAnnotationAtCoordinate(coordinate: CLLocationCoordinate2D) {
+    func addAnnotationAtCoordinate(coordinate: CLLocationCoordinate2D, title: String) {
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
+        annotation.title = title
         mapView.addAnnotation(annotation)
     }
     
@@ -147,7 +158,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         let longitude = location.coordinate.longitude
         gymAPI.getLocationDetails(latitude: latitude, longitude: longitude)
         gymAPI.onGymDataReceived = { [weak self] gymDataArray in
-            print(gymDataArray)
             self?.receivedGymDataArray = gymDataArray.filter { gym in
                 let latLng = gym.latLng.components(separatedBy: ",")
                 if let latitude = Double(latLng[0]), let longitude = Double(latLng[1]) {
@@ -157,12 +167,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 }
                 return false
             }
-            
+           
             for gym in self?.receivedGymDataArray ?? [] {
                 let latLng = gym.latLng.components(separatedBy: ",")
                 if let latitude = Double(latLng[0]), let longitude = Double(latLng[1]) {
                     let pinLocation = CLLocation(latitude: latitude, longitude: longitude)
-                    self?.addAnnotationAtCoordinate(coordinate: pinLocation.coordinate)
+                    self?.addAnnotationAtCoordinate(coordinate: pinLocation.coordinate, title: gym.name)
                 }
             }
         }
@@ -199,7 +209,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         gymAPI.onGymDataReceived = { [weak self] gymDataArray in
             guard let self = self else { return }
-            
             let filteredGyms = gymDataArray.filter { gym in
                 let latLng = gym.latLng.components(separatedBy: ",")
                 if let latitude = Double(latLng[0]), let longitude = Double(latLng[1]) {
@@ -210,13 +219,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 return false
             }
             
+            self.receivedGymDataArray = filteredGyms
             var newAnnotations: [MKAnnotation] = []
+            print(filteredGyms)
             for gym in filteredGyms {
                 let latLng = gym.latLng.components(separatedBy: ",")
                 if let latitude = Double(latLng[0]), let longitude = Double(latLng[1]) {
                     let pinLocation = CLLocation(latitude: latitude, longitude: longitude)
                     let annotation = MKPointAnnotation()
                     annotation.coordinate = pinLocation.coordinate
+                    annotation.title = gym.name
                     newAnnotations.append(annotation)
                 }
             }
@@ -227,12 +239,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 !currentAnnotations.contains { $0.coordinate.latitude == newAnnotation.coordinate.latitude &&
                                                $0.coordinate.longitude == newAnnotation.coordinate.longitude }
             }
-            let annotationsToRemove = currentAnnotations.filter { currentAnnotation in
-                !newAnnotations.contains { $0.coordinate.latitude == currentAnnotation.coordinate.latitude &&
-                                           $0.coordinate.longitude == currentAnnotation.coordinate.longitude }
-            }
-            
-//            self.mapView.removeAnnotations(annotationsToRemove)
             self.mapView.addAnnotations(annotationsToAdd)
         }
     }
@@ -265,7 +271,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         if annotationView == nil {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "customPin")
             annotationView?.canShowCallout = true
-            annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         } else {
             annotationView?.annotation = annotation
         }
@@ -277,4 +282,17 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         return annotationView
     }
+
 }
+
+//extension MapViewController: UISearchBarDelegate {
+//    
+//
+//
+//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//        let sportsVenueViewController = SportsVenueViewController()
+//        sportsVenueViewController.searchKeywords = searchText
+//        
+//    }
+//    
+//}
