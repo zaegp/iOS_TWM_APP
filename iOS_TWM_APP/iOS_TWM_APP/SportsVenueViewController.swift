@@ -13,7 +13,6 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
     
     var receivedGymDataArray: [Value] = []
     var tableView: UITableView!
-    let numberOfCellsPerPage = 4
     let gymAPI = TaipeiGymAPI()
     let locationManager = CLLocationManager()
     
@@ -51,6 +50,19 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
         tableView.refreshControl = refreshControl
         
         locationManager.delegate = self
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        coordinator.animate(alongsideTransition: { _ in
+            self.tableView.snp.updateConstraints { make in
+                make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(16)
+                make.leading.equalToSuperview().offset(16)
+                make.trailing.equalToSuperview().offset(-16)
+                make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).offset(-16)
+            }
+        }, completion: nil)
     }
     
     @objc private func handleRefresh(_ refreshControl: UIRefreshControl) {
@@ -139,8 +151,7 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
     // MARK: - UITableViewDelegate
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let screenHeight = UIScreen.main.bounds.height
-        return screenHeight / CGFloat(numberOfCellsPerPage)
+        return 210
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
