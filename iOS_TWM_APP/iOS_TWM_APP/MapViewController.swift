@@ -53,12 +53,25 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         gymAPI.getLocationDetails(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
         
         gymAPI.onGymDataReceived = { [weak self] gymDataArray in
-            self?.receivedGymDataArray = gymDataArray
-            let sportsVenueVC = SportsVenueViewController()
-            sportsVenueVC.receivedGymDataArray = gymDataArray
+            guard let self = self else { return }
             
-            if !gymDataArray.isEmpty {
-                self?.navigationController?.pushViewController(sportsVenueVC, animated: true)
+            let userLocation = CLLocation(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
+            
+            let sortedGymDataArray = gymDataArray.sorted { gym1, gym2 in
+                let latLng1 = gym1.latLng.components(separatedBy: ",")
+                let latLng2 = gym2.latLng.components(separatedBy: ",")
+                let location1 = CLLocation(latitude: Double(latLng1[0])!, longitude: Double(latLng1[1])!)
+                let location2 = CLLocation(latitude: Double(latLng2[0])!, longitude: Double(latLng2[1])!)
+                return userLocation.distance(from: location1) < userLocation.distance(from: location2)
+            }
+            
+            self.receivedGymDataArray = sortedGymDataArray
+            
+            let sportsVenueVC = SportsVenueViewController()
+            sportsVenueVC.receivedGymDataArray = sortedGymDataArray
+            
+            if !sortedGymDataArray.isEmpty {
+                self.navigationController?.pushViewController(sportsVenueVC, animated: true)
             }
         }
     }
@@ -114,6 +127,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         let longitude = location.coordinate.longitude
         gymAPI.getLocationDetails(latitude: latitude, longitude: longitude)
         gymAPI.onGymDataReceived = { [weak self] gymDataArray in
+            print(gymDataArray)
             self?.receivedGymDataArray = gymDataArray.filter { gym in
                 let latLng = gym.latLng.components(separatedBy: ",")
                 if let latitude = Double(latLng[0]), let longitude = Double(latLng[1]) {
