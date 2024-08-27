@@ -58,7 +58,7 @@ struct GymDetailData: Codable {
     let wheelchairAuditorium: Int?
     let wheelchairAuditoriumPhotoURL: String?
     let publicTransport, declaration: String?
-    let declarationURL: JSONNull?
+    let declarationURL: String?
     let rate: Double?
     let rateCount: Int?
 
