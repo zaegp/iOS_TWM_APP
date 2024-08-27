@@ -33,18 +33,13 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
             statusBar.backgroundColor = .white
             view.addSubview(statusBar)
             
-            
-            
-            
         }
-        
-       
-        if searchKeywords != "" {
-            
-            receivedGymDataArray.removeAll{ !($0.name.contains(searchKeywords)) }
-            
-        }
-        
+//        
+//        if searchKeywords != "" {
+//                        
+//            receivedGymDataArray.removeAll{ !($0.name.contains(searchKeywords ?? "")) }
+//                        
+//        }
         
         
         tableView = UITableView(frame: .zero, style: .plain)
@@ -67,6 +62,8 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
         tableView.refreshControl = refreshControl
         
         locationManager.delegate = self
+        
+        
     }
     
     @objc private func handleRefresh(_ refreshControl: UIRefreshControl) {
@@ -86,13 +83,14 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
             
              
                 gymAPI.onGymDataReceived = { [weak self] gymDataArray in
+                    
                     self?.receivedGymDataArray = gymDataArray
                    
                     if self?.searchKeywords != "" {
                                     
                         self?.receivedGymDataArray.removeAll{ !($0.name.contains(self?.searchKeywords ?? "")) }
                                     
-                                }
+                    }
 
                     
                     DispatchQueue.main.async {

@@ -9,7 +9,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        let initialViewController = MapViewController()
+        let initialViewController = FirstViewController()
       
         let navigationController = UINavigationController(rootViewController: FirstViewController())
 
