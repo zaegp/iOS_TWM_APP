@@ -14,6 +14,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let bottomMenu = BottomMenuViewController()
     var userLocation: [Double] = []
     var receivedGymDataArray: [Value] = []
+    var deviceName = String()
     
     let loadingIndicator = UIActivityIndicatorView(style: .large)
         
@@ -33,18 +34,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-<<<<<<< HEAD
-//        ----
-//        if CLLocationManager.locationServicesEnabled() {
-//            locationManager.startUpdatingLocation()
-//            locationManager.startUpdatingHeading()
-//        }
-//        
-//        mapView.showsUserLocation = true
-//        ----
-=======
-        
->>>>>>> 247025a5d2a4a6a8600cd202c8340a2702147874
+
         NotificationCenter.default.addObserver(self, selector: #selector(handleLocateButtonTappedNotification(_:)), name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
         
         bottomMenu.completeSearchButton.addTarget(self, action: #selector(didTapCompleteSearchButton), for: .touchUpInside)
@@ -56,11 +46,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     @objc func didTapCompleteSearchButton() {
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> 247025a5d2a4a6a8600cd202c8340a2702147874
         let sportsVenueViewController = SportsVenueViewController()
         
         sportsVenueViewController.searchKeywords = bottomMenu.searchBar.text ?? ""
@@ -277,20 +263,45 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
             let userLocationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "userLocation")
-
-//            userLocationView.image = UIImage(named: "personal_pin")
-//            
-//            userLocationView.snp.makeConstraints { make in
-//                make.width.height.equalTo(40)
-//            }
             
-            userLocationView.image = UIImage(named: "pointer-pin")
+            let containerView = UIView()
+            let pinImageView = UIImageView()
+            let deviceNameLabel = UILabel()
             
-
-            userLocationView.snp.makeConstraints { make in
-                make.width.equalTo(50)
+            containerView.addSubview(pinImageView)
+            containerView.addSubview(deviceNameLabel)
+            userLocationView.addSubview(containerView)
+            
+            pinImageView.snp.makeConstraints { make in
+                make.top.leading.trailing.width.equalTo(containerView)
                 make.height.equalTo(60)
             }
+            
+            deviceNameLabel.snp.makeConstraints { make in
+                make.width.equalTo(containerView)
+                make.top.equalTo(pinImageView.snp.bottom)
+                make.bottom.equalTo(containerView)
+            }
+
+            containerView.snp.makeConstraints { make in
+                make.width.equalTo(50)
+                make.height.equalTo(90)
+                make.center.equalTo(userLocationView)
+            }
+            
+            bottomMenu.passDeviceName = { [weak self] data in
+                self?.deviceName = data
+                print("1------------------------", self?.deviceName)
+            }
+            
+            pinImageView.image = UIImage(named: "pointer-pin")
+            
+            deviceNameLabel.text = deviceName
+            print("2------------------------", deviceNameLabel.text)
+            deviceNameLabel.font = UIFont.systemFont(ofSize: 12)
+            deviceNameLabel.textColor = .black
+            deviceNameLabel.textAlignment = .center
+            
             return userLocationView
         }
         
@@ -309,7 +320,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         return annotationView
     }
-<<<<<<< HEAD
+
     
     
     
@@ -322,13 +333,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         let headingRadians = CGFloat(headingDegrees * .pi / 180)
 
         if let userLocationView = mapView.view(for: mapView.userLocation) {
+            
+            userLocationView.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            
             UIView.animate(withDuration: 0.3) {
-                userLocationView.transform = CGAffineTransform(rotationAngle: headingRadians)
+                userLocationView.layer.setAffineTransform(CGAffineTransform(rotationAngle: headingRadians))
             }
         }
     }
     
 
-=======
->>>>>>> 247025a5d2a4a6a8600cd202c8340a2702147874
 }
