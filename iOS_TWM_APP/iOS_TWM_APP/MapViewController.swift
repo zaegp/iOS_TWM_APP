@@ -51,8 +51,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 
     @objc func didTapCompleteSearchButton() {
         
-        
-        
         let sportsVenueViewController = SportsVenueViewController()
         
         sportsVenueViewController.searchKeywords = bottomMenu.searchBar.text ?? ""
