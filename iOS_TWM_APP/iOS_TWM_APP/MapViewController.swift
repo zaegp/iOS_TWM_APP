@@ -33,18 +33,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-<<<<<<< HEAD
-//        ----
-//        if CLLocationManager.locationServicesEnabled() {
-//            locationManager.startUpdatingLocation()
-//            locationManager.startUpdatingHeading()
-//        }
-//        
-//        mapView.showsUserLocation = true
-//        ----
-=======
-        
->>>>>>> 247025a5d2a4a6a8600cd202c8340a2702147874
+
         NotificationCenter.default.addObserver(self, selector: #selector(handleLocateButtonTappedNotification(_:)), name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
         
         bottomMenu.completeSearchButton.addTarget(self, action: #selector(didTapCompleteSearchButton), for: .touchUpInside)
@@ -56,11 +45,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     @objc func didTapCompleteSearchButton() {
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> 247025a5d2a4a6a8600cd202c8340a2702147874
         let sportsVenueViewController = SportsVenueViewController()
         
         sportsVenueViewController.searchKeywords = bottomMenu.searchBar.text ?? ""
@@ -309,7 +294,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         return annotationView
     }
-<<<<<<< HEAD
+
     
     
     
@@ -329,6 +314,5 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
 
-=======
->>>>>>> 247025a5d2a4a6a8600cd202c8340a2702147874
+
 }

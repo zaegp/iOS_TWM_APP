@@ -519,37 +519,4 @@ class BottomMenuViewController: UIViewController {
     }
 
     
-        
-//        @objc func didTappedBottomView() {
-//            
-//            UIView.animate(withDuration: 0.3, animations: {
-//                if self.isExpanded == false {
-//                    
-//                    self.view.frame = CGRectMake(0, 640, 393, 212)
-//                    
-//                        self.searchButtonContainerView.isHidden = false
-//                        
-//                        self.locateButtonContainerView.isHidden = false
-//                        
-//                        self.refreshButtonContainerView.isHidden = false
-//                    
-//                    self.isExpanded = true
-//                } else {
-//                    
-//                    self.view.frame = CGRectMake(0, 720, 393, 132)
-//                    
-//                    self.searchButtonContainerView.isHidden = true
-//
-//                    self.locateButtonContainerView.isHidden = true
-//
-//                    self.refreshButtonContainerView.isHidden = true
-//                    
-//                    self.isExpanded = false
-//                    
-//                }
-//                self.view.layoutIfNeeded()  // Apply the constraint changes
-//            })
-//            
-//           
-//        }
 }
