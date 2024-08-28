@@ -120,6 +120,7 @@ class LoginViewController: UIViewController {
         userIDTextField.layer.borderWidth = 1.5
         userIDTextField.layer.cornerRadius = 5
         userIDTextField.backgroundColor = .white
+        userIDTextField.textColor = .black
         userIDTextField.text = ""
         
         passwordTextField.text = ""
@@ -128,6 +129,7 @@ class LoginViewController: UIViewController {
         passwordTextField.layer.borderColor = UIColor.black.cgColor
         passwordTextField.layer.borderWidth = 1.5
         passwordTextField.layer.cornerRadius = 5
+        passwordTextField.textColor = .black
         passwordTextField.backgroundColor = .white
         
         checkButton.backgroundColor = .white

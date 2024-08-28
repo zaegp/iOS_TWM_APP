@@ -33,7 +33,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
+<<<<<<< HEAD
+//        ----
+//        if CLLocationManager.locationServicesEnabled() {
+//            locationManager.startUpdatingLocation()
+//            locationManager.startUpdatingHeading()
+//        }
+//        
+//        mapView.showsUserLocation = true
+//        ----
+=======
         
+>>>>>>> 247025a5d2a4a6a8600cd202c8340a2702147874
         NotificationCenter.default.addObserver(self, selector: #selector(handleLocateButtonTappedNotification(_:)), name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
         
         bottomMenu.completeSearchButton.addTarget(self, action: #selector(didTapCompleteSearchButton), for: .touchUpInside)
@@ -45,7 +56,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     @objc func didTapCompleteSearchButton() {
+<<<<<<< HEAD
+        
+=======
 
+>>>>>>> 247025a5d2a4a6a8600cd202c8340a2702147874
         let sportsVenueViewController = SportsVenueViewController()
         
         sportsVenueViewController.searchKeywords = bottomMenu.searchBar.text ?? ""
@@ -262,9 +277,19 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
             let userLocationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "userLocation")
-            userLocationView.image = UIImage(named: "personal_pin")
+
+//            userLocationView.image = UIImage(named: "personal_pin")
+//            
+//            userLocationView.snp.makeConstraints { make in
+//                make.width.height.equalTo(40)
+//            }
+            
+            userLocationView.image = UIImage(named: "pointer-pin")
+            
+
             userLocationView.snp.makeConstraints { make in
-                make.width.height.equalTo(40)
+                make.width.equalTo(50)
+                make.height.equalTo(60)
             }
             return userLocationView
         }
@@ -284,4 +309,26 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         return annotationView
     }
+<<<<<<< HEAD
+    
+    
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        guard newHeading.headingAccuracy >= 0 else {
+            return
+        }
+
+        let headingDegrees = newHeading.trueHeading > 0 ? newHeading.trueHeading : newHeading.magneticHeading
+        let headingRadians = CGFloat(headingDegrees * .pi / 180)
+
+        if let userLocationView = mapView.view(for: mapView.userLocation) {
+            UIView.animate(withDuration: 0.3) {
+                userLocationView.transform = CGAffineTransform(rotationAngle: headingRadians)
+            }
+        }
+    }
+    
+
+=======
+>>>>>>> 247025a5d2a4a6a8600cd202c8340a2702147874
 }

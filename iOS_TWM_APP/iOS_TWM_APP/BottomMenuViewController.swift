@@ -74,7 +74,7 @@ class BottomMenuViewController: UIViewController {
 
     let searchBar = UISearchBar()
     
-    var completeSearchButton = UIButton()
+    var completeSearchButton = UIButton(type: .system)
 
     var window: UIWindow?
     
@@ -353,6 +353,7 @@ class BottomMenuViewController: UIViewController {
         searchBar.backgroundColor = .white
         searchBar.searchBarStyle = .minimal
         searchBar.layer.cornerRadius = 10
+        searchBar.searchTextField.textColor = .black
         
         completeSearchButton.setTitle("完成", for: .normal)
         completeSearchButton.setTitleColor(.systemBlue, for: .normal)
@@ -478,7 +479,7 @@ class BottomMenuViewController: UIViewController {
                      self.dateLabel.text = formatter.string(from: self.date)
                      self.timeLabel.text = String(format: "%02d:%02d", hour, minutes)
                      self.deviceNameLabel.text = decodeData.deviceName
-                     self.stepCountValueLabel.text = String(decodeData.step)
+                     self.stepCountValueLabel.text = String(decodeData.step ?? 0)
                      
                      self.frequencyValueLabel.text = decodeData.frequency
                                           
