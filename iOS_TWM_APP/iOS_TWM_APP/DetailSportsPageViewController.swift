@@ -52,6 +52,8 @@ class DetailSportsPageViewController: UIViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(18)
             make.left.right.equalTo(containerView).inset(18)
         }
+        
+        
     }
     
     private func fetchData() {
@@ -80,6 +82,7 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
 
         let headerLabel = UILabel()
         headerLabel.text = gymDetails?.name
+        headerLabel.textColor = .black
         headerLabel.textAlignment = .left
         headerLabel.font = UIFont.systemFont(ofSize: 25)
 
@@ -101,6 +104,10 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DetailGymCell", for: indexPath) as! DetailGymPageCell
+        let selectedBackgroundView = UIView()
+        selectedBackgroundView.backgroundColor = .clear
+        cell.backgroundColor = .white
+        cell.selectedBackgroundView = selectedBackgroundView
         
         switch indexPath.row {
         case 0:
