@@ -1,15 +1,7 @@
-//
-//  MapViewController.swift
-//  iOS_TWM_APP
-//
-//  Created by Rowan Su on 2024/8/23.
-//
-
 import UIKit
 import MapKit
 import CoreLocation
 import SnapKit
-
 
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
@@ -22,6 +14,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let bottomMenu = BottomMenuViewController()
     var userLocation: [Double] = []
     var receivedGymDataArray: [Value] = []
+    
+    let loadingIndicator = UIActivityIndicatorView(style: .large)
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,10 +28,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         view.addSubview(mapView)
         view.addSubview(bottomMenu.view)
         
+        loadingIndicator.center = view.center
+        view.addSubview(loadingIndicator)
+        
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-        
-//        bottomMenu.searchBar.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleLocateButtonTappedNotification(_:)), name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
         
@@ -45,14 +40,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
     }
     
-
     @objc func didTapCompleteSearchButton() {
-        
-        
-        
         let sportsVenueViewController = SportsVenueViewController()
         
         sportsVenueViewController.searchKeywords = bottomMenu.searchBar.text ?? ""
@@ -68,20 +60,24 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             sportsVenueViewController.receivedGymDataArray = gymAPI.gymDataArray ?? []
             self.navigationController?.pushViewController(sportsVenueViewController, animated: true)
         }
-        
     }
-        
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         gymAPI.onGymDataReceived = nil
-
     }
     
     @objc func handleLocateButtonTappedNotification(_ notification: Notification) {
         let centerCoordinate = mapView.centerCoordinate
-        gymAPI.getLocationDetails(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
         
+        // 開始加載顯示指示器
+        loadingIndicator.startAnimating()
+        
+        gymAPI.getLocationDetails(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
         gymAPI.onGymDataReceived = { [weak self] gymDataArray in
+            // 加載完成後隱藏指示器
+            self?.loadingIndicator.stopAnimating()
+            
             guard let self = self else { return }
             
             let userLocation = CLLocation(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
@@ -98,7 +94,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             
             let sportsVenueVC = SportsVenueViewController()
             sportsVenueVC.receivedGymDataArray = sortedGymDataArray
-            
             
             if !sortedGymDataArray.isEmpty {
                 self.navigationController?.pushViewController(sportsVenueVC, animated: true)
@@ -156,8 +151,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         let visibleRegion = mapView.visibleMapRect
         let latitude = location.coordinate.latitude
         let longitude = location.coordinate.longitude
+        
+        loadingIndicator.startAnimating()
+        
         gymAPI.getLocationDetails(latitude: latitude, longitude: longitude)
         gymAPI.onGymDataReceived = { [weak self] gymDataArray in
+            self?.loadingIndicator.stopAnimating()
+            
             self?.receivedGymDataArray = gymDataArray.filter { gym in
                 let latLng = gym.latLng.components(separatedBy: ",")
                 if let latitude = Double(latLng[0]), let longitude = Double(latLng[1]) {
@@ -205,9 +205,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func updateAnnotationsForVisibleRegion(_ visibleRegion: MKMapRect) {
         let centerCoordinate = mapView.centerCoordinate
+        
+        // 開始加載顯示指示器
+        loadingIndicator.startAnimating()
+        
         gymAPI.getLocationDetails(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
         
         gymAPI.onGymDataReceived = { [weak self] gymDataArray in
+            // 加載完成後隱藏指示器
+            self?.loadingIndicator.stopAnimating()
+            
             guard let self = self else { return }
             let filteredGyms = gymDataArray.filter { gym in
                 let latLng = gym.latLng.components(separatedBy: ",")
@@ -243,8 +250,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
     }
 
-    
-    
     func getUserLocation() -> [Double] {
         return userLocation
     }
@@ -255,15 +260,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
-            
             let userLocationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "userLocation")
-            
             userLocationView.image = UIImage(named: "personal_pin")
-            
             userLocationView.snp.makeConstraints { make in
                 make.width.height.equalTo(40)
             }
-            
             return userLocationView
         }
         
@@ -282,17 +283,4 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         return annotationView
     }
-
 }
-
-//extension MapViewController: UISearchBarDelegate {
-//    
-//
-//
-//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        let sportsVenueViewController = SportsVenueViewController()
-//        sportsVenueViewController.searchKeywords = searchText
-//        
-//    }
-//    
-//}
