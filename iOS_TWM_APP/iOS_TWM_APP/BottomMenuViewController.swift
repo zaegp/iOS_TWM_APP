@@ -25,7 +25,7 @@ class BottomMenuViewController: UIViewController {
         
         customizeLabels()
 
-        
+        timer = Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(repeatGetMockData), userInfo: nil, repeats: true)
         
         let userToken = UserDefaults.standard.string(forKey: "userToken")
         
@@ -33,10 +33,18 @@ class BottomMenuViewController: UIViewController {
         
         
         self.getMockData(userToken)
-        
                 
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        timer?.invalidate()
+        timer = nil
+    }
+
+    
+    var timer: Timer?
     
     let bottomMenuView = UIView()
     
@@ -318,6 +326,20 @@ class BottomMenuViewController: UIViewController {
         deviceNameLabel.font = .systemFont(ofSize: 24)
         dateLabel.font = .systemFont(ofSize: 12)
         
+    }
+    
+    @objc func repeatGetMockData() {
+        
+        let userToken = UserDefaults.standard.string(forKey: "userToken")
+        
+        
+        guard let userToken = userToken else {
+            
+            print("userToken not found")
+            
+            return}
+            
+        getMockData(userToken)
     }
     
     @objc func locateButtonTapped() {
