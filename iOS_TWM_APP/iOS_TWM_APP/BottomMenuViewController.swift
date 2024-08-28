@@ -23,7 +23,7 @@ class BottomMenuViewController: UIViewController {
         
         customizeLabels()
 
-        
+        tappedRefreshButton()
         
         let userToken = UserDefaults.standard.string(forKey: "userToken")
         
@@ -33,6 +33,12 @@ class BottomMenuViewController: UIViewController {
         self.getMockData(userToken)
         
                 
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        passDeviceName?(deviceNameLabel.text ?? "")
     }
     
     
@@ -82,7 +88,7 @@ class BottomMenuViewController: UIViewController {
     
     let calendar = Calendar.current
     
-//    var passKeyWords: ((String) -> Void)?
+    var passDeviceName: ((String) -> Void)?
 
     
     func configBottomMenuView() {
@@ -369,29 +375,7 @@ class BottomMenuViewController: UIViewController {
     @objc func didTapCompleteSearchButton() {
 
         SportsVenueViewController().passKeyWords?(searchBar.text ?? "")
-        print("～～～～～－ ", searchBar.text)
         
-        //        let sportsVenueVC = SportsVenueViewController()
-                
-
-        //        self.navigationController?.pushViewController(SportsVenueViewController(), animated: true)
-
-                //self.navigationController?.pushViewController(SportsVenueViewController(), animated: true)
-
-        
-
-//        self.view.frame = CGRectMake(0, screenSize.height * 0.86, screenSize.width, screenSize.height * 0.15)
-
-        
-        
-//        searchBar.isHidden = true
-//        completeSearchButton.isHidden = true
-//        
-//        self.view.frame = CGRectMake(0, 640, 393, 212)
-//        
-//        self.deviceNameLabel.snp.updateConstraints { make in
-//            make.centerY.equalTo(bottomMenuView.snp.top).offset(25)
-//        }
     }
     
 
@@ -449,6 +433,8 @@ class BottomMenuViewController: UIViewController {
             print("userToken not found")
             
             return}
+        
+        print("get token: \(userToken)")
             
         self.getMockData(userToken)
             
@@ -482,7 +468,10 @@ class BottomMenuViewController: UIViewController {
                      self.stepCountValueLabel.text = String(decodeData.step ?? 0)
                      
                      self.frequencyValueLabel.text = decodeData.frequency
-                                          
+                    
+                     self.passDeviceName?(decodeData.deviceName ?? "")
+
+                     
                  } catch let decodingError {
                      print("Decoding Error: \(decodingError)")
                  }
