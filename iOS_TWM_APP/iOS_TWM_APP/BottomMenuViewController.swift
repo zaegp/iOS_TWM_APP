@@ -17,8 +17,6 @@ class BottomMenuViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        
-        
         self.view.frame = CGRectMake(0, screenSize.height * 0.8 , screenSize.width, screenSize.height * 0.85)
         
         configBottomMenuView()
@@ -92,7 +90,7 @@ class BottomMenuViewController: UIViewController {
     
     let calendar = Calendar.current
     
-    
+//    var passKeyWords: ((String) -> Void)?
 
     
     func configBottomMenuView() {
@@ -178,9 +176,9 @@ class BottomMenuViewController: UIViewController {
 
         refreshButton.addTarget(self, action: #selector(tappedRefreshButton), for: .touchUpInside)
 
-
+        //completeSearchButton.addTarget(self, action: #selector(didTapCompleteSearchButton), for: .touchUpInside)
         //test
-        //locateButton.addTarget(self, action: #selector(testPush), for: .touchUpInside)
+//        locateButton.addTarget(self, action: #selector(testPush), for: .touchUpInside)
         
         setBottomViewConstraint()
         
@@ -377,11 +375,12 @@ class BottomMenuViewController: UIViewController {
         searchBar.backgroundColor = .white
         searchBar.searchBarStyle = .minimal
         searchBar.layer.cornerRadius = 10
+        searchBar.searchTextField.textColor = .black
         
         completeSearchButton.setTitle("完成", for: .normal)
         completeSearchButton.setTitleColor(.systemBlue, for: .normal)
         
-        completeSearchButton.addTarget(self, action: #selector(didTapCompleteSearchButton), for: .touchUpInside)
+        
         
         self.view.layoutIfNeeded()
         
@@ -390,14 +389,17 @@ class BottomMenuViewController: UIViewController {
     
     
     @objc func didTapCompleteSearchButton() {
-//        let sportsVenueVC = SportsVenueViewController()
+
+        SportsVenueViewController().passKeyWords?(searchBar.text ?? "")
+        print("～～～～～－ ", searchBar.text)
         
+        //        let sportsVenueVC = SportsVenueViewController()
+                
 
-        self.navigationController?.pushViewController(SportsVenueViewController(), animated: true)
+        //        self.navigationController?.pushViewController(SportsVenueViewController(), animated: true)
 
-        //self.navigationController?.pushViewController(SportsVenueViewController(), animated: true)
+                //self.navigationController?.pushViewController(SportsVenueViewController(), animated: true)
 
-        SportsVenueViewController().searchKeyWords = searchBar.text ?? ""
         
 
 //        self.view.frame = CGRectMake(0, screenSize.height * 0.86, screenSize.width, screenSize.height * 0.15)
@@ -473,7 +475,6 @@ class BottomMenuViewController: UIViewController {
         self.getMockData(userToken)
             
         
-        
     }
     
     @objc func getMockData(_ token: String) {
@@ -500,7 +501,7 @@ class BottomMenuViewController: UIViewController {
                      self.dateLabel.text = formatter.string(from: self.date)
                      self.timeLabel.text = String(format: "%02d:%02d", hour, minutes)
                      self.deviceNameLabel.text = decodeData.deviceName
-                     self.stepCountValueLabel.text = String(decodeData.step)
+                     self.stepCountValueLabel.text = String(decodeData.step ?? 0)
                      
                      self.frequencyValueLabel.text = decodeData.frequency
                                           

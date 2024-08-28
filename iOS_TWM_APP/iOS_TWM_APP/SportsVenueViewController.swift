@@ -9,20 +9,36 @@ import UIKit
 import Kingfisher
 import CoreLocation
 
-class SportsVenueViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate {
+class SportsVenueViewController: UIViewController {
     
     var receivedGymDataArray: [Value] = []
-    var tableView: UITableView!
-    let numberOfCellsPerPage = 4
-    let gymAPI = TaipeiGymAPI()
-    let locationManager = CLLocationManager()
-    
-    var searchKeyWords = String()
-    
+    private var tableView: UITableView!
+    private let gymAPI = TaipeiGymAPI()
+    private let locationManager = CLLocationManager()
+    var searchKeywords = String()
+    var passKeyWords: ((String) -> Void)?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupView()
+        setupTableView()
+        setupLocationManager()
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: nil) { _ in
+            self.updateTextForOrientation()
+        }
+    }
+    
+    // MARK: - Setup Methods
+    private func setupView() {
         view.backgroundColor = UIColor(red: 0.83, green: 0.83, blue: 0.83, alpha: 1.00)
+        setupNavigationBar()
+    }
+
+    private func setupNavigationBar() {
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.backgroundColor = .white
         if #available(iOS 13.0, *) {
@@ -30,13 +46,16 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
             statusBar.backgroundColor = .white
             view.addSubview(statusBar)
         }
-        
+    }
+    
+    private func setupTableView() {
         tableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(Cell.self, forCellReuseIdentifier: "cell")
-        view.addSubview(tableView)
         tableView.separatorStyle = .none
+        tableView.backgroundColor = .clear
+        view.addSubview(tableView)
         
         tableView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16)
@@ -44,112 +63,99 @@ class SportsVenueViewController: UIViewController, UITableViewDataSource, UITabl
             make.trailing.equalToSuperview().offset(-16)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-16)
         }
-        tableView.backgroundColor = .clear
         
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(handleRefresh(_:)), for: .valueChanged)
         tableView.refreshControl = refreshControl
-        
+    }
+
+    private func setupLocationManager() {
         locationManager.delegate = self
     }
     
+    // MARK: - Orientation Handling
+    private func updateTextForOrientation() {
+        let isPortrait = UIDevice.current.orientation.isPortrait
+        
+        for cell in tableView.visibleCells as? [Cell] ?? [] {
+            if let indexPath = tableView.indexPath(for: cell) {
+                let gymData = receivedGymDataArray[indexPath.row]
+                configureCell(cell, with: gymData)
+            }
+        }
+    }
+
+    // MARK: - Refresh Control
     @objc private func handleRefresh(_ refreshControl: UIRefreshControl) {
         locationManager.startUpdatingLocation()
     }
+
+    // MARK: - Cell Configuration
+    private func configureCell(_ cell: Cell, with gymData: Value) {
+        cell.setTitle(gymData.name)
+        cell.setLocation(gymData.address)
+        cell.setFacilities("場館設施: " + gymData.gymFuncList)
+        cell.setImage(gymData.photo1)
+    }
+}
+
+// MARK: - UITableViewDataSource
+extension SportsVenueViewController: UITableViewDataSource {
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.last {
-            print("最新的位置: \(location.coordinate.latitude), \(location.coordinate.longitude)")
-            
-            gymAPI.getLocationDetails(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-            
-            
-            if searchKeyWords == "" {
-                
-                gymAPI.onGymDataReceived = { [weak self] gymDataArray in
-                    self?.receivedGymDataArray = gymDataArray
-                    DispatchQueue.main.async {
-                        self?.tableView.reloadData()
-                        self?.tableView.refreshControl?.endRefreshing()
-                        self?.locationManager.stopUpdatingLocation()
-                    }
-                }
-                
-            } else {
-                
-                gymAPI.onGymDataReceived = { [weak self] gymDataArray in
-                    
-                    for gymData in gymDataArray {
-                        
-                        if gymData.name.contains(self?.searchKeyWords ?? "") {
-                            
-                            self?.receivedGymDataArray.append(gymData)
-                            
-                        } else {
-                            
-                            continue
-                            
-                        }
-                        
-                    }
-                    
-                    
-                    
-                    
-                }
-                
-            }
-            
-            
-            
-        }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return receivedGymDataArray.count
     }
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! Cell
+        let gymData = receivedGymDataArray[indexPath.row]
+        configureCell(cell, with: gymData)
+        return cell
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension SportsVenueViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 210
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailSportPage = DetailSportsPageViewController()
+        let selectedGymData = receivedGymDataArray[indexPath.row]
+        detailSportPage.selectGymID = selectedGymData.gymID
+        detailSportPage.gymFuncList = selectedGymData.gymFuncList
+        navigationController?.pushViewController(detailSportPage, animated: true)
+    }
+}
+
+// MARK: - CLLocationManagerDelegate
+extension SportsVenueViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        gymAPI.getLocationDetails(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        
+        gymAPI.onGymDataReceived = { [weak self] gymDataArray in
+            guard let self = self else { return }
+            self.receivedGymDataArray = self.filterGymData(gymDataArray)
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.tableView.refreshControl?.endRefreshing()
+                self.locationManager.stopUpdatingLocation()
+            }
+        }
+    }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("無法獲取位置: \(error.localizedDescription)")
         tableView.refreshControl?.endRefreshing()
     }
     
-    // MARK: - UITableViewDataSource
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! Cell
-        
-        if indexPath.row < receivedGymDataArray.count {
-            let gymData = receivedGymDataArray[indexPath.row]
-            cell.setTitle(gymData.name)
-            cell.setLocation(gymData.address)
-            cell.setFacilities("場館設施: " + gymData.gymFuncList)
-            cell.setImage(gymData.photo1)
-        } else {
-            cell.setTitle("無數據")
-            cell.setLocation("")
-            cell.setFacilities("")
-        }
-        
-        return cell
-    }
-    
-    
-    // MARK: - UITableViewDelegate
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let screenHeight = UIScreen.main.bounds.height
-        return screenHeight / CGFloat(numberOfCellsPerPage)
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailSportPage = DetailSportsPageViewController()
-        detailSportPage.selectGymID = receivedGymDataArray[indexPath.row].gymID
-        detailSportPage.gymFuncList = receivedGymDataArray[indexPath.row].gymFuncList
-
-        self.navigationController?.pushViewController(detailSportPage, animated: true)
-        
+    // MARK: - Data Filtering
+    private func filterGymData(_ gymDataArray: [Value]) -> [Value] {
+        guard !searchKeywords.isEmpty else { return gymDataArray }
+        return gymDataArray.filter { $0.name.contains(searchKeywords) }
     }
 }
-

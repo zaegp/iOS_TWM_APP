@@ -111,20 +111,45 @@ class Cell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Set Label and image
     func setTitle(_ title: String) {
-        venueTitleLabel.text = title
+        let isPortrait = UIDevice.current.orientation.isPortrait
+        let maxLength = isPortrait ? 11 : 21
+        
+        if title.count > maxLength {
+            let startIndex = title.startIndex
+            let endIndex = title.index(startIndex, offsetBy: maxLength)
+            venueTitleLabel.text = String(title[startIndex..<endIndex]) + "..."
+        } else {
+            venueTitleLabel.text = title
+        }
     }
     
     func setLocation(_ location: String) {
         venueLocationLabel.text = location
+
+        let isPortrait = UIDevice.current.orientation.isPortrait
+        let labelWidth = isPortrait ? 150 : 300
+
+        venueLocationLabel.snp.updateConstraints { make in
+            make.width.equalTo(labelWidth)
+        }
     }
-    
+
     func setFacilities(_ facilities: String) {
         venueFacilitiesLabel.text = facilities
+
+        let isPortrait = UIDevice.current.orientation.isPortrait
+        let labelWidth = isPortrait ? 150 : 300
+
+        venueFacilitiesLabel.snp.updateConstraints { make in
+            make.width.equalTo(labelWidth)
+        }
     }
     
     func setImage(_ image: String) {
+        let placeholderImage = UIImage(named: "Image")
         let url = URL(string: image)
-        venueImageView.kf.setImage(with: url)
+        venueImageView.kf.setImage(with: url, placeholder: placeholderImage)
     }
 }

@@ -2,7 +2,6 @@ import UIKit
 import Alamofire
 import CoreLocation
 
-//預設座標 25.038708007700986  121.53235486100805
 enum CityName: String {
     case TPE = "台北市"
     case KHH = "高雄市"
@@ -26,9 +25,7 @@ enum CityName: String {
     case LIE = "連江縣"
     case MIA = "苗栗縣"
 
-    // 根據縮寫查詢對應的縣市中文名稱
     static func getCityName(from abbreviation: String) -> String {
-        // 根據縮寫找出對應的 enum case
         switch abbreviation {
         case "TPE": return CityName.TPE.rawValue
         case "KHH": return CityName.KHH.rawValue
@@ -62,10 +59,10 @@ class TaipeiGymAPI: UIViewController{
     var Country: String = ""
     var gymDataArray:[Value]? = []
     var onGymDataReceived: (([Value]) -> Void)?
-    
+    var cache: [String: [Value]] = [:]
+
     override func viewDidLoad() {
         super.viewDidLoad()
-//        getLocationDetails(latitude: 25.038708007700986, longitude: 121.53235486100805)
     }
 }
 
@@ -87,7 +84,6 @@ extension TaipeiGymAPI {
                 let town = placemark.locality ?? "未知鄉鎮"
                 self.City = CityName.getCityName(from: county)
                 self.Country = town
-//                print("縣市: \(self.City), 鄉鎮: \(self.Country)")
                 self.searchGym(String(latitude), String(longitude))
 
 
@@ -95,43 +91,65 @@ extension TaipeiGymAPI {
         }
     }
     
-    func searchGym(_ Latitude: String, _ Longitude: String) {
-        let url = "https://iplay.sa.gov.tw/odata/GymSearch"
+    
+    func searchGym(_ Latitude: String, _ Longitude: String, nextPageURL: String? = nil) {
+        let cacheKey = "\(City)-\(Country)"
+        
+        if let cachedData = cache[cacheKey], nextPageURL == nil {
+            self.onGymDataReceived?(cachedData)
+            return
+        }
+
+        let url: String
+        if let nextPage = nextPageURL {
+            url = nextPage
+        } else {
+            url = "https://iplay.sa.gov.tw/odata/GymSearch"
+        }
+
         let headers: HTTPHeaders = [
             "Accept": "application/json;odata.metadata=none"
         ]
-        let parameters: [String: Any] = [
-            "City": City,
-            "Country": Country,
-            "Latitude": Latitude,
-            "Longitude": Longitude,
-            "top": 1,
-            "orderby": "Distance asc"
-        ]
-//        print(parameters)
-        AF.request(url, parameters: parameters, headers: headers).responseDecodable(of: GymData.self) {
-            response in
+        
+        var parameters: [String: Any] = [:]
+        if nextPageURL == nil {
+            parameters = [
+                "City": City,
+                "Country": Country,
+                "Latitude": Latitude,
+                "Longitude": Longitude,
+                "top": 10,
+                "orderby": "Distance asc"
+            ]
+        }
 
+        AF.request(url, parameters: parameters, headers: headers).responseDecodable(of: GymData.self) { response in
             switch response.result {
             case .success(let gymData):
-                self.gymDataArray = gymData.value
-                                // 傳遞 gymDataArray 給 closure
-                                if let gymDataArray = self.gymDataArray {
-                                    self.onGymDataReceived?(gymDataArray)
-                                }
-//                for value in gymData.value {
-//                    self.gymDataArray?.append(value)
-//                    print("Gym Name: \(value.name), Address: \(value.address)")
-//                    print("==============")
-//                    print(self.gymDataArray)
-//                    print("==============")
-//                }
+                for value in gymData.value {
+                    if !(self.gymDataArray?.contains(where: { $0.gymID == value.gymID }) ?? false) {
+                        self.gymDataArray?.append(value)
+                    }
+                }
+                
+                if let nextLink = gymData.odataNextLink {
+                    self.searchGym(Latitude, Longitude, nextPageURL: nextLink)
+                } else {
+                    if let gymDataArray = self.gymDataArray {
+                        self.cache[cacheKey] = gymDataArray
+                        self.onGymDataReceived?(gymDataArray)
+                    }
+                }
+                
             case .failure(let error):
                 print("Error: \(error)")
             }
         }
-
     }
+
+
+
+
 }
 
 
@@ -144,6 +162,12 @@ extension TaipeiGymAPI {
 // MARK: - GymData
 struct GymData: Codable {
     let value: [Value]
+    let odataNextLink: String?
+
+       enum CodingKeys: String, CodingKey {
+           case value
+           case odataNextLink = "@odata.nextLink"
+       }
 }
 
 // MARK: - Value
@@ -201,3 +225,6 @@ class JSONNull: Codable, Hashable {
         try container.encodeNil()
     }
 }
+
+
+

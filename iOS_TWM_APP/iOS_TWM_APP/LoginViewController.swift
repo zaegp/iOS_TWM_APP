@@ -120,6 +120,7 @@ class LoginViewController: UIViewController {
         userIDTextField.layer.borderWidth = 1.5
         userIDTextField.layer.cornerRadius = 5
         userIDTextField.backgroundColor = .white
+        userIDTextField.textColor = .black
         userIDTextField.text = ""
         
         passwordTextField.text = ""
@@ -128,6 +129,7 @@ class LoginViewController: UIViewController {
         passwordTextField.layer.borderColor = UIColor.black.cgColor
         passwordTextField.layer.borderWidth = 1.5
         passwordTextField.layer.cornerRadius = 5
+        passwordTextField.textColor = .black
         passwordTextField.backgroundColor = .white
         
         checkButton.backgroundColor = .white
@@ -178,49 +180,19 @@ class LoginViewController: UIViewController {
     
     @objc func loginButtonTapped() {
         
-        print("------tap login")
-        
         guard let userID = userIDTextField.text, let passwordText = passwordTextField.text else {
-            print("------no userID or password")
             return
         }
         
-
-
-        
         self.loginDataRequest.loginData(userID: userID, password: passwordText)
-        
-        
-        
-        
-//        if !self.loginDataRequest.token.isEmpty {
-//            if let navController = self.navigationController {
-//                let mapVC = MapVC()
-//                navController.pushViewController(mapVC, animated: true)
-//            }
-//            if self.checkButton.isSelected {
-//                print("拿到token")
-//                let token = self.loginDataRequest.token
-//                let expiresIn: TimeInterval = 60
-//                self.saveLoginState(token: self.loginDataRequest.token, expiresIn: expiresIn)
-//            } else {
-//                print("沒有token")
-//            }
-//        } else {
-//            print("------no token")
-//        }
-
-
         
     }
     
     @objc func signinButtonTapped() {
-        print("++++++tap signin")
+        
         if let userID = userIDTextField.text, let passwordText = passwordTextField.text {
             loginDataRequest.registerData(userID: userID, password: passwordText)
         }
-        
-        
     }
     
     @objc func textFieldsDidChange() {
@@ -236,21 +208,25 @@ class LoginViewController: UIViewController {
     
 
     func saveLoginState(token: String, expiresIn: TimeInterval) {
-        print("存進去～～～")
+        
         let defaults = UserDefaults.standard
         defaults.set(token, forKey: "userToken")
         
         let expirationDate = Date().addingTimeInterval(expiresIn)
         defaults.set(expirationDate, forKey: "tokenExpirationDate")
         
+        print("Saved token: \(token), expirationDate: \(expirationDate)")
     }
     
     func saveLoginToken(token: String) {
         let defaults = UserDefaults.standard
         defaults.set(token, forKey: "userToken")
+        
+        print("Saved token: \(token)")
     }
     
     func getToken() -> String? {
+        
         
         return UserDefaults.standard.string(forKey: "userToken")
     }
@@ -262,14 +238,15 @@ class LoginViewController: UIViewController {
         if let expirationDate = defaults.object(forKey: "tokenExpirationDate") as? Date {
             
             if Date() < expirationDate {
+                print("在可用效期內")
                 return true
             } else {
-                
+                print("超出可用效期")
                 clearLoginState()
                 return false
             }
         } else {
-            
+            print("No expiration date found")
             return false
         }
     }
@@ -278,6 +255,7 @@ class LoginViewController: UIViewController {
         let defaults = UserDefaults.standard
         defaults.removeObject(forKey: "userToken")
         defaults.removeObject(forKey: "tokenExpirationDate")
+        print("Cleared userToken and tokenExpirationDate")
     }
     
 }
@@ -285,6 +263,7 @@ class LoginViewController: UIViewController {
 extension LoginViewController: LoginDataRequestDelegate {
     
     func didGetToken(token: String) {
+        
         if !token.isEmpty {
             if let navgationController = self.navigationController {
                 let mapVC = MapViewController()
@@ -292,12 +271,12 @@ extension LoginViewController: LoginDataRequestDelegate {
             }
             
             if self.checkButton.isSelected {
-                print("有token也有打勾勾")
+                
                 let token = self.loginDataRequest.token
                 let expiresIn: TimeInterval = 3600
                 self.saveLoginState(token: self.loginDataRequest.token, expiresIn: expiresIn)
             } else {
-                print("沒有感覺到勾勾")
+                
                 let token = self.loginDataRequest.token
                 self.saveLoginToken(token: token)
             }

@@ -15,11 +15,11 @@ class FirstViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("======")
-        print(getToken())
+        
         if isTokenValid() {
             print("yes token~ so map")
-            token = getToken()
+            guard let token = getToken() else { return }
+            loginDataRequest.getMockData(token)
             let mapVC = MapViewController()
             addChild(mapVC)
             view.addSubview(mapVC.view)
