@@ -96,9 +96,9 @@ class BottomMenuViewController: UIViewController {
 
     var window: UIWindow?
     
-    let date = Date()
     
-    let calendar = Calendar.current
+    
+   
     
     var passDeviceName: ((String) -> Void)?
 
@@ -305,6 +305,10 @@ class BottomMenuViewController: UIViewController {
     
     func customizeLabels() {
         
+        let calendar = Calendar.current
+        
+        let date = Date()
+        
         let hour = calendar.component(.hour, from: date)
         
         let minutes = calendar.component(.minute, from: date)
@@ -475,6 +479,11 @@ class BottomMenuViewController: UIViewController {
     }
     
     @objc func getMockData(_ token: String) {
+        
+        let calendar = Calendar.current
+        
+        let date = Date()
+        
         let headers: HTTPHeaders = [
              "Authorization": "Bearer \(token)",
              "accept": "application/json"
@@ -495,7 +504,7 @@ class BottomMenuViewController: UIViewController {
                      let formatter = DateFormatter()
                      formatter.dateFormat = "MM/dd"
                      
-                     self.dateLabel.text = formatter.string(from: self.date)
+                     self.dateLabel.text = formatter.string(from: date)
                      self.timeLabel.text = String(format: "%02d:%02d", hour, minutes)
                      self.deviceNameLabel.text = decodeData.deviceName
                      self.stepCountValueLabel.text = String(decodeData.step ?? 0)
