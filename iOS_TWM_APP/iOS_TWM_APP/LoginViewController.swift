@@ -11,7 +11,7 @@ import SnapKit
 
 class LoginViewController: UIViewController {
     
-    let contentView = UIView()
+    let contentView = UIImageView()
     
     let userIDLabel = UILabel()
     let passwordLabel = UILabel()
@@ -21,6 +21,8 @@ class LoginViewController: UIViewController {
     let checkLabel = UILabel()
     let signinButton = UIButton()
     let loginButton = UIButton()
+    let logoImageView = UIImageView()
+    
     
     var loginDataRequest = LoginDataRequest()
     let group = DispatchGroup()
@@ -41,120 +43,136 @@ class LoginViewController: UIViewController {
     func setupLoginPage() {
         
         view.addSubview(contentView)
+        contentView.isUserInteractionEnabled = true
         
         contentView.addSubview(userIDLabel)
         contentView.addSubview(passwordLabel)
         contentView.addSubview(userIDTextField)
         contentView.addSubview(passwordTextField)
-        contentView.addSubview(checkButton)
+        
         contentView.addSubview(checkLabel)
         contentView.addSubview(signinButton)
         contentView.addSubview(loginButton)
+        contentView.addSubview(logoImageView)
+        contentView.addSubview(checkButton)
         
         contentView.snp.makeConstraints { make in
-            make.width.centerX.bottom.equalTo(view)
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.width.centerX.bottom.top.equalTo(view)
+        }
+        
+        logoImageView.snp.makeConstraints { make in
+            make.centerX.equalTo(contentView)
+            make.width.equalTo(contentView).multipliedBy(0.7)
+            make.height.equalTo(contentView).multipliedBy(0.25)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(25)
         }
         
         userIDLabel.snp.makeConstraints { make in
-            make.trailing.equalTo(userIDTextField.snp.leading).offset(-15)
-            make.centerY.equalTo(contentView).offset(-150)
+            make.leading.equalTo(contentView).offset(30)
+            make.top.equalTo(logoImageView.snp.bottom).offset(view.frame.height * 0.15)
         }
         
         passwordLabel.snp.makeConstraints { make in
-            make.trailing.equalTo(passwordTextField.snp.leading).offset(-15)
-            make.top.equalTo(userIDLabel.snp.bottom).offset(70)
+            make.leading.equalTo(contentView).offset(30)
+            make.top.equalTo(userIDLabel.snp.bottom).offset(50)
         }
         
         userIDTextField.snp.makeConstraints { make in
-            make.height.equalTo(55)
-            make.width.equalTo(contentView).multipliedBy(0.57)
+            make.height.equalTo(45)
+            make.width.equalTo(contentView).multipliedBy(0.5)
             make.centerY.equalTo(userIDLabel)
             make.trailing.equalTo(contentView).offset(-20)
         }
         
         passwordTextField.snp.makeConstraints { make in
-            make.height.equalTo(55)
-            make.width.equalTo(contentView).multipliedBy(0.57)
+            make.height.equalTo(45)
+            make.width.equalTo(contentView).multipliedBy(0.5)
             make.centerY.equalTo(passwordLabel)
             make.trailing.equalTo(contentView).offset(-20)
         }
         
         checkButton.snp.makeConstraints { make in
-            make.leading.equalTo(passwordTextField)
-            make.top.equalTo(passwordTextField.snp.bottom).offset(20)
+            make.trailing.equalTo(contentView.snp.centerX).offset(-35)
+            make.top.equalTo(passwordTextField.snp.bottom).offset(50)
             make.width.height.equalTo(27)
         }
         
         checkLabel.snp.makeConstraints { make in
-            make.leading.equalTo(checkButton.snp.trailing).offset(10)
+            make.leading.equalTo(contentView.snp.centerX).offset(-25)
             make.centerY.equalTo(checkButton)
         }
         
         loginButton.snp.makeConstraints { make in
-            make.width.equalTo(contentView).multipliedBy(0.35)
-            make.height.equalTo(65)
-            make.trailing.equalTo(passwordTextField.snp.trailing).offset(-5)
-            make.top.equalTo(checkLabel.snp.bottom).offset(25)
+            make.width.equalTo(contentView).multipliedBy(0.4)
+            make.height.equalTo(45)
+            make.leading.equalTo(contentView.snp.centerX).offset(5)
+            make.top.equalTo(checkLabel.snp.bottom).offset(40)
         }
         
         signinButton.snp.makeConstraints { make in
-            make.width.equalTo(contentView).multipliedBy(0.35)
-            make.height.equalTo(65)
-            make.trailing.equalTo(loginButton.snp.leading).offset(-15)
-            make.top.equalTo(checkLabel.snp.bottom).offset(25)
+            make.width.equalTo(contentView).multipliedBy(0.4)
+            make.height.equalTo(45)
+            make.trailing.equalTo(contentView.snp.centerX).offset(-5)
+            make.top.equalTo(checkLabel.snp.bottom).offset(40)
         }
         
-        contentView.backgroundColor = .systemGray5
+        contentView.image = UIImage(named: "sports-background")
+        contentView.contentMode = .scaleAspectFill
         
-        userIDLabel.text = "UserID"
-        userIDLabel.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
+        logoImageView.image = UIImage(named: "logo")
+        logoImageView.contentMode = .scaleAspectFill
+        
+        userIDLabel.text = "U s e r I D"
+        userIDLabel.font = UIFont.systemFont(ofSize: 20, weight: .light)
+        userIDLabel.textColor = .darkGray
         userIDLabel.textAlignment = .right
         
-        passwordLabel.text = "Password"
-        passwordLabel.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
+        passwordLabel.text = "P a s s w o r d"
+        passwordLabel.font = UIFont.systemFont(ofSize: 20, weight: .light)
+        passwordLabel.textColor = .darkGray
         passwordLabel.textAlignment = .right
         
         userIDTextField.placeholder = "請輸入帳號"
         userIDTextField.textAlignment = .center
-        userIDTextField.layer.borderColor = UIColor.black.cgColor
-        userIDTextField.layer.borderWidth = 1.5
-        userIDTextField.layer.cornerRadius = 5
-        userIDTextField.backgroundColor = .white
+        userIDTextField.layer.borderColor = UIColor.gray.cgColor
+        userIDTextField.layer.borderWidth = 0.5
+        userIDTextField.layer.cornerRadius = 20
+        userIDTextField.backgroundColor = .white.withAlphaComponent(0.5)
         userIDTextField.textColor = .black
         userIDTextField.text = ""
         
         passwordTextField.text = ""
         passwordTextField.placeholder = "請輸入密碼"
         passwordTextField.textAlignment = .center
-        passwordTextField.layer.borderColor = UIColor.black.cgColor
-        passwordTextField.layer.borderWidth = 1.5
-        passwordTextField.layer.cornerRadius = 5
+        passwordTextField.layer.borderColor = UIColor.gray.cgColor
+        passwordTextField.layer.borderWidth = 0.5
+        passwordTextField.layer.cornerRadius = 20
         passwordTextField.textColor = .black
-        passwordTextField.backgroundColor = .white
+        passwordTextField.backgroundColor = .white.withAlphaComponent(0.5)
         
-        checkButton.backgroundColor = .white
+        checkButton.backgroundColor = .white.withAlphaComponent(0.6)
         checkButton.setImage(UIImage(named: "check"), for: .selected)
         checkButton.imageView?.contentMode = .scaleAspectFill
-        checkButton.layer.cornerRadius = 5
+        checkButton.layer.cornerRadius = 8
         checkButton.layer.borderColor = UIColor.gray.cgColor
-        checkButton.layer.borderWidth = 0.8
+        checkButton.layer.borderWidth = 0.5
         
         checkLabel.text = "記得登入狀態"
-        checkLabel.font = UIFont.systemFont(ofSize: 16)
+        checkLabel.textColor = .white
+        checkLabel.font = UIFont.systemFont(ofSize: 14)
         
         loginButton.setTitle("登入", for: .normal)
-        loginButton.backgroundColor = .systemGray2
-        loginButton.layer.cornerRadius = 5
-        loginButton.layer.borderColor = UIColor.darkGray.cgColor
-        loginButton.layer.borderWidth = 2.5
+        loginButton.backgroundColor = .white.withAlphaComponent(0.3)
+        loginButton.layer.cornerRadius = 20
+        loginButton.layer.borderColor = UIColor.white.cgColor
+        loginButton.layer.borderWidth = 0.5
         loginButton.isEnabled = false
         
         signinButton.setTitle("註冊", for: .normal)
-        signinButton.backgroundColor = .systemGray2
-        signinButton.layer.cornerRadius = 5
-        signinButton.layer.borderColor = UIColor.darkGray.cgColor
-        signinButton.layer.borderWidth = 2.5
+        signinButton.backgroundColor = .white.withAlphaComponent(0.3)
+        signinButton.layer.cornerRadius = 20
+        signinButton.layer.borderColor = UIColor.white.cgColor
+        signinButton.layer.borderWidth = 0.5
         signinButton.isEnabled = false
     }
     

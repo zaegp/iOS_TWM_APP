@@ -23,7 +23,7 @@ class DetailGymPageCell: UITableViewCell {
     
     var titleButton: UIButton = {
         let button = UIButton()
-        button.setTitle("defaulttext", for: .normal)
+        button.setTitle("", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         button.contentHorizontalAlignment = .left
@@ -33,7 +33,7 @@ class DetailGymPageCell: UITableViewCell {
     
     var detailLabel: UILabel = {
         let label = UILabel()
-        label.text = "default"
+        label.text = ""
         label.textColor = .black
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 14)
