@@ -22,15 +22,6 @@ class SportsVenueViewController: UIViewController {
         setupView()
         setupTableView()
         setupLocationManager()
-        
-    
-    }
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        coordinator.animate(alongsideTransition: nil) { _ in
-            self.updateTextForOrientation()
-        }
     }
     
     // MARK: - Setup Methods
@@ -76,17 +67,6 @@ class SportsVenueViewController: UIViewController {
         locationManager.delegate = self
     }
     
-    // MARK: - Orientation Handling
-    private func updateTextForOrientation() {
-        let isPortrait = UIDevice.current.orientation.isPortrait
-        
-        for cell in tableView.visibleCells as? [Cell] ?? [] {
-            if let indexPath = tableView.indexPath(for: cell) {
-                let gymData = receivedGymDataArray[indexPath.row]
-                configureCell(cell, with: gymData)
-            }
-        }
-    }
 
     // MARK: - Refresh Control
     @objc private func handleRefresh(_ refreshControl: UIRefreshControl) {

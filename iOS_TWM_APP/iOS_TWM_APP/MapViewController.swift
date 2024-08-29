@@ -147,7 +147,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         annotation.title = title
         annotation.gymID = gymID
         
-        print("Adding annotation with ID: \(gymID)")
         mapView.addAnnotation(annotation)
     }
     
