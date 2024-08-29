@@ -1,3 +1,9 @@
+//  MapViewController.swift
+//  iOS_TWM_APP
+//
+//  Created by Rowan Su on 2024/8/23.
+//
+
 import UIKit
 import MapKit
 import CoreLocation
@@ -265,10 +271,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
             let userLocationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "userLocation")
-            userLocationView.image = UIImage(named: "personal_pin")
-            userLocationView.snp.makeConstraints { make in
-                make.width.height.equalTo(40)
-            }
+//            userLocationView.image = UIImage(named: "personal_pin")
+//            userLocationView.snp.makeConstraints { make in
+//                make.width.height.equalTo(40)
+//            }
             
             let containerView = UIView()
             let pinImageView = UIImageView()
