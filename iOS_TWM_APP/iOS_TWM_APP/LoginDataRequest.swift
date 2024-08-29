@@ -9,8 +9,9 @@ import Foundation
 import UIKit
 import Alamofire
 
-protocol LoginDataRequestDelegate {
-    func didGetToken(token: String)
+@objc protocol LoginDataRequestDelegate {
+    @objc optional func didGetToken(token: String)
+    @objc optional func didGetMockData(deviceName: String)
 }
 
 class LoginDataRequest {
@@ -19,6 +20,7 @@ class LoginDataRequest {
 
     var token: String = ""
 
+    var passDeviceName: ((String) -> Void)?
     
     func registerData(userID: String, password: String) {
         let parameters: [String: Any] =
@@ -70,8 +72,8 @@ class LoginDataRequest {
                         self.token = decodeData.accessToken
                         self.getInformation(self.token)
                         self.getMockData(self.token)
-                        self.delegate?.didGetToken(token: self.token)
-
+                        self.delegate?.didGetToken?(token: self.token)
+                        
                     } catch let decodingError {
                         print("Decoding Error: \(decodingError)")
                         
@@ -97,6 +99,7 @@ class LoginDataRequest {
                  do {
                      let decoder = JSONDecoder()
                      let decodeData = try decoder.decode(Register.self, from: data)
+                     
                      print("Decoded Response: \(decodeData)")
                      
                  } catch let decodingError {
@@ -121,6 +124,8 @@ class LoginDataRequest {
                  do {
                      let decoder = JSONDecoder()
                      let decodeData = try decoder.decode(MockData.self, from: data)
+//                     self.passDeviceName?(decodeData.deviceName ?? "")
+                     self.delegate?.didGetMockData?(deviceName: decodeData.deviceName ?? "no data")
                      print("MockData Response: \(decodeData)")
                  } catch let decodingError {
                      print("Decoding Error: \(decodingError)")

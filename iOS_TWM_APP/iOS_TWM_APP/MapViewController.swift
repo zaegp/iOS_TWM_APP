@@ -12,8 +12,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let locationManager = CLLocationManager()
     let gymAPI = TaipeiGymAPI()
     let bottomMenu = BottomMenuViewController()
+    let dataRequestAPI = LoginDataRequest()
     var userLocation: [Double] = []
     var receivedGymDataArray: [Value] = []
+    
+    let containerView = UIView()
+    let pinImageView = UIImageView()
+    let deviceNameLabel = UILabel()
 
     var deviceName = String()
     
@@ -35,6 +40,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
+        
+        dataRequestAPI.delegate = self
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleLocateButtonTappedNotification(_:)), name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
         
@@ -263,14 +270,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
             let userLocationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "userLocation")
-            userLocationView.image = UIImage(named: "personal_pin")
-            userLocationView.snp.makeConstraints { make in
-                make.width.height.equalTo(40)
-            }
             
-            let containerView = UIView()
-            let pinImageView = UIImageView()
-            let deviceNameLabel = UILabel()
+            
+            
             
             containerView.addSubview(pinImageView)
             containerView.addSubview(deviceNameLabel)
@@ -293,15 +295,15 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 make.center.equalTo(userLocationView)
             }
             
-            bottomMenu.passDeviceName = { [weak self] data in
-                self?.deviceName = data
-                print("1------------------------", self?.deviceName)
-            }
+//            dataRequestAPI.passDeviceName = { [weak self] data in
+//                deviceNameLabel.text = data
+//                print("1------------------------", data)
+//            }
             
             pinImageView.image = UIImage(named: "pointer-pin")
             
-            deviceNameLabel.text = deviceName
-            print("2------------------------", deviceNameLabel.text)
+//            deviceNameLabel.text = deviceName
+//            print("2------------------------", deviceNameLabel.text)
             deviceNameLabel.font = UIFont.systemFont(ofSize: 12)
             deviceNameLabel.textColor = .black
             deviceNameLabel.textAlignment = .center
@@ -346,4 +348,15 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
 
+}
+
+extension MapViewController: LoginDataRequestDelegate {
+    
+    func didGetMockData(deviceName: String) {
+        print("1---", deviceName)
+//        self.deviceName = deviceName
+        deviceNameLabel.text = deviceName
+        print("1---", deviceNameLabel.text)
+    }
+    
 }
