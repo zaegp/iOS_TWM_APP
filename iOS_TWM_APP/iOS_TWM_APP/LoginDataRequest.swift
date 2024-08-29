@@ -123,7 +123,7 @@ class LoginDataRequest {
                     
                     let encodedData = try JSONEncoder().encode(decodeData)
                     UserDefaults.standard.set(encodedData, forKey: "MockData")
-                    
+                    let test = UserDefaults.standard.mockData
                     print("MockData Response: \(decodeData)")
                     completion()
                 } catch let decodingError {
@@ -169,4 +169,37 @@ class LoginDataRequest {
     }
     
     
+}
+
+
+extension UserDefaults {
+    private enum Keys {
+        static let mockDataKey = "MockData"
+    }
+    
+    var mockData: MockData? {
+        get {
+            guard let savedData = data(forKey: Keys.mockDataKey) else {
+                return nil
+            }
+            let decoder = JSONDecoder()
+            do {
+                let decodedData = try decoder.decode(MockData.self, from: savedData)
+                return decodedData
+            } catch {
+                print("Failed to decode MockData: \(error.localizedDescription)")
+                return nil
+            }
+        }
+        
+        set {
+            let encoder = JSONEncoder()
+            do {
+                let encodedData = try encoder.encode(newValue)
+                set(encodedData, forKey: Keys.mockDataKey)
+            } catch {
+                print("Failed to encode MockData: \(error.localizedDescription)")
+            }
+        }
+    }
 }
