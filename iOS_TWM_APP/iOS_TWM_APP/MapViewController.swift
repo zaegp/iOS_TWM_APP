@@ -15,6 +15,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let bottomMenu = BottomMenuViewController()
     var userLocation: [Double] = []
     var receivedGymDataArray: [Value] = []
+
+    var deviceName = String()
     
     let loadingIndicator = UIActivityIndicatorView(style: .large)
         
@@ -34,7 +36,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(handleLocateButtonTappedNotification(_:)), name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
         
         bottomMenu.completeSearchButton.addTarget(self, action: #selector(didTapCompleteSearchButton), for: .touchUpInside)
@@ -72,12 +74,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     @objc func handleLocateButtonTappedNotification(_ notification: Notification) {
         let centerCoordinate = mapView.centerCoordinate
         
-        // 開始加載顯示指示器
         loadingIndicator.startAnimating()
         
         gymAPI.getLocationDetails(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
         gymAPI.onGymDataReceived = { [weak self] gymDataArray in
-            // 加載完成後隱藏指示器
             self?.loadingIndicator.stopAnimating()
             
             guard let self = self else { return }
@@ -269,6 +269,45 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             userLocationView.snp.makeConstraints { make in
                 make.width.height.equalTo(40)
             }
+            
+            let containerView = UIView()
+            let pinImageView = UIImageView()
+            let deviceNameLabel = UILabel()
+            
+            containerView.addSubview(pinImageView)
+            containerView.addSubview(deviceNameLabel)
+            userLocationView.addSubview(containerView)
+            
+            pinImageView.snp.makeConstraints { make in
+                make.top.leading.trailing.width.equalTo(containerView)
+                make.height.equalTo(60)
+            }
+            
+            deviceNameLabel.snp.makeConstraints { make in
+                make.width.equalTo(containerView)
+                make.top.equalTo(pinImageView.snp.bottom)
+                make.bottom.equalTo(containerView)
+            }
+
+            containerView.snp.makeConstraints { make in
+                make.width.equalTo(50)
+                make.height.equalTo(90)
+                make.center.equalTo(userLocationView)
+            }
+            
+            bottomMenu.passDeviceName = { [weak self] data in
+                self?.deviceName = data
+                print("1------------------------", self?.deviceName)
+            }
+            
+            pinImageView.image = UIImage(named: "pointer-pin")
+            
+            deviceNameLabel.text = deviceName
+            print("2------------------------", deviceNameLabel.text)
+            deviceNameLabel.font = UIFont.systemFont(ofSize: 12)
+            deviceNameLabel.textColor = .black
+            deviceNameLabel.textAlignment = .center
+            
             return userLocationView
         }
         
@@ -295,6 +334,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         return annotationView
     }
 
+
     @objc func accessoryButtonTapped(_ sender: UIButton) {
         // Handle the accessory button tap here
         print("Accessory button tapped")
@@ -305,5 +345,26 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             // Perform any action you need with the annotation data
         }
     }
+
+
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        guard newHeading.headingAccuracy >= 0 else {
+            return
+        }
+
+        let headingDegrees = newHeading.trueHeading > 0 ? newHeading.trueHeading : newHeading.magneticHeading
+        let headingRadians = CGFloat(headingDegrees * .pi / 180)
+
+        if let userLocationView = mapView.view(for: mapView.userLocation) {
+            
+            userLocationView.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            
+            UIView.animate(withDuration: 0.3) {
+                userLocationView.layer.setAffineTransform(CGAffineTransform(rotationAngle: headingRadians))
+            }
+        }
+    }
+    
 
 }

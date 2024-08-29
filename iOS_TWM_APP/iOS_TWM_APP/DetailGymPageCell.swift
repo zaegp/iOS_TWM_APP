@@ -42,9 +42,17 @@ class DetailGymPageCell: UITableViewCell {
         return label
     }()
     
+    let collectionViewImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
     private var isDetailLabelVisible = false
     
     private var detailLabelBottomConstraint: Constraint?
+    private var collectionViewImageBottomConstraint: Constraint?
     private var borderViewBottomConstraint: Constraint?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -62,6 +70,7 @@ class DetailGymPageCell: UITableViewCell {
         borderView.addSubview(viewImage)
         contentView.addSubview(titleButton)
         contentView.addSubview(detailLabel)
+        contentView.addSubview(collectionViewImage)
     }
     
     // MARK: - Setup Constraints
@@ -90,8 +99,18 @@ class DetailGymPageCell: UITableViewCell {
             make.right.equalTo(contentView).offset(-16)
         }
         
+        collectionViewImage.snp.makeConstraints { make in
+            make.top.equalTo(detailLabel.snp.bottom).offset(5)
+            make.left.equalTo(borderView.snp.right).offset(10)
+            make.right.equalTo(contentView).offset(-16)
+        }
+        
         detailLabel.snp.makeConstraints { make in
             self.detailLabelBottomConstraint = make.bottom.equalTo(contentView).offset(-10).constraint
+        }
+        
+        collectionViewImage.snp.makeConstraints { make in
+            self.collectionViewImageBottomConstraint = make.bottom.equalTo(contentView).offset(-10).constraint
         }
     }
     
@@ -100,11 +119,15 @@ class DetailGymPageCell: UITableViewCell {
 
         if isDetailLabelVisible {
             detailLabel.isHidden = false
+            collectionViewImage.isHidden = false
             detailLabelBottomConstraint?.activate()
+            collectionViewImageBottomConstraint?.activate()
             borderViewBottomConstraint?.deactivate()
         } else {
             detailLabel.isHidden = true
+            collectionViewImage.isHidden = true
             detailLabelBottomConstraint?.deactivate()
+            collectionViewImageBottomConstraint?.deactivate()
             borderView.snp.remakeConstraints { make in
                 make.top.equalTo(contentView).offset(10)
                 make.left.equalTo(contentView).offset(16)
@@ -122,3 +145,5 @@ class DetailGymPageCell: UITableViewCell {
         tableView.endUpdates()
     }
 }
+
+
