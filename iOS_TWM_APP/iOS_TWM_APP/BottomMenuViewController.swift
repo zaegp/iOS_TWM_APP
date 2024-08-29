@@ -24,6 +24,7 @@ class BottomMenuViewController: UIViewController {
         customizeLabels()
 
         timer = Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(repeatGetMockData), userInfo: nil, repeats: true)
+        
         tappedRefreshButton()
         
         let userToken = UserDefaults.standard.string(forKey: "userToken")

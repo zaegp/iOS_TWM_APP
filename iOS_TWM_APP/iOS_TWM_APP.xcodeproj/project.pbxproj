@@ -18,6 +18,7 @@
 		785876EA2C7F01D300C1B303 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 785876E92C7F01D300C1B303 /* SnapKit */; };
 		785876ED2C7F01DA00C1B303 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 785876EC2C7F01DA00C1B303 /* Alamofire */; };
 		785876F02C7F01E200C1B303 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 785876EF2C7F01E200C1B303 /* Kingfisher */; };
+		785876F22C8046E400C1B303 /* DetailGymCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785876F12C8046E400C1B303 /* DetailGymCollectionViewCell.swift */; };
 		AC9B2AE22C781F5B00023FB3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B2AE12C781F5B00023FB3 /* LoginViewController.swift */; };
 		AC9B2AF32C785EC700023FB3 /* LoginDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B2AF22C785EC700023FB3 /* LoginDataRequest.swift */; };
 		AC9B2AF52C785EDE00023FB3 /* LoginDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B2AF42C785EDE00023FB3 /* LoginDataModel.swift */; };
@@ -34,7 +35,6 @@
 		C7832BA22C781DC10062C6EA /* iOS_TWM_APPUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832BA12C781DC10062C6EA /* iOS_TWM_APPUITests.swift */; };
 		C7832BA42C781DC10062C6EA /* iOS_TWM_APPUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832BA32C781DC10062C6EA /* iOS_TWM_APPUITestsLaunchTests.swift */; };
 		C7832BB12C7859350062C6EA /* TaipeiGymAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832BB02C7859350062C6EA /* TaipeiGymAPI.swift */; };
-		C7BC05512C7B5788004ABFD8 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C7BC05502C7B5788004ABFD8 /* SnapKit */; };
 		C7C30F7F2C7F8DEF005FC2C4 /* DetailGymImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C30F7E2C7F8DEF005FC2C4 /* DetailGymImageCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +62,7 @@
 		51D8459C2C78325600781C9A /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		7816B9BC2C78933C00A59B2C /* BottomMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomMenuViewController.swift; sourceTree = "<group>"; };
 		7816B9C62C796BF000A59B2C /* BottomMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomMenuViewController.swift; sourceTree = "<group>"; };
+		785876F12C8046E400C1B303 /* DetailGymCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGymCollectionViewCell.swift; sourceTree = "<group>"; };
 		AC9B2AE12C781F5B00023FB3 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		AC9B2AF22C785EC700023FB3 /* LoginDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDataRequest.swift; sourceTree = "<group>"; };
 		AC9B2AF42C785EDE00023FB3 /* LoginDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDataModel.swift; sourceTree = "<group>"; };
@@ -171,6 +172,7 @@
 				C742DAE32C7A24430007DE5A /* DetailSportsPageViewController.swift */,
 				C742DAE72C7A2DAE0007DE5A /* DetailGymPageCell.swift */,
 				C7C30F7E2C7F8DEF005FC2C4 /* DetailGymImageCell.swift */,
+				785876F12C8046E400C1B303 /* DetailGymCollectionViewCell.swift */,
 				51D8459C2C78325600781C9A /* Cell.swift */,
 				C7832B832C781DBF0062C6EA /* Main.storyboard */,
 				C7832B892C781DC10062C6EA /* Assets.xcassets */,
@@ -350,6 +352,7 @@
 				C7832B7E2C781DBF0062C6EA /* AppDelegate.swift in Sources */,
 				C7C30F7F2C7F8DEF005FC2C4 /* DetailGymImageCell.swift in Sources */,
 				C7832BB12C7859350062C6EA /* TaipeiGymAPI.swift in Sources */,
+				785876F22C8046E400C1B303 /* DetailGymCollectionViewCell.swift in Sources */,
 				C7832B882C781DBF0062C6EA /* iOS_TWM_APP.xcdatamodeld in Sources */,
 				C742DAE82C7A2DAE0007DE5A /* DetailGymPageCell.swift in Sources */,
 				AC9B2AF52C785EDE00023FB3 /* LoginDataModel.swift in Sources */,
