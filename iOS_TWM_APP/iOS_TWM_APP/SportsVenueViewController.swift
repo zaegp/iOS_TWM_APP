@@ -22,6 +22,8 @@ class SportsVenueViewController: UIViewController {
         setupView()
         setupTableView()
         setupLocationManager()
+        
+    
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

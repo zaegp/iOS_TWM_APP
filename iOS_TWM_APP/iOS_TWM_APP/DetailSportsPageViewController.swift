@@ -1,10 +1,10 @@
 import UIKit
 
-class DetailSportsPageViewController: UIViewController/* ,UICollectionViewDataSource, UICollectionViewDelegate*/ {
+class DetailSportsPageViewController: UIViewController {
 
     
 
-    
+    var collectionView: UICollectionView!
     let detailGymAPI = LoginDataRequest()
     var selectGymID: Int?
     var gymDetails: GymDetailData?
@@ -57,6 +57,29 @@ class DetailSportsPageViewController: UIViewController/* ,UICollectionViewDataSo
         
     }
     
+    private func setupCollectionView(forCell cell: UITableViewCell) {
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .horizontal
+            layout.minimumLineSpacing = 0
+            
+            collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+            collectionView.backgroundColor = .white
+            collectionView.showsHorizontalScrollIndicator = false
+            collectionView.isPagingEnabled = true
+            collectionView.delegate = self
+            collectionView.dataSource = self
+            collectionView.register(DetailGymImageCell.self, forCellWithReuseIdentifier: "ImageCell")
+            collectionView.backgroundColor = .brown
+            cell.contentView.addSubview(collectionView)
+            
+            collectionView.snp.makeConstraints { make in
+                //make.edges.equalToSuperview().inset(10)
+                make.width.height.equalTo(300)
+                
+            }
+        }
+    
+    
     private func fetchData() {
         guard let gymID = selectGymID else { return }
         detailGymAPI.getDetailGymPageData(gymID) { [weak self] data in
@@ -100,7 +123,7 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return gymDetails == nil ? 0 : 10
+        return gymDetails == nil ? 0 : 11
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -156,6 +179,13 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
         case 9:
             cell.titleButton.setTitle("實際照片", for: .normal)
             cell.titleButton.setTitleColor(.blue, for: .normal)
+        case 10:
+            cell.titleButton.isHidden = true
+            cell.detailLabel.isHidden = true
+            cell.borderView.isHidden = true
+            cell.viewImage.isHidden = true
+            
+            setupCollectionView(forCell: cell)
         default:
             print("default error")
         }
@@ -171,27 +201,19 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
         return UITableView.automaticDimension
     }
     
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        
-//    }
     
 }
 
-//extension DetailSportsPageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-//    
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return gymDetails?.gymFuncData?.count ?? 0
-//       }
-//       
-//       func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//           let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! DetailGymPageCell
-//           
-//           let url = URL(string: (gymDetails?.gymFuncData?[0].photo1)!)
-//           cell.imageView?.kf.setImage(with: url)
-//           return cell
-//       }
-//}
+extension DetailSportsPageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return gymDetails?.gymFuncData?.count ?? 0
+       }
+       
+       func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+           let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! DetailGymImageCell
+           let url = URL(string: (gymDetails?.gymFuncData?[indexPath.row].photo1)!)
+           cell.imageView.kf.setImage(with: url)
+           return cell
+       }
+}
