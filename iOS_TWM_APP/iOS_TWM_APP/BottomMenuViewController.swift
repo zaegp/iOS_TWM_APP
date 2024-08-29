@@ -23,6 +23,7 @@ class BottomMenuViewController: UIViewController {
         
         customizeLabels()
 
+        timer = Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(repeatGetMockData), userInfo: nil, repeats: true)
         tappedRefreshButton()
         
         let userToken = UserDefaults.standard.string(forKey: "userToken")
@@ -31,16 +32,27 @@ class BottomMenuViewController: UIViewController {
         
         
         self.getMockData(userToken)
-        
                 
     }
     
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        timer?.invalidate()
+        timer = nil
+    }
+
+    
+    var timer: Timer?
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         passDeviceName?(deviceNameLabel.text ?? "")
     }
     
+
     
     let bottomMenuView = UIView()
     
@@ -324,6 +336,20 @@ class BottomMenuViewController: UIViewController {
         
     }
     
+    @objc func repeatGetMockData() {
+        
+        let userToken = UserDefaults.standard.string(forKey: "userToken")
+        
+        
+        guard let userToken = userToken else {
+            
+            print("userToken not found")
+            
+            return}
+            
+        getMockData(userToken)
+    }
+    
     @objc func locateButtonTapped() {
         NotificationCenter.default.post(name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
     }
@@ -376,6 +402,7 @@ class BottomMenuViewController: UIViewController {
 
         SportsVenueViewController().passKeyWords?(searchBar.text ?? "")
         
+
     }
     
 
@@ -441,6 +468,12 @@ class BottomMenuViewController: UIViewController {
         
     }
     
+    func firstUpdateTextFromMockdata() {
+        
+        
+        
+    }
+    
     @objc func getMockData(_ token: String) {
         let headers: HTTPHeaders = [
              "Authorization": "Bearer \(token)",
@@ -486,37 +519,4 @@ class BottomMenuViewController: UIViewController {
     }
 
     
-        
-//        @objc func didTappedBottomView() {
-//            
-//            UIView.animate(withDuration: 0.3, animations: {
-//                if self.isExpanded == false {
-//                    
-//                    self.view.frame = CGRectMake(0, 640, 393, 212)
-//                    
-//                        self.searchButtonContainerView.isHidden = false
-//                        
-//                        self.locateButtonContainerView.isHidden = false
-//                        
-//                        self.refreshButtonContainerView.isHidden = false
-//                    
-//                    self.isExpanded = true
-//                } else {
-//                    
-//                    self.view.frame = CGRectMake(0, 720, 393, 132)
-//                    
-//                    self.searchButtonContainerView.isHidden = true
-//
-//                    self.locateButtonContainerView.isHidden = true
-//
-//                    self.refreshButtonContainerView.isHidden = true
-//                    
-//                    self.isExpanded = false
-//                    
-//                }
-//                self.view.layoutIfNeeded()  // Apply the constraint changes
-//            })
-//            
-//           
-//        }
 }
