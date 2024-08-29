@@ -296,7 +296,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             
             pinImageView.image = UIImage(named: "pointer-pin")
             
-            deviceNameLabel.text = deviceName
+            deviceNameLabel.text = "名字"
             print("2------------------------", deviceNameLabel.text)
             deviceNameLabel.font = UIFont.systemFont(ofSize: 12)
             deviceNameLabel.textColor = .black
