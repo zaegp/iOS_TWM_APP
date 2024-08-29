@@ -23,6 +23,7 @@ class BottomMenuViewController: UIViewController {
         
         customizeLabels()
 
+        timer = Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(repeatGetMockData), userInfo: nil, repeats: true)
         tappedRefreshButton()
         
         let userToken = UserDefaults.standard.string(forKey: "userToken")
@@ -31,16 +32,27 @@ class BottomMenuViewController: UIViewController {
         
         
         self.getMockData(userToken)
-        
                 
     }
     
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        timer?.invalidate()
+        timer = nil
+    }
+
+    
+    var timer: Timer?
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         passDeviceName?(deviceNameLabel.text ?? "")
     }
     
+
     
     let bottomMenuView = UIView()
     
@@ -84,9 +96,9 @@ class BottomMenuViewController: UIViewController {
 
     var window: UIWindow?
     
-    let date = Date()
     
-    let calendar = Calendar.current
+    
+   
     
     var passDeviceName: ((String) -> Void)?
 
@@ -293,6 +305,10 @@ class BottomMenuViewController: UIViewController {
     
     func customizeLabels() {
         
+        let calendar = Calendar.current
+        
+        let date = Date()
+        
         let hour = calendar.component(.hour, from: date)
         
         let minutes = calendar.component(.minute, from: date)
@@ -322,6 +338,20 @@ class BottomMenuViewController: UIViewController {
         deviceNameLabel.font = .systemFont(ofSize: 24)
         dateLabel.font = .systemFont(ofSize: 12)
         
+    }
+    
+    @objc func repeatGetMockData() {
+        
+        let userToken = UserDefaults.standard.string(forKey: "userToken")
+        
+        
+        guard let userToken = userToken else {
+            
+            print("userToken not found")
+            
+            return}
+            
+        getMockData(userToken)
     }
     
     @objc func locateButtonTapped() {
@@ -376,6 +406,7 @@ class BottomMenuViewController: UIViewController {
 
         SportsVenueViewController().passKeyWords?(searchBar.text ?? "")
         
+
     }
     
 
@@ -441,7 +472,18 @@ class BottomMenuViewController: UIViewController {
         
     }
     
+    func firstUpdateTextFromMockdata() {
+        
+        
+        
+    }
+    
     @objc func getMockData(_ token: String) {
+        
+        let calendar = Calendar.current
+        
+        let date = Date()
+        
         let headers: HTTPHeaders = [
              "Authorization": "Bearer \(token)",
              "accept": "application/json"
@@ -462,7 +504,7 @@ class BottomMenuViewController: UIViewController {
                      let formatter = DateFormatter()
                      formatter.dateFormat = "MM/dd"
                      
-                     self.dateLabel.text = formatter.string(from: self.date)
+                     self.dateLabel.text = formatter.string(from: date)
                      self.timeLabel.text = String(format: "%02d:%02d", hour, minutes)
                      self.deviceNameLabel.text = decodeData.deviceName
                      self.stepCountValueLabel.text = String(decodeData.step ?? 0)
@@ -486,37 +528,4 @@ class BottomMenuViewController: UIViewController {
     }
 
     
-        
-//        @objc func didTappedBottomView() {
-//            
-//            UIView.animate(withDuration: 0.3, animations: {
-//                if self.isExpanded == false {
-//                    
-//                    self.view.frame = CGRectMake(0, 640, 393, 212)
-//                    
-//                        self.searchButtonContainerView.isHidden = false
-//                        
-//                        self.locateButtonContainerView.isHidden = false
-//                        
-//                        self.refreshButtonContainerView.isHidden = false
-//                    
-//                    self.isExpanded = true
-//                } else {
-//                    
-//                    self.view.frame = CGRectMake(0, 720, 393, 132)
-//                    
-//                    self.searchButtonContainerView.isHidden = true
-//
-//                    self.locateButtonContainerView.isHidden = true
-//
-//                    self.refreshButtonContainerView.isHidden = true
-//                    
-//                    self.isExpanded = false
-//                    
-//                }
-//                self.view.layoutIfNeeded()  // Apply the constraint changes
-//            })
-//            
-//           
-//        }
 }
