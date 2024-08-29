@@ -28,6 +28,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var deviceName = String()
     
     let loadingIndicator = UIActivityIndicatorView(style: .large)
+    var observer: NSObjectProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,12 +53,25 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         bottomMenu.completeSearchButton.addTarget(self, action: #selector(didTapCompleteSearchButton), for: .touchUpInside)
         
+        observer = NotificationCenter.default.addObserver(forName: Notification.Name("didUpdateMockData"), object: nil, queue: .main) { [weak self] notification in
+                    self?.handleMockDataUpdate()
+        }
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
     }
+    
+    private func handleMockDataUpdate() {
+            if let data = UserDefaults.standard.data(forKey: "MockData"),
+               let mockData = try? JSONDecoder().decode(MockData.self, from: data) {
+                deviceNameLabel.text = mockData.deviceName
+                
+            }
+        }
+   
     
     @objc func didTapCompleteSearchButton() {
         
@@ -117,6 +131,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
+        
+        if let observer = observer {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -302,10 +320,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 //                print("1------------------------", data)
 //            }
             
-            pinImageView.image = UIImage(named: "pointer-pin")
+            bottomMenu.passDeviceName = { [weak self] data in
+                self?.deviceNameLabel.text = data
+                print("1--------------", data)
+            }
             
-//            deviceNameLabel.text = deviceName
-//            print("2------------------------", deviceNameLabel.text)
+//            deviceNameLabel.text = bottomMenu.
+            
+            pinImageView.image = UIImage(named: "pointer-pin")
             deviceNameLabel.font = UIFont.systemFont(ofSize: 12)
             deviceNameLabel.textColor = .black
             deviceNameLabel.textAlignment = .center
@@ -378,6 +400,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
     }
     
+    func getMockData() -> String? {
+        
+        return UserDefaults.standard.string(forKey: "MockData")
+    }
     
 }
 
