@@ -1,9 +1,3 @@
-//  MapViewController.swift
-//  iOS_TWM_APP
-//
-//  Created by Rowan Su on 2024/8/23.
-//
-
 import UIKit
 import MapKit
 import CoreLocation
@@ -25,7 +19,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let bottomMenu = BottomMenuViewController()
     var userLocation: [Double] = []
     var receivedGymDataArray: [Value] = []
-    
     var deviceName = String()
     
     let loadingIndicator = UIActivityIndicatorView(style: .large)
@@ -273,10 +266,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
             let userLocationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "userLocation")
+            
             //            userLocationView.image = UIImage(named: "personal_pin")
             //            userLocationView.snp.makeConstraints { make in
             //                make.width.height.equalTo(40)
             //            }
+            
             
             let containerView = UIView()
             let pinImageView = UIImageView()
@@ -343,7 +338,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         return annotationView
     }
-
+    
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if let annotation = view.annotation as? GymAnnotation {
@@ -362,6 +357,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             present(detailSportPage, animated: true, completion: nil)
         } else {
             print("Annotation or annotation view not found")
+            
         }
     }
     
