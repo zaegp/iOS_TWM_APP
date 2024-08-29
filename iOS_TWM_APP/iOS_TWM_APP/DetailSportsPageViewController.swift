@@ -163,3 +163,18 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
         return UITableView.automaticDimension
     }
 }
+
+//extension DetailSportsPageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+//    
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return gymDetails?.gymFuncData?.count ?? 0
+//       }
+//       
+//       func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//           let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! DetailGymPageCell
+//           
+//           let url = URL(string: (gymDetails?.gymFuncData?[0].photo1)!)
+//           cell.imageView?.kf.setImage(with: url)
+//           return cell
+//       }
+//}

@@ -32,6 +32,7 @@
 		C7832BA42C781DC10062C6EA /* iOS_TWM_APPUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832BA32C781DC10062C6EA /* iOS_TWM_APPUITestsLaunchTests.swift */; };
 		C7832BB12C7859350062C6EA /* TaipeiGymAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832BB02C7859350062C6EA /* TaipeiGymAPI.swift */; };
 		C7BC05512C7B5788004ABFD8 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C7BC05502C7B5788004ABFD8 /* SnapKit */; };
+		C7C30F7F2C7F8DEF005FC2C4 /* DetailGymImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C30F7E2C7F8DEF005FC2C4 /* DetailGymImageCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		C7832BA12C781DC10062C6EA /* iOS_TWM_APPUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_TWM_APPUITests.swift; sourceTree = "<group>"; };
 		C7832BA32C781DC10062C6EA /* iOS_TWM_APPUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_TWM_APPUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C7832BB02C7859350062C6EA /* TaipeiGymAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaipeiGymAPI.swift; sourceTree = "<group>"; };
+		C7C30F7E2C7F8DEF005FC2C4 /* DetailGymImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGymImageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +165,7 @@
 				51D8459A2C782CDA00781C9A /* SportsVenueViewController.swift */,
 				C742DAE32C7A24430007DE5A /* DetailSportsPageViewController.swift */,
 				C742DAE72C7A2DAE0007DE5A /* DetailGymPageCell.swift */,
+				C7C30F7E2C7F8DEF005FC2C4 /* DetailGymImageCell.swift */,
 				51D8459C2C78325600781C9A /* Cell.swift */,
 				C7832B832C781DBF0062C6EA /* Main.storyboard */,
 				C7832B892C781DC10062C6EA /* Assets.xcassets */,
@@ -338,6 +341,7 @@
 				C742DAE42C7A24430007DE5A /* DetailSportsPageViewController.swift in Sources */,
 				51D845B32C78BEB200781C9A /* SportsVenueViewController.swift in Sources */,
 				C7832B7E2C781DBF0062C6EA /* AppDelegate.swift in Sources */,
+				C7C30F7F2C7F8DEF005FC2C4 /* DetailGymImageCell.swift in Sources */,
 				C7832BB12C7859350062C6EA /* TaipeiGymAPI.swift in Sources */,
 				C7832B882C781DBF0062C6EA /* iOS_TWM_APP.xcdatamodeld in Sources */,
 				C742DAE82C7A2DAE0007DE5A /* DetailGymPageCell.swift in Sources */,
