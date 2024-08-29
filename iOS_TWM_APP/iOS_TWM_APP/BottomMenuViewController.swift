@@ -48,7 +48,6 @@ class BottomMenuViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        passDeviceName?(deviceNameLabel.text ?? "")
     }
     
 
@@ -94,7 +93,7 @@ class BottomMenuViewController: UIViewController {
     var completeSearchButton = UIButton(type: .system)
 
     var window: UIWindow?
-    
+
     
     var hour = Calendar.current.component(.hour, from: Date())
     
@@ -349,6 +348,8 @@ class BottomMenuViewController: UIViewController {
             return}
             
         getMockData(userToken)
+        
+        
     }
     
     @objc func locateButtonTapped() {
@@ -508,9 +509,6 @@ class BottomMenuViewController: UIViewController {
                      
                      self.frequencyValueLabel.text = decodeData.frequency
                     
-                     self.passDeviceName?(decodeData.deviceName ?? "")
-
-                     
                  } catch let decodingError {
                      print("Decoding Error: \(decodingError)")
                  }

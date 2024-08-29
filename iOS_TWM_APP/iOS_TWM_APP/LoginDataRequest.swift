@@ -9,8 +9,9 @@ import Foundation
 import UIKit
 import Alamofire
 
-protocol LoginDataRequestDelegate {
-    func didGetToken(token: String)
+@objc protocol LoginDataRequestDelegate {
+    @objc optional func didGetToken(token: String)
+    @objc optional func didGetMockData(deviceName: String)
 }
 
 class LoginDataRequest {
@@ -19,6 +20,7 @@ class LoginDataRequest {
 
     var token: String = ""
 
+    var passDeviceName: ((String) -> Void)?
     
     func registerData(userID: String, password: String) {
         let parameters: [String: Any] =
@@ -69,7 +71,8 @@ class LoginDataRequest {
                         print("Decoded Response: \(decodeData)")
                         self.token = decodeData.accessToken
                         self.getInformation(self.token)
-                        self.delegate?.didGetToken(token: self.token)
+
+                        self.delegate?.didGetToken?(token: self.token)
 
                     } catch let decodingError {
                         print("Decoding Error: \(decodingError)")
@@ -96,6 +99,7 @@ class LoginDataRequest {
                  do {
                      let decoder = JSONDecoder()
                      let decodeData = try decoder.decode(Register.self, from: data)
+                     
                      print("Decoded Response: \(decodeData)")
                      
                  } catch let decodingError {
@@ -137,8 +141,6 @@ class LoginDataRequest {
         }
     }
 
-
-    
     func getDetailGymPageData(_ gymID: Int, completion: @escaping (GymDetailData?) -> Void) {
         let urlString = "https://iplay.sa.gov.tw/odata/Gym(\(gymID))?$format=application/json;odata.metadata=none&$expand=GymFuncData"
 
