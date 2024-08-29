@@ -4,6 +4,10 @@ import CoreLocation
 import SnapKit
 import Kingfisher
 
+class GymAnnotation: MKPointAnnotation {
+    var gymID: Int?
+}
+
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     var mapView: MKMapView!
@@ -15,12 +19,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let bottomMenu = BottomMenuViewController()
     var userLocation: [Double] = []
     var receivedGymDataArray: [Value] = []
-
-
     var deviceName = String()
     
     let loadingIndicator = UIActivityIndicatorView(style: .large)
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,7 +39,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-
+        
         NotificationCenter.default.addObserver(self, selector: #selector(handleLocateButtonTappedNotification(_:)), name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
         
         bottomMenu.completeSearchButton.addTarget(self, action: #selector(didTapCompleteSearchButton), for: .touchUpInside)
@@ -49,7 +51,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     @objc func didTapCompleteSearchButton() {
-
+        
         let sportsVenueViewController = SportsVenueViewController()
         
         sportsVenueViewController.searchKeywords = bottomMenu.searchBar.text ?? ""
@@ -139,14 +141,15 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     // 大頭針
-    func addAnnotationAtCoordinate(coordinate: CLLocationCoordinate2D, title: String, imageURL: URL?) {
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinate
-            annotation.title = title
+    func addAnnotationAtCoordinate(coordinate: CLLocationCoordinate2D, title: String, gymID: Int, imageURL: URL?) {
+        let annotation = GymAnnotation()
+        annotation.coordinate = coordinate
+        annotation.title = title
+        annotation.gymID = gymID
         
-            mapView.addAnnotation(annotation)
-
-        }
+        print("Adding annotation with ID: \(gymID)")
+        mapView.addAnnotation(annotation)
+    }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
@@ -172,12 +175,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 }
                 return false
             }
-           
+            
             for gym in self?.receivedGymDataArray ?? [] {
                 let latLng = gym.latLng.components(separatedBy: ",")
                 if let latitude = Double(latLng[0]), let longitude = Double(latLng[1]) {
                     let pinLocation = CLLocation(latitude: latitude, longitude: longitude)
-                    self?.addAnnotationAtCoordinate(coordinate: pinLocation.coordinate, title: gym.name, imageURL: URL(string: gym.photo1))
+                    self?.addAnnotationAtCoordinate(coordinate: pinLocation.coordinate, title: gym.name, gymID: gym.gymID, imageURL: URL(string: gym.photo1))
                 }
             }
         }
@@ -238,10 +241,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 let latLng = gym.latLng.components(separatedBy: ",")
                 if let latitude = Double(latLng[0]), let longitude = Double(latLng[1]) {
                     let pinLocation = CLLocation(latitude: latitude, longitude: longitude)
-                    let annotation = MKPointAnnotation()
-                    annotation.coordinate = pinLocation.coordinate
-                    annotation.title = gym.name
-                    newAnnotations.append(annotation)
+                    self.addAnnotationAtCoordinate(coordinate: pinLocation.coordinate, title: gym.name, gymID: gym.gymID, imageURL: URL(string: gym.photo1))
                 }
             }
             
@@ -249,12 +249,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             
             let annotationsToAdd = newAnnotations.filter { newAnnotation in
                 !currentAnnotations.contains { $0.coordinate.latitude == newAnnotation.coordinate.latitude &&
-                                               $0.coordinate.longitude == newAnnotation.coordinate.longitude }
+                    $0.coordinate.longitude == newAnnotation.coordinate.longitude }
             }
             self.mapView.addAnnotations(annotationsToAdd)
         }
     }
-
+    
     func getUserLocation() -> [Double] {
         return userLocation
     }
@@ -266,14 +266,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
             let userLocationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "userLocation")
-            userLocationView.image = UIImage(named: "personal_pin")
-            userLocationView.snp.makeConstraints { make in
-                make.width.height.equalTo(40)
-            }
-//            userLocationView.image = UIImage(named: "personal_pin")
-//            userLocationView.snp.makeConstraints { make in
-//                make.width.height.equalTo(40)
-//            }
+            
+            //            userLocationView.image = UIImage(named: "personal_pin")
+            //            userLocationView.snp.makeConstraints { make in
+            //                make.width.height.equalTo(40)
+            //            }
+            
             
             let containerView = UIView()
             let pinImageView = UIImageView()
@@ -293,7 +291,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 make.top.equalTo(pinImageView.snp.bottom)
                 make.bottom.equalTo(containerView)
             }
-
+            
             containerView.snp.makeConstraints { make in
                 make.width.equalTo(50)
                 make.height.equalTo(90)
@@ -314,6 +312,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             deviceNameLabel.textAlignment = .center
             
             return userLocationView
+            
+            
         }
         
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "customPin")
@@ -321,46 +321,54 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "customPin")
             annotationView?.canShowCallout = true
             
-            // Create the accessory button
-            let accessoryButton = UIButton(type: .detailDisclosure)
-            accessoryButton.addTarget(self, action: #selector(accessoryButtonTapped(_:)), for: .touchUpInside)
-            
-            // Assign the accessory button to the rightCalloutAccessoryView
-            annotationView?.rightCalloutAccessoryView = accessoryButton
+            if annotation is GymAnnotation {
+                let accessoryButton = UIButton(type: .detailDisclosure)
+                annotationView?.rightCalloutAccessoryView = accessoryButton
+            }
         } else {
             annotationView?.annotation = annotation
         }
-
+        
         annotationView?.image = UIImage(named: "pin")
         annotationView?.snp.makeConstraints { make in
             make.width.height.equalTo(40)
         }
         
+        
+        
         return annotationView
     }
-
-
-
-
-    @objc func accessoryButtonTapped(_ sender: UIButton) {
-        // Handle the accessory button tap here
-        print("Accessory button tapped")
-        // You can use the following code to identify which annotation was tapped
-        if let annotationView = sender.superview as? MKAnnotationView,
-           let annotation = annotationView.annotation {
-            print("Tapped annotation title: \(annotation.title ?? "Unknown")")
-            // Perform any action you need with the annotation data
+    
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if let annotation = view.annotation as? GymAnnotation {
+            print("Annotation Title: \(annotation.title ?? "Unknown")")
+            print("Gym ID: \(annotation.gymID ?? 0)")
+            
+            let detailSportPage = DetailSportsPageViewController()
+            detailSportPage.selectGymID = annotation.gymID
+            
+            if let gymID = annotation.gymID,
+               let selectedGymData = receivedGymDataArray.first(where: { $0.gymID == gymID }) {
+                detailSportPage.gymFuncList = selectedGymData.gymFuncList
+            }
+            
+            detailSportPage.modalPresentationStyle = .formSheet
+            present(detailSportPage, animated: true, completion: nil)
+        } else {
+            print("Annotation or annotation view not found")
+            
         }
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         guard newHeading.headingAccuracy >= 0 else {
             return
         }
-
+        
         let headingDegrees = newHeading.trueHeading > 0 ? newHeading.trueHeading : newHeading.magneticHeading
         let headingRadians = CGFloat(headingDegrees * .pi / 180)
-
+        
         if let userLocationView = mapView.view(for: mapView.userLocation) {
             
             userLocationView.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -371,5 +379,5 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
     }
     
-
+    
 }
