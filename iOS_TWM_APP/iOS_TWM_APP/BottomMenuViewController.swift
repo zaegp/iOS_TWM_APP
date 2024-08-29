@@ -30,9 +30,8 @@ class BottomMenuViewController: UIViewController {
         
         guard let userToken = userToken else{return}
         
+        setFirstMockData()
         
-        self.getMockData(userToken)
-                
     }
     
 
@@ -94,6 +93,16 @@ class BottomMenuViewController: UIViewController {
     var completeSearchButton = UIButton(type: .system)
 
     var window: UIWindow?
+
+    
+    var hour = Calendar.current.component(.hour, from: Date())
+    
+    var minutes = Calendar.current.component(.minute, from: Date())
+    
+   
+    
+    var passDeviceName: ((String) -> Void)?
+
     
     func configBottomMenuView() {
         
@@ -297,13 +306,8 @@ class BottomMenuViewController: UIViewController {
     
     func customizeLabels() {
         
-        let calendar = Calendar.current
-        
-        let date = Date()
-        
-        let hour = calendar.component(.hour, from: date)
-        
-        let minutes = calendar.component(.minute, from: date)
+
+      
         
         recentUpdateLabel.text = "最近更新"
 //        timeLabel.text = "\(hour):\(minutes)"
@@ -519,4 +523,31 @@ class BottomMenuViewController: UIViewController {
     }
 
     
+}
+
+
+extension BottomMenuViewController {
+    func setFirstMockData() {
+        if let savedData = UserDefaults.standard.data(forKey: "MockData") {
+            do {
+                let decoder = JSONDecoder()
+                let savedMockData = try decoder.decode(MockData.self, from: savedData)
+                
+                let formatter = DateFormatter()
+                formatter.dateFormat = "MM/dd"
+                
+                self.dateLabel.text = formatter.string(from: Date())
+                self.timeLabel.text = String(format: "%02d:%02d", hour, minutes)
+                self.deviceNameLabel.text = savedMockData.deviceName
+                //self.stepCountValueLabel.text = String(savedMockData.step)
+                self.stepCountValueLabel.text = String(savedMockData.step ?? 0)
+                self.frequencyValueLabel.text = savedMockData.frequency
+                print("=======================================")
+                print(savedMockData)
+                print("=======================================")
+            } catch {
+                print("Failed to decode saved MockData: \(error)")
+            }
+        }
+    }
 }

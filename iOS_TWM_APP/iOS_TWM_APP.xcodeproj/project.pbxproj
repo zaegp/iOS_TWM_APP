@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		51A2DA352C7B75900062A55A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 51A2DA342C7B75900062A55A /* Kingfisher */; };
 		51A2DA372C7B759E0062A55A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 51A2DA362C7B759E0062A55A /* Alamofire */; };
+		51A2DA3B2C7F1CAF0062A55A /* MapViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A2DA3A2C7F1CAF0062A55A /* MapViewControllerTests.swift */; };
 		51D845972C781FA200781C9A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51D845962C781FA200781C9A /* MapKit.framework */; };
 		51D845992C78200300781C9A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D845982C78200300781C9A /* MapViewController.swift */; };
 		51D8459D2C78325600781C9A /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D8459C2C78325600781C9A /* Cell.swift */; };
@@ -56,6 +57,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		51A2DA3A2C7F1CAF0062A55A /* MapViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewControllerTests.swift; sourceTree = "<group>"; };
 		51D845962C781FA200781C9A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		51D845982C78200300781C9A /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		51D8459A2C782CDA00781C9A /* SportsVenueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsVenueViewController.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				C7832B972C781DC10062C6EA /* iOS_TWM_APPTests.swift */,
+				51A2DA3A2C7F1CAF0062A55A /* MapViewControllerTests.swift */,
 			);
 			path = iOS_TWM_APPTests;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7832B982C781DC10062C6EA /* iOS_TWM_APPTests.swift in Sources */,
+				51A2DA3B2C7F1CAF0062A55A /* MapViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -71,9 +71,9 @@ class LoginDataRequest {
                         print("Decoded Response: \(decodeData)")
                         self.token = decodeData.accessToken
                         self.getInformation(self.token)
-                        self.getMockData(self.token)
+
                         self.delegate?.didGetToken?(token: self.token)
-                        
+
                     } catch let decodingError {
                         print("Decoding Error: \(decodingError)")
                         
@@ -111,31 +111,36 @@ class LoginDataRequest {
          }
      }
     
-    func getMockData(_ token: String) {
+    func getMockData(_ token: String, completion: @escaping () -> Void) {
         let headers: HTTPHeaders = [
-             "Authorization": "Bearer \(token)",
-             "accept": "application/json"
-         ]
+            "Authorization": "Bearer \(token)",
+            "accept": "application/json"
+        ]
 
-         AF.request("https://fastapi-production-a532.up.railway.app/Info/",
-                    method: .get, headers: headers).responseData { response in
-             switch response.result {
-             case .success(let data):
-                 do {
-                     let decoder = JSONDecoder()
-                     let decodeData = try decoder.decode(MockData.self, from: data)
-//                     self.passDeviceName?(decodeData.deviceName ?? "")
-                     self.delegate?.didGetMockData?(deviceName: decodeData.deviceName ?? "no data")
-                     print("MockData Response: \(decodeData)")
-                 } catch let decodingError {
-                     print("Decoding Error: \(decodingError)")
-                 }
-             case .failure(let error):
-                 print("Error: \(error)")
-             }
-         }
-     }
-    
+        AF.request("https://fastapi-production-a532.up.railway.app/Info/",
+                   method: .get, headers: headers).responseData { response in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                    let decodeData = try decoder.decode(MockData.self, from: data)
+                    
+                    let encodedData = try JSONEncoder().encode(decodeData)
+                    UserDefaults.standard.set(encodedData, forKey: "MockData")
+                    
+                    print("MockData Response: \(decodeData)")
+                    completion()
+                } catch let decodingError {
+                    print("Decoding Error: \(decodingError)")
+                    completion()
+                }
+            case .failure(let error):
+                print("Error: \(error)")
+                completion()
+            }
+        }
+    }
+
     func getDetailGymPageData(_ gymID: Int, completion: @escaping (GymDetailData?) -> Void) {
         let headers: HTTPHeaders = [
              "format": "application/json",
