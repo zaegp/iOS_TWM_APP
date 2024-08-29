@@ -77,24 +77,27 @@ class Cell: UITableViewCell {
         venueTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(containerView.snp.top).offset(16)
             make.leading.equalTo(containerView.snp.leading).offset(16)
+            
         }
         
         venueLocationLabel.snp.makeConstraints { make in
             make.top.equalTo(venueTitleLabel.snp.bottom).offset(8)
             make.leading.equalTo(containerView.snp.leading).offset(16)
-            make.width.equalTo(160)
+            make.trailing.equalTo(imageBackgroundView.snp.leading).offset(-8)
         }
         
         venueFacilitiesLabel.snp.makeConstraints { make in
             make.top.equalTo(venueLocationLabel.snp.bottom).offset(8)
             make.leading.equalTo(containerView.snp.leading).offset(16)
-            make.width.equalTo(160)
+            make.trailing.equalTo(imageBackgroundView.snp.leading).offset(-8)
+            make.bottom.lessThanOrEqualTo(containerView.snp.bottom).offset(-16)
         }
         
         imageBackgroundView.snp.makeConstraints { make in
-            make.top.equalTo(venueTitleLabel.snp.bottom)
+            make.top.equalTo(venueTitleLabel.snp.bottom).offset(8)
             make.trailing.equalTo(containerView.snp.trailing).offset(-16)
             make.width.height.equalTo(150)
+            make.bottom.lessThanOrEqualTo(containerView.snp.bottom).offset(-16).priority(750)
         }
         
         venueImageView.snp.makeConstraints { make in
@@ -131,9 +134,9 @@ class Cell: UITableViewCell {
         let isPortrait = UIDevice.current.orientation.isPortrait
         let labelWidth = isPortrait ? 150 : 300
 
-        venueLocationLabel.snp.updateConstraints { make in
-            make.width.equalTo(labelWidth)
-        }
+//        venueLocationLabel.snp.updateConstraints { make in
+//            make.width.equalTo(labelWidth)
+//        }
     }
 
     func setFacilities(_ facilities: String) {
@@ -142,9 +145,9 @@ class Cell: UITableViewCell {
         let isPortrait = UIDevice.current.orientation.isPortrait
         let labelWidth = isPortrait ? 150 : 300
 
-        venueFacilitiesLabel.snp.updateConstraints { make in
-            make.width.equalTo(labelWidth)
-        }
+//        venueFacilitiesLabel.snp.updateConstraints { make in
+//            make.width.equalTo(labelWidth)
+//        }
     }
     
     func setImage(_ image: String) {

@@ -1,7 +1,14 @@
+//  MapViewController.swift
+//  iOS_TWM_APP
+//
+//  Created by Rowan Su on 2024/8/23.
+//
+
 import UIKit
 import MapKit
 import CoreLocation
 import SnapKit
+import Kingfisher
 
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
@@ -9,7 +16,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var showGymsButton: UIButton!
     var previousVisibleRegion: MKMapRect?
     var regionChangeWorkItem: DispatchWorkItem?
-    let locationManager = CLLocationManager()
+    var locationManager = CLLocationManager()
     let gymAPI = TaipeiGymAPI()
     let bottomMenu = BottomMenuViewController()
     var userLocation: [Double] = []
@@ -137,12 +144,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     // 大頭針
-    func addAnnotationAtCoordinate(coordinate: CLLocationCoordinate2D, title: String) {
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = coordinate
-        annotation.title = title
-        mapView.addAnnotation(annotation)
-    }
+    func addAnnotationAtCoordinate(coordinate: CLLocationCoordinate2D, title: String, imageURL: URL?) {
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinate
+            annotation.title = title
+        
+            mapView.addAnnotation(annotation)
+
+        }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
@@ -173,7 +182,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 let latLng = gym.latLng.components(separatedBy: ",")
                 if let latitude = Double(latLng[0]), let longitude = Double(latLng[1]) {
                     let pinLocation = CLLocation(latitude: latitude, longitude: longitude)
-                    self?.addAnnotationAtCoordinate(coordinate: pinLocation.coordinate, title: gym.name)
+                    self?.addAnnotationAtCoordinate(coordinate: pinLocation.coordinate, title: gym.name, imageURL: URL(string: gym.photo1))
                 }
             }
         }
@@ -262,10 +271,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
             let userLocationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "userLocation")
-            userLocationView.image = UIImage(named: "personal_pin")
-            userLocationView.snp.makeConstraints { make in
-                make.width.height.equalTo(40)
-            }
+//            userLocationView.image = UIImage(named: "personal_pin")
+//            userLocationView.snp.makeConstraints { make in
+//                make.width.height.equalTo(40)
+//            }
             
             let containerView = UIView()
             let pinImageView = UIImageView()
@@ -312,6 +321,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         if annotationView == nil {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "customPin")
             annotationView?.canShowCallout = true
+            
+            // Create the accessory button
+            let accessoryButton = UIButton(type: .detailDisclosure)
+            accessoryButton.addTarget(self, action: #selector(accessoryButtonTapped(_:)), for: .touchUpInside)
+            
+            // Assign the accessory button to the rightCalloutAccessoryView
+            annotationView?.rightCalloutAccessoryView = accessoryButton
         } else {
             annotationView?.annotation = annotation
         }
@@ -325,7 +341,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
 
 
-    
+
+    @objc func accessoryButtonTapped(_ sender: UIButton) {
+        // Handle the accessory button tap here
+        print("Accessory button tapped")
+        // You can use the following code to identify which annotation was tapped
+        if let annotationView = sender.superview as? MKAnnotationView,
+           let annotation = annotationView.annotation {
+            print("Tapped annotation title: \(annotation.title ?? "Unknown")")
+            // Perform any action you need with the annotation data
+        }
+    }
+
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         guard newHeading.headingAccuracy >= 0 else {
             return
