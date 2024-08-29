@@ -77,24 +77,27 @@ class Cell: UITableViewCell {
         venueTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(containerView.snp.top).offset(16)
             make.leading.equalTo(containerView.snp.leading).offset(16)
+            
         }
         
         venueLocationLabel.snp.makeConstraints { make in
             make.top.equalTo(venueTitleLabel.snp.bottom).offset(8)
             make.leading.equalTo(containerView.snp.leading).offset(16)
-            make.width.equalTo(160)
+            make.trailing.equalTo(imageBackgroundView.snp.leading).offset(-8)
         }
         
         venueFacilitiesLabel.snp.makeConstraints { make in
             make.top.equalTo(venueLocationLabel.snp.bottom).offset(8)
             make.leading.equalTo(containerView.snp.leading).offset(16)
-            make.width.equalTo(160)
+            make.trailing.equalTo(imageBackgroundView.snp.leading).offset(-8)
+            make.bottom.lessThanOrEqualTo(containerView.snp.bottom).offset(-16)
         }
         
         imageBackgroundView.snp.makeConstraints { make in
-            make.top.equalTo(venueTitleLabel.snp.bottom)
+            make.top.equalTo(venueTitleLabel.snp.bottom).offset(8)
             make.trailing.equalTo(containerView.snp.trailing).offset(-16)
             make.width.height.equalTo(150)
+            make.bottom.lessThanOrEqualTo(containerView.snp.bottom).offset(-16).priority(750)
         }
         
         venueImageView.snp.makeConstraints { make in
@@ -111,12 +114,15 @@ class Cell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Set Label and image
     func setTitle(_ title: String) {
-        if title.count >= 11 {
+        let isPortrait = UIDevice.current.orientation.isPortrait
+        let maxLength = isPortrait ? 11 : 21
+        
+        if title.count > maxLength {
             let startIndex = title.startIndex
-            let endIndex = title.index(startIndex, offsetBy: 11)
-            let title = title[startIndex..<endIndex] + "..."
-            venueTitleLabel.text = String(title)
+            let endIndex = title.index(startIndex, offsetBy: maxLength)
+            venueTitleLabel.text = String(title[startIndex..<endIndex]) + "..."
         } else {
             venueTitleLabel.text = title
         }
@@ -124,10 +130,24 @@ class Cell: UITableViewCell {
     
     func setLocation(_ location: String) {
         venueLocationLabel.text = location
+
+        let isPortrait = UIDevice.current.orientation.isPortrait
+        let labelWidth = isPortrait ? 150 : 300
+
+//        venueLocationLabel.snp.updateConstraints { make in
+//            make.width.equalTo(labelWidth)
+//        }
     }
-    
+
     func setFacilities(_ facilities: String) {
         venueFacilitiesLabel.text = facilities
+
+        let isPortrait = UIDevice.current.orientation.isPortrait
+        let labelWidth = isPortrait ? 150 : 300
+
+//        venueFacilitiesLabel.snp.updateConstraints { make in
+//            make.width.equalTo(labelWidth)
+//        }
     }
     
     func setImage(_ image: String) {
@@ -136,4 +156,3 @@ class Cell: UITableViewCell {
         venueImageView.kf.setImage(with: url, placeholder: placeholderImage)
     }
 }
-

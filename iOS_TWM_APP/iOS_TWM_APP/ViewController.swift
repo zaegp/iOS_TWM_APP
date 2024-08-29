@@ -18,8 +18,6 @@ class FirstViewController: UIViewController {
         
         if isTokenValid() {
             print("yes token~ so map")
-            guard let token = getToken() else { return }
-            loginDataRequest.getInformation(token)
             let mapVC = MapViewController()
             addChild(mapVC)
             view.addSubview(mapVC.view)
@@ -35,17 +33,6 @@ class FirstViewController: UIViewController {
             loginVC.didMove(toParent: self)
         }
         
-        
-        //        let loginVC: UIViewController = LoginViewController()
-        //        addChild(loginVC)
-        //        view.addSubview(loginVC.view)
-        //
-        //        loginVC.view.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
-        //        loginVC.view.backgroundColor = .lightGray
-        //
-        //
-        //        loginVC.didMove(toParent: self)
-        
     }
     
     func isTokenValid() -> Bool {
@@ -53,9 +40,10 @@ class FirstViewController: UIViewController {
         
         if let expirationDate = defaults.object(forKey: "tokenExpirationDate") as? Date {
             if Date() < expirationDate {
+                print("期限內")
                 return true
             } else {
-                // Token 過期
+                print("token過期")
                 clearLoginState()
                 return false
             }

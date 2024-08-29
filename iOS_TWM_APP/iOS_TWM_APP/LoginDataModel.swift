@@ -24,12 +24,12 @@ struct Login: Codable {
 
 // MARK: - MockData
 struct MockData: Codable {
-    let deviceName: String
-    let power: Int
-    let trackingModeColor, connected, connectStatus: String
-    let step: Int
-    let lockMode: String
-    let frequency: String
+    let deviceName: String?
+    let power: Int?
+    let trackingModeColor, connected, connectStatus: String?
+    let step: Int?
+    let lockMode: String?
+    let frequency: String?
 }
 
 

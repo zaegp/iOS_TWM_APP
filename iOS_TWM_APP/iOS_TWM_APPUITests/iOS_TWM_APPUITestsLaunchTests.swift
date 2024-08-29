@@ -19,6 +19,9 @@ final class iOS_TWM_APPUITestsLaunchTests: XCTestCase {
 
     func testLaunch() throws {
         let app = XCUIApplication()
+        
+        app.launchArguments += ["-NSDoubleLocalizedStrings", "YES"]
+        
         app.launch()
 
         // Insert steps here to perform after app launch but before taking a screenshot,

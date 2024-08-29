@@ -70,7 +70,6 @@ class TaipeiGymAPI: UIViewController{
 extension TaipeiGymAPI {
     // MARK: --抓縣市
     func getLocationDetails(latitude: Double, longitude: Double) {
-        print("Requesting gyms near: \(latitude), \(longitude)")
         let location = CLLocation(latitude: latitude, longitude: longitude)
         let geocoder = CLGeocoder()
         
