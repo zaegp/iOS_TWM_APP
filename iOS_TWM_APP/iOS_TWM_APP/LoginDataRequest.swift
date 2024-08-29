@@ -140,14 +140,10 @@ class LoginDataRequest {
 
     
     func getDetailGymPageData(_ gymID: Int, completion: @escaping (GymDetailData?) -> Void) {
-        let headers: HTTPHeaders = [
-             "format": "application/json",
-             "odata.metadata": "none"
-         ]
+        let urlString = "https://iplay.sa.gov.tw/odata/Gym(\(gymID))?$format=application/json;odata.metadata=none&$expand=GymFuncData"
 
-         let urlString = "https://iplay.sa.gov.tw/odata/Gym(\(gymID))"
          print("==============================================")
-         AF.request(urlString, method: .get, headers: headers).responseData { response in
+         AF.request(urlString, method: .get).responseData { response in
              switch response.result {
              case .success(let data):
                  do {

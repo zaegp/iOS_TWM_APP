@@ -24,7 +24,7 @@ class BottomMenuViewController: UIViewController {
         customizeLabels()
 
         timer = Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(repeatGetMockData), userInfo: nil, repeats: true)
-        tappedRefreshButton()
+        //tappedRefreshButton()
         
         let userToken = UserDefaults.standard.string(forKey: "userToken")
         
@@ -541,7 +541,6 @@ extension BottomMenuViewController {
                 self.dateLabel.text = formatter.string(from: Date())
                 self.timeLabel.text = String(format: "%02d:%02d", hour, minutes)
                 self.deviceNameLabel.text = savedMockData.deviceName
-                //self.stepCountValueLabel.text = String(savedMockData.step)
                 self.stepCountValueLabel.text = String(savedMockData.step ?? 0)
                 self.frequencyValueLabel.text = savedMockData.frequency
                 print("=======================================")
