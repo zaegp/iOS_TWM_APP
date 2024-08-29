@@ -315,17 +315,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 make.center.equalTo(userLocationView)
             }
             
-//            dataRequestAPI.passDeviceName = { [weak self] data in
-//                deviceNameLabel.text = data
-//                print("1------------------------", data)
-//            }
-            
             bottomMenu.passDeviceName = { [weak self] data in
                 self?.deviceNameLabel.text = data
                 print("1--------------", data)
             }
-            
-//            deviceNameLabel.text = bottomMenu.
             
             pinImageView.image = UIImage(named: "pointer-pin")
             deviceNameLabel.font = UIFont.systemFont(ofSize: 12)
