@@ -39,6 +39,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         NotificationCenter.default.addObserver(self, selector: #selector(handleLocateButtonTappedNotification(_:)), name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
         
         bottomMenu.completeSearchButton.addTarget(self, action: #selector(didTapCompleteSearchButton), for: .touchUpInside)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -299,7 +300,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             
             pinImageView.image = UIImage(named: "pointer-pin")
             
-            deviceNameLabel.text = "名字"
+            deviceNameLabel.text = deviceName
             print("2------------------------", deviceNameLabel.text)
             deviceNameLabel.font = UIFont.systemFont(ofSize: 12)
             deviceNameLabel.textColor = .black
