@@ -1,8 +1,9 @@
 import UIKit
+import SnapKit
+import Kingfisher
 
 class DetailSportsPageViewController: UIViewController {
 
-    
 
     var collectionView: UICollectionView!
     let detailGymAPI = LoginDataRequest()
@@ -14,15 +15,23 @@ class DetailSportsPageViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(DetailGymPageCell.self, forCellReuseIdentifier: "DetailGymCell")
+        tableView.register(DetailGymPageCell.self, forCellReuseIdentifier: "DetailGymImageCell")
         tableView.estimatedRowHeight = 100
         tableView.isHidden = true
         tableView.backgroundColor = .white
         tableView.layer.cornerRadius = 10
         tableView.layer.masksToBounds = true
         tableView.separatorStyle = .none
+        
+      
 
         return tableView
     }()
+    
+
+    
+
+    
     
     lazy var containerView: UIView = {
         let view = UIView()
@@ -37,7 +46,10 @@ class DetailSportsPageViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         fetchData()
+        //setUpCollectionView()
     }
+    
+
     
     private func setupUI() {
         view.addSubview(containerView)
@@ -60,23 +72,32 @@ class DetailSportsPageViewController: UIViewController {
     private func setupCollectionView(forCell cell: UITableViewCell) {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .horizontal
-            layout.minimumLineSpacing = 0
+            layout.minimumInteritemSpacing = 20
+            layout.itemSize = CGSize(width: 100, height: 200) // 或者根据实际需要调整
+
             
             collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
             collectionView.backgroundColor = .white
             collectionView.showsHorizontalScrollIndicator = false
-            collectionView.isPagingEnabled = true
+            collectionView.clipsToBounds = false
+            collectionView.isPagingEnabled = false
+            collectionView.isScrollEnabled = true
             collectionView.delegate = self
             collectionView.dataSource = self
             collectionView.register(DetailGymImageCell.self, forCellWithReuseIdentifier: "ImageCell")
-            collectionView.backgroundColor = .brown
+            collectionView.backgroundColor = .white
             cell.contentView.addSubview(collectionView)
             
-            collectionView.snp.makeConstraints { make in
-                //make.edges.equalToSuperview().inset(10)
-                make.width.height.equalTo(300)
-                
-            }
+        collectionView.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(10)
+            make.left.right.equalToSuperview().inset(20)
+            make.height.equalTo(150) // 保持高度固定，允许水平滚动
+            //make.bottom.equalTo(tableView.snp.bottom).offset(-10)
+        }
+
+        
+
+
         }
     
     
@@ -92,8 +113,7 @@ class DetailSportsPageViewController: UIViewController {
                 self.containerView.isHidden = false
             }
         }
-    }
-    
+    }  
     
 }
 
@@ -127,12 +147,9 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DetailGymCell", for: indexPath) as! DetailGymPageCell
-        let selectedBackgroundView = UIView()
-        selectedBackgroundView.backgroundColor = .clear
-        cell.backgroundColor = .white
-        cell.selectedBackgroundView = selectedBackgroundView
         
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DetailGymCell", for: indexPath) as! DetailGymPageCell
         switch indexPath.row {
         case 0:
             cell.titleButton.setTitle("場地公告", for: .normal)
@@ -188,10 +205,10 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
             setupCollectionView(forCell: cell)
         default:
             print("default error")
+
         }
         
         cell.viewImage.image = UIImage(named: cell.iconArray[indexPath.row])
-        
         
         return cell
         
@@ -201,6 +218,7 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
         return UITableView.automaticDimension
     }
     
+
     
 }
 
@@ -208,12 +226,12 @@ extension DetailSportsPageViewController: UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return gymDetails?.gymFuncData?.count ?? 0
-       }
-       
-       func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-           let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! DetailGymImageCell
-           let url = URL(string: (gymDetails?.gymFuncData?[indexPath.row].photo1)!)
-           cell.imageView.kf.setImage(with: url)
-           return cell
-       }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! DetailGymImageCell
+        let url = URL(string: (gymDetails?.gymFuncData?[indexPath.row].photo1)!)
+        cell.imageView.kf.setImage(with: url)
+        return cell
+    }
 }
