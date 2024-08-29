@@ -1,6 +1,7 @@
 import UIKit
 
-class DetailSportsPageViewController: UIViewController {
+class DetailSportsPageViewController: UIViewController/* ,UICollectionViewDataSource, UICollectionViewDelegate*/ {
+
     
 
     
@@ -169,6 +170,15 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
+    
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        
+//    }
+    
 }
 
 //extension DetailSportsPageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
