@@ -33,9 +33,10 @@ class DetailSportsPageViewController: UIViewController {
 
     
     
-    lazy var containerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .lightGray
+    lazy var containerView: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "sports-background")
+        view.alpha = 0.4
       
         view.isHidden = true
 
@@ -47,11 +48,17 @@ class DetailSportsPageViewController: UIViewController {
         setupUI()
         fetchData()
         //setUpCollectionView()
+        let statusBar = UIView(frame: UIApplication.shared.statusBarFrame)
+        statusBar.backgroundColor = .white.withAlphaComponent(0.8)
+        view.addSubview(statusBar)
     }
     
 
     
     private func setupUI() {
+        
+        view.backgroundColor = .white
+        
         view.addSubview(containerView)
         
         view.addSubview(tableView)
@@ -73,7 +80,7 @@ class DetailSportsPageViewController: UIViewController {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .horizontal
             layout.minimumInteritemSpacing = 20
-            layout.itemSize = CGSize(width: 100, height: 200) // 或者根据实际需要调整
+            layout.itemSize = CGSize(width: 100, height: 200)
 
             
             collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -91,8 +98,7 @@ class DetailSportsPageViewController: UIViewController {
         collectionView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(10)
             make.left.right.equalToSuperview().inset(20)
-            make.height.equalTo(150) // 保持高度固定，允许水平滚动
-            //make.bottom.equalTo(tableView.snp.bottom).offset(-10)
+            make.height.equalTo(150) 
         }
 
         
@@ -122,7 +128,7 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-        headerView.backgroundColor = .white
+        headerView.backgroundColor = .white.withAlphaComponent(0.9)
 
         let headerLabel = UILabel()
         headerLabel.text = gymDetails?.name
