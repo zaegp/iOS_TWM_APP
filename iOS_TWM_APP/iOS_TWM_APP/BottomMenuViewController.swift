@@ -101,7 +101,7 @@ class BottomMenuViewController: UIViewController {
     
     var minutes = Calendar.current.component(.minute, from: Date())
     
-   
+    var reloadMockData: MockData?
     
     var passDeviceName: ((String) -> Void)?
 
@@ -478,6 +478,9 @@ class BottomMenuViewController: UIViewController {
         
     }
     
+    //@objc func getMockData
+    
+    
     @objc func getMockData(_ token: String) {
         
         let calendar = Calendar.current
@@ -499,6 +502,8 @@ class BottomMenuViewController: UIViewController {
                  do {
                      let decoder = JSONDecoder()
                      let decodeData = try decoder.decode(MockData.self, from: data)
+                     
+                     NotificationCenter.default.post(name: Notification.Name("didUpdateMockData"), object: nil)
                      print("MockData Response: \(decodeData)")
                      
                      let formatter = DateFormatter()
@@ -510,7 +515,10 @@ class BottomMenuViewController: UIViewController {
                      self.stepCountValueLabel.text = String(decodeData.step ?? 0)
                      
                      self.frequencyValueLabel.text = decodeData.frequency
-                    
+                     
+                     self.passDeviceName?(decodeData.deviceName ?? "no data")
+                     self.saveMockDataToUserDefaults(decodeData)
+                     
                  } catch let decodingError {
                      print("Decoding Error: \(decodingError)")
                  }
@@ -543,12 +551,25 @@ extension BottomMenuViewController {
                 self.deviceNameLabel.text = savedMockData.deviceName
                 self.stepCountValueLabel.text = String(savedMockData.step ?? 0)
                 self.frequencyValueLabel.text = savedMockData.frequency
-                print("=======================================")
-                print(savedMockData)
-                print("=======================================")
+
             } catch {
                 print("Failed to decode saved MockData: \(error)")
             }
         }
     }
+    func saveMockDataToUserDefaults(_ data: MockData) {
+        let encoder = JSONEncoder()
+        do {
+            let encodedData = try encoder.encode(data)
+            UserDefaults.standard.set(encodedData, forKey: "MockData")
+            NotificationCenter.default.post(name: .didUpdateMockData, object: nil)
+
+        } catch {
+            print("Failed to encode MockData: \(error)")
+        }
+    }
+}
+
+extension Notification.Name {
+    static let didUpdateMockData = Notification.Name("didUpdateMockData")
 }
