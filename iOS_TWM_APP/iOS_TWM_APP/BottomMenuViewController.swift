@@ -393,27 +393,7 @@ class BottomMenuViewController: UIViewController {
         SportsVenueViewController().passKeyWords?(searchBar.text ?? "")
         print("～～～～～－ ", searchBar.text)
         
-        //        let sportsVenueVC = SportsVenueViewController()
-                
 
-        //        self.navigationController?.pushViewController(SportsVenueViewController(), animated: true)
-
-                //self.navigationController?.pushViewController(SportsVenueViewController(), animated: true)
-
-        
-
-//        self.view.frame = CGRectMake(0, screenSize.height * 0.86, screenSize.width, screenSize.height * 0.15)
-
-        
-        
-//        searchBar.isHidden = true
-//        completeSearchButton.isHidden = true
-//        
-//        self.view.frame = CGRectMake(0, 640, 393, 212)
-//        
-//        self.deviceNameLabel.snp.updateConstraints { make in
-//            make.centerY.equalTo(bottomMenuView.snp.top).offset(25)
-//        }
     }
     
 
@@ -474,6 +454,12 @@ class BottomMenuViewController: UIViewController {
             
         self.getMockData(userToken)
             
+        
+    }
+    
+    func firstUpdateTextFromMockdata() {
+        
+        
         
     }
     
