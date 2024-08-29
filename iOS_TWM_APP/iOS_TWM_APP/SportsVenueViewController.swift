@@ -1,4 +1,3 @@
-//
 //  SportsVenueViewController.swift
 //  iOS_TWM_APP
 //
@@ -55,6 +54,8 @@ class SportsVenueViewController: UIViewController {
         tableView.register(Cell.self, forCellReuseIdentifier: "cell")
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 210
         view.addSubview(tableView)
         
         tableView.snp.makeConstraints { make in
@@ -116,10 +117,6 @@ extension SportsVenueViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension SportsVenueViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 210
-    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailSportPage = DetailSportsPageViewController()

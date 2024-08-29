@@ -77,6 +77,7 @@ class Cell: UITableViewCell {
         venueTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(containerView.snp.top).offset(16)
             make.leading.equalTo(containerView.snp.leading).offset(16)
+            
         }
         
         venueLocationLabel.snp.makeConstraints { make in
@@ -89,12 +90,14 @@ class Cell: UITableViewCell {
             make.top.equalTo(venueLocationLabel.snp.bottom).offset(8)
             make.leading.equalTo(containerView.snp.leading).offset(16)
             make.width.equalTo(160)
+            make.bottom.lessThanOrEqualTo(containerView.snp.bottom).offset(-16)
         }
         
         imageBackgroundView.snp.makeConstraints { make in
             make.top.equalTo(venueTitleLabel.snp.bottom)
             make.trailing.equalTo(containerView.snp.trailing).offset(-16)
             make.width.height.equalTo(150)
+            make.bottom.lessThanOrEqualTo(containerView.snp.bottom).offset(-16).priority(750)
         }
         
         venueImageView.snp.makeConstraints { make in

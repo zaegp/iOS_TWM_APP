@@ -91,13 +91,12 @@ extension TaipeiGymAPI {
         }
     }
     
+    
     func searchGym(_ Latitude: String, _ Longitude: String, nextPageURL: String? = nil) {
         let cacheKey = "\(City)-\(Country)"
         
-        
         if let cachedData = cache[cacheKey], nextPageURL == nil {
-            self.gymDataArray?.append(contentsOf: cachedData)
-            self.onGymDataReceived?(self.gymDataArray ?? [])
+            self.onGymDataReceived?(cachedData)
             return
         }
 
@@ -133,19 +132,11 @@ extension TaipeiGymAPI {
                     }
                 }
                 
-                if nextPageURL == nil {
-                    if var existingData = self.cache[cacheKey] {
-                        existingData.append(contentsOf: self.gymDataArray ?? [])
-                        self.cache[cacheKey] = existingData
-                    } else {
-                        self.cache[cacheKey] = self.gymDataArray
-                    }
-                }
-                
                 if let nextLink = gymData.odataNextLink {
                     self.searchGym(Latitude, Longitude, nextPageURL: nextLink)
                 } else {
                     if let gymDataArray = self.gymDataArray {
+                        self.cache[cacheKey] = gymDataArray
                         self.onGymDataReceived?(gymDataArray)
                     }
                 }
@@ -155,6 +146,8 @@ extension TaipeiGymAPI {
             }
         }
     }
+
+
 
 
 }
