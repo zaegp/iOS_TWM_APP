@@ -266,20 +266,21 @@ extension LoginViewController: LoginDataRequestDelegate {
     func didGetToken(token: String) {
         
         if !token.isEmpty {
-            if let navgationController = self.navigationController {
-                let mapVC = MapViewController()
-                navgationController.pushViewController(mapVC, animated: true)
-            }
-            
-            if self.checkButton.isSelected {
-                
+            if let navigationController = self.navigationController {
                 let token = self.loginDataRequest.token
-                let expiresIn: TimeInterval = 3600
-                self.saveLoginState(token: self.loginDataRequest.token, expiresIn: expiresIn)
-            } else {
                 
-                let token = self.loginDataRequest.token
-                self.saveLoginToken(token: token)
+                self.loginDataRequest.getMockData(token) { [weak self] in
+                    guard let self = self else { return }
+                    let mapVC = MapViewController()
+                    navigationController.pushViewController(mapVC, animated: true)
+                }
+
+                if self.checkButton.isSelected {
+                    let expiresIn: TimeInterval = 3600
+                    self.saveLoginState(token: self.loginDataRequest.token, expiresIn: expiresIn)
+                } else {
+                    self.saveLoginToken(token: token)
+                }
             }
         } else {
             print("完全～沒有～token～")
@@ -287,3 +288,4 @@ extension LoginViewController: LoginDataRequestDelegate {
     }
     
 }
+

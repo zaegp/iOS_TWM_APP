@@ -3,6 +3,8 @@ import Kingfisher
 
 class DetailSportsPageViewController: UIViewController {
 
+
+    var collectionView: UICollectionView!
     let detailGymAPI = LoginDataRequest()
     var selectGymID: Int?
     var gymDetails: GymDetailData?
@@ -66,6 +68,29 @@ class DetailSportsPageViewController: UIViewController {
         
     }
     
+    private func setupCollectionView(forCell cell: UITableViewCell) {
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .horizontal
+            layout.minimumLineSpacing = 0
+            
+            collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+            collectionView.backgroundColor = .white
+            collectionView.showsHorizontalScrollIndicator = false
+            collectionView.isPagingEnabled = true
+            collectionView.delegate = self
+            collectionView.dataSource = self
+            collectionView.register(DetailGymImageCell.self, forCellWithReuseIdentifier: "ImageCell")
+            collectionView.backgroundColor = .brown
+            cell.contentView.addSubview(collectionView)
+            
+            collectionView.snp.makeConstraints { make in
+                //make.edges.equalToSuperview().inset(10)
+                make.width.height.equalTo(300)
+                
+            }
+        }
+    
+    
     private func fetchData() {
         guard let gymID = selectGymID else { return }
         detailGymAPI.getDetailGymPageData(gymID) { [weak self] data in
@@ -108,80 +133,69 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return gymDetails == nil ? 0 : 10
+        return gymDetails == nil ? 0 : 11
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row == 9 {
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DetailGymImageCell", for: indexPath) as! DetailGymImageCell
-            
-            return cell
-            
-        } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "DetailGymCell", for: indexPath) as! DetailGymPageCell
-            let selectedBackgroundView = UIView()
-            selectedBackgroundView.backgroundColor = .clear
-            cell.backgroundColor = .white
-            cell.selectedBackgroundView = selectedBackgroundView
+        switch indexPath.row {
+        case 0:
+            cell.titleButton.setTitle("場地公告", for: .normal)
+            cell.titleButton.setTitleColor(.blue, for: .normal)
+            cell.detailLabel.isHidden = false
+            cell.detailLabel.text = gymDetails?.introduction
+        case 1:
+            cell.titleButton.setTitle("\(gymDetails?.addr ?? "無")", for: .normal)
+            cell.detailLabel.isHidden = true
+
+        case 2:
+            cell.titleButton.setTitle("交通資訊", for: .normal)
+            cell.titleButton.setTitleColor(.blue, for: .normal)
+            cell.detailLabel.isHidden = false
+            cell.detailLabel.text = gymDetails?.publicTransport ?? "無"
+        case 3:
+            cell.titleButton.setTitle("\(gymDetails?.operationTel ?? "無")", for: .normal)
+            cell.detailLabel.isHidden = true
+        case 4:
+            cell.titleButton.setTitle("\(gymDetails?.webURL ?? "無")", for: .normal)
+            cell.detailLabel.isHidden = true
+        case 5:
+            cell.titleButton.setTitle("場館設施", for: .normal)
+            cell.titleButton.setTitleColor(.blue, for: .normal)
+            cell.detailLabel.isHidden = false
+            cell.detailLabel.text = gymFuncList ?? "無"
+        case 6:
+            cell.titleButton.setTitle("一般及無障礙停車場", for: .normal)
+            cell.titleButton.setTitleColor(.blue, for: .normal)
+            cell.detailLabel.isHidden = false
+            cell.detailLabel.text = gymDetails?.parkType ?? "無"
+        case 7:
+            cell.titleButton.setTitle("無障礙設施", for: .normal)
+            cell.titleButton.setTitleColor(.blue, for: .normal)
+            cell.detailLabel.isHidden = false
+            cell.detailLabel.text = 
+            "無障礙電梯: \(gymDetails?.passEasyEle ?? 0)間\n無障礙設施: \(gymDetails?.passEasyFuncOthers ?? "0")\n無障礙停車位: \(gymDetails?.passEasyParking ?? 0)個\n無障礙淋浴間: \(gymDetails?.passEasyShower ?? 0)\n無障礙廁所: \(gymDetails?.passEasyToilet ?? 0)\n無障礙通道: \(gymDetails?.passEasyWay ?? 0)個\n無障礙觀眾席: \(gymDetails?.wheelchairAuditorium ?? 0)"
+        case 8:
+            cell.titleButton.setTitle("性別友善設施", for: .normal)
+            cell.titleButton.setTitleColor(.blue, for: .normal)
+            cell.detailLabel.isHidden = false
+            cell.detailLabel.text = 
+            "性別友善廁所: 0間 \n親子廁所: 0間 \n哺乳室: 0間 \n性別友善淋浴間: 0間\n親子淋浴間: 0間"
+        case 9:
+            cell.titleButton.setTitle("實際照片", for: .normal)
+            cell.titleButton.setTitleColor(.blue, for: .normal)
+        case 10:
+            cell.titleButton.isHidden = true
+            cell.detailLabel.isHidden = true
+            cell.borderView.isHidden = true
+            cell.viewImage.isHidden = true
             
-            switch indexPath.row {
-            case 0:
-                cell.titleButton.setTitle("場地公告", for: .normal)
-                cell.titleButton.setTitleColor(.blue, for: .normal)
-                cell.detailLabel.isHidden = false
-                cell.detailLabel.text = gymDetails?.introduction
-            case 1:
-                cell.titleButton.setTitle("\(gymDetails?.addr ?? "無")", for: .normal)
-                cell.detailLabel.isHidden = true
-                
-            case 2:
-                cell.titleButton.setTitle("交通資訊", for: .normal)
-                cell.titleButton.setTitleColor(.blue, for: .normal)
-                cell.detailLabel.isHidden = false
-                cell.detailLabel.text = gymDetails?.publicTransport ?? "無"
-            case 3:
-                cell.titleButton.setTitle("\(gymDetails?.operationTel ?? "無")", for: .normal)
-                cell.detailLabel.isHidden = true
-            case 4:
-                cell.titleButton.setTitle("\(gymDetails?.webURL ?? "無")", for: .normal)
-                cell.detailLabel.isHidden = true
-            case 5:
-                cell.titleButton.setTitle("場館設施", for: .normal)
-                cell.titleButton.setTitleColor(.blue, for: .normal)
-                cell.detailLabel.isHidden = false
-                cell.detailLabel.text = gymFuncList ?? "無"
-            case 6:
-                cell.titleButton.setTitle("一般及無障礙停車場", for: .normal)
-                cell.titleButton.setTitleColor(.blue, for: .normal)
-                cell.detailLabel.isHidden = false
-                cell.detailLabel.text = gymDetails?.parkType ?? "無"
-            case 7:
-                cell.titleButton.setTitle("無障礙設施", for: .normal)
-                cell.titleButton.setTitleColor(.blue, for: .normal)
-                cell.detailLabel.isHidden = false
-                cell.detailLabel.text =
-                "無障礙電梯: \(gymDetails?.passEasyEle ?? 0)間\n無障礙設施: \(gymDetails?.passEasyFuncOthers ?? "0")\n無障礙停車位: \(gymDetails?.passEasyParking ?? 0)個\n無障礙淋浴間: \(gymDetails?.passEasyShower ?? 0)\n無障礙廁所: \(gymDetails?.passEasyToilet ?? 0)\n無障礙通道: \(gymDetails?.passEasyWay ?? 0)個\n無障礙觀眾席: \(gymDetails?.wheelchairAuditorium ?? 0)"
-            case 8:
-                cell.titleButton.setTitle("性別友善設施", for: .normal)
-                cell.titleButton.setTitleColor(.blue, for: .normal)
-                cell.detailLabel.isHidden = false
-                cell.detailLabel.text =
-                "性別友善廁所: 0間 \n親子廁所: 0間 \n哺乳室: 0間 \n性別友善淋浴間: 0間\n親子淋浴間: 0間"
-            case 9:
-                cell.titleButton.setTitle("實際照片", for: .normal)
-                cell.titleButton.setTitleColor(.blue, for: .normal)
-                
-            default:
-                print("default error")
-            }
-            
-            cell.viewImage.image = UIImage(named: cell.iconArray[indexPath.row])
-            
-            
-            return cell
+            setupCollectionView(forCell: cell)
+        default:
+            print("default error")
+
         }
         
     }
@@ -190,31 +204,7 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
         return UITableView.automaticDimension
     }
     
-   
-    
 
-    
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        
-//    }
     
 }
 
-//extension DetailSportsPageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-//    
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return gymDetails?.gymFuncData?.count ?? 0
-//       }
-//       
-//       func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//           let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! DetailGymPageCell
-//           
-//           let url = URL(string: (gymDetails?.gymFuncData?[0].photo1)!)
-//           cell.imageView?.kf.setImage(with: url)
-//           return cell
-//       }
-//}

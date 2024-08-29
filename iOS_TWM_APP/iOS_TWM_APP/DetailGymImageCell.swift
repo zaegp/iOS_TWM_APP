@@ -1,61 +1,35 @@
 import UIKit
+import SnapKit
 
 import Kingfisher
 
 class DetailGymImageCell: UITableViewCell {
     
-    static let identifier = "DetailGymImageCell"
-    
-    var collectionView: UICollectionView!
 
+    let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        return imageView
+    }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-            super.init(style: style, reuseIdentifier: reuseIdentifier)
-            setupCollectionView()
-        }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupViews() {
+        contentView.addSubview(imageView)
         
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-
-        private func setupCollectionView() {
-            let layout = UICollectionViewFlowLayout()
-            layout.scrollDirection = .horizontal
-            
-            collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-            collectionView.delegate = self
-            collectionView.dataSource = self
-            collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: "ImageCollectionViewCellIdentifier")
-            collectionView.backgroundColor = .white
-            
-            contentView.addSubview(collectionView)
-            
-            // Setup constraints
-            collectionView.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                collectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
-                collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-                collectionView.heightAnchor.constraint(equalToConstant: 150) // Adjust the height as needed
-            ])
+        imageView.snp.makeConstraints { make in
+            make.width.equalTo(100)
+            make.height.equalTo(150)
+            make.center.equalToSuperview()  // 將 imageView 居中
         }
     }
+}
 
-    extension DetailGymImageCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-        
-        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return 5 // Number of image views
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCollectionViewCellIdentifier", for: indexPath) as! ImageCollectionViewCell
-            // Configure the image view
-            cell.imageView.image = UIImage(named: "image\(indexPath.item + 1)") // Replace with your image names
-            return cell
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            return CGSize(width: 100, height: 100) // Size of each image container
-        }
-    }
