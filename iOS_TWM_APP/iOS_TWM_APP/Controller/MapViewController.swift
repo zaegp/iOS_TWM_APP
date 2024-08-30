@@ -67,10 +67,19 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     private func handleMockDataUpdate() {
-        if let data = UserDefaults.standard.data(forKey: "MockData"),
-           let mockData = try? JSONDecoder().decode(MockData.self, from: data) {
-            deviceNameLabel.text = mockData.deviceName
-        }
+
+            if let data = UserDefaults.standard.data(forKey: "MockData"),
+               let mockData = try? JSONDecoder().decode(MockData.self, from: data) {
+                deviceNameLabel.text = mockData.deviceName
+                if mockData.frequency == "低功耗" {
+                    deviceNameLabel.textColor = .blue
+                } else if mockData.frequency == "緊急" {
+                    deviceNameLabel.textColor = .red
+                } else {
+                    deviceNameLabel.textColor = .black
+                }
+                
+            }
     }
     
     
@@ -175,7 +184,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         annotation.title = title
         annotation.gymID = gymID
         
-        print("Adding annotation with ID: \(gymID)")
         mapView.addAnnotation(annotation)
     }
     
