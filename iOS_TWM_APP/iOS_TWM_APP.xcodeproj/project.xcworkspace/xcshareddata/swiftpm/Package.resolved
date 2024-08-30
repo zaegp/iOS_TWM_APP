@@ -1,5 +1,5 @@
 {
-  "originHash" : "9242654ff687ee8fd58e1c59aaf2ed0cd48aac1dad7b7d92a6329fd33489a1da",
+  "originHash" : "df8500199da4b4dd3ef5691176bf16601fba3b85375a7ce37ce5c8f3a3b629cf",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -11,9 +11,18 @@
       }
     },
     {
+      "identity" : "iqkeyboardmanager",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hackiftekhar/IQKeyboardManager.git",
+      "state" : {
+        "revision" : "fa9b2bac94b3fabe2d6ca7c74b269d4e8c355111",
+        "version" : "7.1.1"
+      }
+    },
+    {
       "identity" : "kingfisher",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/onevcat/Kingfisher",
+      "location" : "https://github.com/onevcat/Kingfisher.git",
       "state" : {
         "revision" : "2ef543ee21d63734e1c004ad6c870255e8716c50",
         "version" : "7.12.0"
