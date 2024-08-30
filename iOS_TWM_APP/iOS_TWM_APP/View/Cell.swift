@@ -13,7 +13,7 @@ class Cell: UITableViewCell {
     
     var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white.withAlphaComponent(0.65)
+        view.backgroundColor = .white.withAlphaComponent(0.8)
         view.layer.cornerRadius = 15
         view.layer.masksToBounds = true
         
@@ -23,14 +23,15 @@ class Cell: UITableViewCell {
     var venueTitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 28)
-        label.textColor = .black
+        label.textColor = UIColor.label
+        label.numberOfLines = 0
         return label
     }()
     
     var venueLocationLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = .black
+        label.textColor = UIColor.label
         label.numberOfLines = 0
         return label
     }()
@@ -38,7 +39,7 @@ class Cell: UITableViewCell {
     var venueFacilitiesLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = .black
+        label.textColor = UIColor.label
         label.numberOfLines = 0
         return label
     }()
@@ -78,7 +79,7 @@ class Cell: UITableViewCell {
         venueTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(containerView.snp.top).offset(16)
             make.leading.equalTo(containerView.snp.leading).offset(16)
-            
+            make.trailing.equalTo(containerView.snp.trailing).offset(-16)
         }
         
         venueLocationLabel.snp.makeConstraints { make in
@@ -117,16 +118,7 @@ class Cell: UITableViewCell {
     
     // MARK: - Set Label and image
     func setTitle(_ title: String) {
-        let isPortrait = UIDevice.current.orientation.isPortrait
-        let maxLength = isPortrait ? 11 : 21
-        
-        if title.count > maxLength {
-            let startIndex = title.startIndex
-            let endIndex = title.index(startIndex, offsetBy: maxLength)
-            venueTitleLabel.text = String(title[startIndex..<endIndex]) + "..."
-        } else {
-            venueTitleLabel.text = title
-        }
+        venueTitleLabel.text = title
     }
     
     func setLocation(_ location: String) {

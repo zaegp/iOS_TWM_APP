@@ -23,20 +23,17 @@ class SportsVenueViewController: UIViewController {
         setupView()
         setupTableView()
         setupLocationManager()
-        
-    
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        coordinator.animate(alongsideTransition: nil) { _ in
-            self.updateTextForOrientation()
-        }
-    }
+//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+//        super.viewWillTransition(to: size, with: coordinator)
+//        coordinator.animate(alongsideTransition: nil) { _ in
+//            self.updateTextForOrientation()
+//        }
+//    }
     
     // MARK: - Setup Methods
     private func setupView() {
-//        view.backgroundColor = UIColor(red: 0.83, green: 0.83, blue: 0.83, alpha: 1.00)
         
         view.addSubview(backgroundImageView)
         view.backgroundColor = .white
@@ -65,7 +62,7 @@ class SportsVenueViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(Cell.self, forCellReuseIdentifier: "cell")
-        tableView.layer.cornerRadius = 10
+        tableView.layer.cornerRadius = 25
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
         tableView.rowHeight = UITableView.automaticDimension
@@ -90,17 +87,6 @@ class SportsVenueViewController: UIViewController {
         locationManager.delegate = self
     }
     
-    // MARK: - Orientation Handling
-    private func updateTextForOrientation() {
-        let isPortrait = UIDevice.current.orientation.isPortrait
-        
-        for cell in tableView.visibleCells as? [Cell] ?? [] {
-            if let indexPath = tableView.indexPath(for: cell) {
-                let gymData = receivedGymDataArray[indexPath.row]
-                configureCell(cell, with: gymData)
-            }
-        }
-    }
 
     // MARK: - Refresh Control
     @objc private func handleRefresh(_ refreshControl: UIRefreshControl) {
@@ -142,6 +128,7 @@ extension SportsVenueViewController: UITableViewDelegate {
         let selectedGymData = receivedGymDataArray[indexPath.row]
         detailSportPage.selectGymID = selectedGymData.gymID
         detailSportPage.gymFuncList = selectedGymData.gymFuncList
+        isPush = true
         navigationController?.pushViewController(detailSportPage, animated: true)
     }
 }
