@@ -147,6 +147,7 @@ class LoginViewController: UIViewController {
         userIDTextField.text = ""
         
         passwordTextField.text = ""
+        passwordTextField.isSecureTextEntry = true
         passwordTextField.placeholder = "請輸入密碼"
         passwordTextField.textAlignment = .center
         passwordTextField.layer.borderColor = UIColor.gray.cgColor
