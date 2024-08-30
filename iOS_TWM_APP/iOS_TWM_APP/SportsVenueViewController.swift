@@ -131,6 +131,7 @@ extension SportsVenueViewController: UITableViewDataSource {
         cell.selectionStyle = .none
         return cell
     }
+   
 }
 
 // MARK: - UITableViewDelegate

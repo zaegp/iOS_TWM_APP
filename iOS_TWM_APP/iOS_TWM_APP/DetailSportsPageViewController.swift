@@ -224,8 +224,23 @@ extension DetailSportsPageViewController: UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! DetailGymImageCell
-        let url = URL(string: (gymDetails?.gymFuncData?[indexPath.row].photo1)!)
-        cell.imageView.kf.setImage(with: url)
-        return cell
+        
+        
+        if gymDetails?.gymFuncData?[indexPath.row].photo1 == "https://iplay.sa.gov.tw" {
+            
+            cell.removeFromSuperview()
+            
+            //self.collectionView.reloadData()
+            
+            return cell
+        } else {
+            
+            let url = URL(string: (gymDetails?.gymFuncData?[indexPath.row].photo1)!)
+            
+            cell.imageView.kf.setImage(with: url)
+            return cell
+        }
+        
+       
     }
 }
