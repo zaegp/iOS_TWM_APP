@@ -17,7 +17,9 @@ class BottomMenuViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        self.view.frame = CGRectMake(0, screenSize.height * 0.85 , screenSize.width, screenSize.height * 0.9)
+        
+        self.view.frame = CGRectMake(0, screenSize.height * 0.85 , screenSize.width, screenSize.height * 0.85)
+
         
         configBottomMenuView()
         
@@ -380,7 +382,9 @@ class BottomMenuViewController: UIViewController {
         completeSearchButton.isHidden = false
         completeSearchButton.isEnabled = true
         
-        self.view.frame = CGRectMake(0, screenSize.height * 0.65, screenSize.width, screenSize.height * 0.45)
+
+        self.view.frame = CGRectMake(0, screenSize.height * 0.63, screenSize.width, screenSize.height * 0.4)
+
         
         self.deviceNameLabel.snp.updateConstraints { make in
             make.centerY.equalTo(bottomMenuView.snp.top).offset(105)
@@ -437,7 +441,8 @@ class BottomMenuViewController: UIViewController {
         UIView.animate(withDuration: 0.3, animations: {
             if self.isExpanded == false {
                 
-                self.view.frame = CGRectMake(0, self.screenSize.height * 0.75, self.screenSize.width, self.screenSize.height * 0.4)
+                self.view.frame = CGRectMake(0, self.screenSize.height * 0.74, self.screenSize.width, self.screenSize.height * 0.29)
+
                 
                 self.searchButtonContainerView.isHidden = false
                 
@@ -452,7 +457,8 @@ class BottomMenuViewController: UIViewController {
                 self.isExpanded = true
             } else {
                 
-                self.view.frame = CGRectMake(0, self.screenSize.height * 0.85, self.screenSize.width, self.screenSize.height * 0.25)
+                self.view.frame = CGRectMake(0, self.screenSize.height * 0.85, self.screenSize.width, self.screenSize.height * 0.20)
+
                 
                 self.searchButtonContainerView.transform = CGAffineTransform(translationX: 0, y: 60)
                 self.locateButtonContainerView.transform = CGAffineTransform(translationX: 0, y: 60)
