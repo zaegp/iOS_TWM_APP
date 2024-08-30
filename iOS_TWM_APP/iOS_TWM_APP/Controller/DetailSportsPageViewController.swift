@@ -9,6 +9,7 @@ class DetailSportsPageViewController: UIViewController {
     var selectGymID: Int?
     var gymDetails: GymDetailData?
     var gymFuncList: String?
+    var imageCacheArray: [String] = []
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -89,10 +90,24 @@ class DetailSportsPageViewController: UIViewController {
     }
     
     private func fetchData() {
+        
         guard let gymID = selectGymID else { return }
         detailGymAPI.getDetailGymPageData(gymID) { [weak self] data in
             guard let self = self else { return }
             self.gymDetails = data
+
+            for i in 0..<(self.gymDetails?.gymFuncData?.count ?? 0) {
+                if self.gymDetails?.gymFuncData?[i].photo1 != "https://iplay.sa.gov.tw" {
+                    imageCacheArray.append(self.gymDetails?.gymFuncData?[i].photo1 ?? "")
+                    print("===============")
+                    print(imageCacheArray)
+                    print("===============")
+
+                }
+                if self.gymDetails?.gymFuncData?[i].photo2 != "https://iplay.sa.gov.tw" {
+                    imageCacheArray.append(self.gymDetails?.gymFuncData?[i].photo2 ?? "")
+                }
+            }
             
             DispatchQueue.main.async {
                 self.tableView.isHidden = false
@@ -105,7 +120,6 @@ class DetailSportsPageViewController: UIViewController {
     @objc func expandCollectionView() {
         let shouldExpand = collectionView.frame.height == 0
         let newHeight: CGFloat = shouldExpand ? 150 : 0
-        
         UIView.animate(withDuration: 0.3) {
             self.collectionView.snp.updateConstraints { make in
                 make.height.equalTo(newHeight)
@@ -148,6 +162,7 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
         
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "DetailGymCell", for: indexPath) as! DetailGymPageCell
+        cell.selectionStyle = .none
         switch indexPath.row {
         case 0:
             cell.titleButton.setTitle("場地公告", for: .normal)
@@ -225,28 +240,14 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
 extension DetailSportsPageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return gymDetails?.gymFuncData?.count ?? 0
+        return imageCacheArray.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! DetailGymImageCell
-        
-        
-        if gymDetails?.gymFuncData?[indexPath.row].photo1 == "https://iplay.sa.gov.tw" {
-            
-            cell.removeFromSuperview()
-            
-            //self.collectionView.reloadData()
-            
-            return cell
-        } else {
-            
-            let url = URL(string: (gymDetails?.gymFuncData?[indexPath.row].photo1)!)
-            
-            cell.imageView.kf.setImage(with: url)
-            return cell
-        }
-        
-       
+        let url = URL(string: (imageCacheArray[indexPath.row] ?? ""))
+        cell.imageView.kf.setImage(with: url)
+        return cell
+
     }
 }
