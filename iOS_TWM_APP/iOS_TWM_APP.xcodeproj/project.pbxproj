@@ -136,6 +136,46 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
+		AC39C0BC2C8161F300A6334F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AC9B2AF42C785EDE00023FB3 /* LoginDataModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		AC39C0BD2C8161FB00A6334F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C7C30F7E2C7F8DEF005FC2C4 /* DetailGymImageCell.swift */,
+				C742DAE72C7A2DAE0007DE5A /* DetailGymPageCell.swift */,
+				51D8459C2C78325600781C9A /* Cell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		AC39C0BE2C81620300A6334F /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				AC9B2AE12C781F5B00023FB3 /* LoginViewController.swift */,
+				51D845982C78200300781C9A /* MapViewController.swift */,
+				7816B9C62C796BF000A59B2C /* BottomMenuViewController.swift */,
+				51D8459A2C782CDA00781C9A /* SportsVenueViewController.swift */,
+				C742DAE32C7A24430007DE5A /* DetailSportsPageViewController.swift */,
+				C7832B812C781DBF0062C6EA /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		AC39C0BF2C81626500A6334F /* API */ = {
+			isa = PBXGroup;
+			children = (
+				C7832BB02C7859350062C6EA /* TaipeiGymAPI.swift */,
+				AC9B2AF22C785EC700023FB3 /* LoginDataRequest.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		C7832B712C781DBF0062C6EA = {
 			isa = PBXGroup;
 			children = (
@@ -161,20 +201,12 @@
 		C7832B7C2C781DBF0062C6EA /* iOS_TWM_APP */ = {
 			isa = PBXGroup;
 			children = (
+				AC39C0BC2C8161F300A6334F /* Model */,
+				AC39C0BD2C8161FB00A6334F /* View */,
+				AC39C0BE2C81620300A6334F /* Controller */,
+				AC39C0BF2C81626500A6334F /* API */,
 				C7832B7D2C781DBF0062C6EA /* AppDelegate.swift */,
 				C7832B7F2C781DBF0062C6EA /* SceneDelegate.swift */,
-				C7832B812C781DBF0062C6EA /* ViewController.swift */,
-				AC9B2AE12C781F5B00023FB3 /* LoginViewController.swift */,
-				7816B9C62C796BF000A59B2C /* BottomMenuViewController.swift */,
-				AC9B2AF22C785EC700023FB3 /* LoginDataRequest.swift */,
-				AC9B2AF42C785EDE00023FB3 /* LoginDataModel.swift */,
-				51D845982C78200300781C9A /* MapViewController.swift */,
-				C7832BB02C7859350062C6EA /* TaipeiGymAPI.swift */,
-				51D8459A2C782CDA00781C9A /* SportsVenueViewController.swift */,
-				C742DAE32C7A24430007DE5A /* DetailSportsPageViewController.swift */,
-				C742DAE72C7A2DAE0007DE5A /* DetailGymPageCell.swift */,
-				C7C30F7E2C7F8DEF005FC2C4 /* DetailGymImageCell.swift */,
-				51D8459C2C78325600781C9A /* Cell.swift */,
 				C7832B832C781DBF0062C6EA /* Main.storyboard */,
 				C7832B892C781DC10062C6EA /* Assets.xcassets */,
 				C7832B8B2C781DC10062C6EA /* LaunchScreen.storyboard */,

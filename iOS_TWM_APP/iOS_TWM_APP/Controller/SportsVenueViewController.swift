@@ -139,6 +139,7 @@ extension SportsVenueViewController: UITableViewDelegate {
         let selectedGymData = receivedGymDataArray[indexPath.row]
         detailSportPage.selectGymID = selectedGymData.gymID
         detailSportPage.gymFuncList = selectedGymData.gymFuncList
+        isPush = true
         navigationController?.pushViewController(detailSportPage, animated: true)
     }
 }

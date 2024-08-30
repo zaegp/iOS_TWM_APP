@@ -33,13 +33,19 @@ class DetailSportsPageViewController: UIViewController {
         return view
     }()
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         fetchData()
         let statusBar = UIView(frame: UIApplication.shared.statusBarFrame)
         statusBar.backgroundColor = .white.withAlphaComponent(0.8)
-        view.addSubview(statusBar)
+        if isPush == true {
+            view.addSubview(statusBar)
+        } else {
+            statusBar.removeFromSuperview()
+        }
     }
     
     private func setupUI() {
