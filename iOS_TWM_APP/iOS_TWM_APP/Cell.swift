@@ -13,7 +13,7 @@ class Cell: UITableViewCell {
     
     var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white.withAlphaComponent(0.65)
+        view.backgroundColor = .white.withAlphaComponent(0.8)
         view.layer.cornerRadius = 15
         view.layer.masksToBounds = true
         

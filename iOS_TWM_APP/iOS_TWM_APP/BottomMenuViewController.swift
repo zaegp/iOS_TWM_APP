@@ -17,7 +17,7 @@ class BottomMenuViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        self.view.frame = CGRectMake(0, screenSize.height * 0.8 , screenSize.width, screenSize.height * 0.85)
+        self.view.frame = CGRectMake(0, screenSize.height * 0.85 , screenSize.width, screenSize.height * 0.9)
         
         configBottomMenuView()
         
@@ -54,7 +54,7 @@ class BottomMenuViewController: UIViewController {
     
 
     
-    let bottomMenuView = UIView()
+    let bottomMenuView = UIImageView()
     
     var isExpanded: Bool? = false
     
@@ -110,6 +110,12 @@ class BottomMenuViewController: UIViewController {
         
         view.addSubview(bottomMenuView)
         
+        view.layer.cornerRadius = 20
+        
+        view.backgroundColor = .white.withAlphaComponent(0.8)
+        
+        bottomMenuView.isUserInteractionEnabled = true
+        
         [recentUpdateLabel, timeLabel, dateLabel, deviceNameLabel, stepCountTextLabel,
          stepCountValueLabel, frequencyLabel, frequencyValueLabel, searchBar, completeSearchButton].forEach {
             bottomMenuView.addSubview($0)
@@ -157,27 +163,36 @@ class BottomMenuViewController: UIViewController {
             
         }
         
-        bottomMenuView.layer.cornerRadius = 15
         
-        bottomMenuView.backgroundColor = .systemGray5
+        bottomMenuView.layer.cornerRadius = 20
+        
+        bottomMenuView.layer.borderColor = UIColor.white.cgColor
+        
+        bottomMenuView.layer.borderWidth = 0.5
+
+        bottomMenuView.image = UIImage(named: "sports-background")
+        
+        bottomMenuView.alpha = 0.5
+        
+        bottomMenuView.layer.masksToBounds = true
         
         searchButtonContainerView.backgroundColor = .white
         
         searchButtonContainerView.layer.cornerRadius = 8
         
-        searchButtonContainerView.layer.borderColor = UIColor.darkGray.cgColor
+        searchButtonContainerView.layer.borderColor = UIColor.black.cgColor
         
         locateButtonContainerView.backgroundColor = .white
         
         locateButtonContainerView.layer.cornerRadius = 8
         
-        locateButtonContainerView.layer.borderColor = UIColor.darkGray.cgColor
+        locateButtonContainerView.layer.borderColor = UIColor.black.cgColor
         
         refreshButtonContainerView.backgroundColor = .white
         
         refreshButtonContainerView.layer.cornerRadius = 8
         
-        refreshButtonContainerView.layer.borderColor = UIColor.darkGray.cgColor
+        refreshButtonContainerView.layer.borderColor = UIColor.black.cgColor
         
         locateButton.addTarget(self, action: #selector(locateButtonTapped), for: .touchUpInside)
         
@@ -320,11 +335,11 @@ class BottomMenuViewController: UIViewController {
         frequencyLabel.text = "頻率"
 //        frequencyValueLabel.text = "一般"
         
-        recentUpdateLabel.textColor = .systemGray
+        recentUpdateLabel.textColor = .darkGray
         
-        stepCountTextLabel.textColor = .systemGray
+        stepCountTextLabel.textColor = .darkGray
         
-        frequencyLabel.textColor = .systemGray
+        frequencyLabel.textColor = .darkGray
         
         // Customize fonts, colors, and alignment as needed
         recentUpdateLabel.font = .systemFont(ofSize: 14)
@@ -365,7 +380,7 @@ class BottomMenuViewController: UIViewController {
         completeSearchButton.isHidden = false
         completeSearchButton.isEnabled = true
         
-        self.view.frame = CGRectMake(0, screenSize.height * 0.60, screenSize.width, screenSize.height * 0.4)
+        self.view.frame = CGRectMake(0, screenSize.height * 0.65, screenSize.width, screenSize.height * 0.45)
         
         self.deviceNameLabel.snp.updateConstraints { make in
             make.centerY.equalTo(bottomMenuView.snp.top).offset(105)
@@ -422,7 +437,7 @@ class BottomMenuViewController: UIViewController {
         UIView.animate(withDuration: 0.3, animations: {
             if self.isExpanded == false {
                 
-                self.view.frame = CGRectMake(0, self.screenSize.height * 0.7, self.screenSize.width, self.screenSize.height * 0.35)
+                self.view.frame = CGRectMake(0, self.screenSize.height * 0.75, self.screenSize.width, self.screenSize.height * 0.4)
                 
                 self.searchButtonContainerView.isHidden = false
                 
@@ -437,7 +452,7 @@ class BottomMenuViewController: UIViewController {
                 self.isExpanded = true
             } else {
                 
-                self.view.frame = CGRectMake(0, self.screenSize.height * 0.8, self.screenSize.width, self.screenSize.height * 0.25)
+                self.view.frame = CGRectMake(0, self.screenSize.height * 0.85, self.screenSize.width, self.screenSize.height * 0.25)
                 
                 self.searchButtonContainerView.transform = CGAffineTransform(translationX: 0, y: 60)
                 self.locateButtonContainerView.transform = CGAffineTransform(translationX: 0, y: 60)
