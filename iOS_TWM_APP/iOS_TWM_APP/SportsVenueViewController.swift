@@ -115,6 +115,7 @@ extension SportsVenueViewController: UITableViewDataSource {
         configureCell(cell, with: gymData)
         return cell
     }
+   
 }
 
 // MARK: - UITableViewDelegate
