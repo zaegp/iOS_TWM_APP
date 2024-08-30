@@ -16,6 +16,7 @@ class SportsVenueViewController: UIViewController {
     private let locationManager = CLLocationManager()
     var searchKeywords = String()
     var passKeyWords: ((String) -> Void)?
+    var backgroundImageView = UIImageView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,16 +36,26 @@ class SportsVenueViewController: UIViewController {
     
     // MARK: - Setup Methods
     private func setupView() {
-        view.backgroundColor = UIColor(red: 0.83, green: 0.83, blue: 0.83, alpha: 1.00)
+//        view.backgroundColor = UIColor(red: 0.83, green: 0.83, blue: 0.83, alpha: 1.00)
+        
+        view.addSubview(backgroundImageView)
+        view.backgroundColor = .white
+        
+        backgroundImageView.snp.makeConstraints { make in
+            make.edges.equalTo(view)
+        }
+        
+        backgroundImageView.image = UIImage(named: "sports-background")
+        backgroundImageView.alpha = 0.8
         setupNavigationBar()
     }
 
     private func setupNavigationBar() {
         navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.backgroundColor = .white
+        navigationController?.navigationBar.backgroundColor = .white.withAlphaComponent(0.8)
         if #available(iOS 13.0, *) {
             let statusBar = UIView(frame: UIApplication.shared.statusBarFrame)
-            statusBar.backgroundColor = .white
+            statusBar.backgroundColor = .white.withAlphaComponent(0.8)
             view.addSubview(statusBar)
         }
     }
@@ -54,17 +65,20 @@ class SportsVenueViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(Cell.self, forCellReuseIdentifier: "cell")
+        tableView.layer.cornerRadius = 10
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 210
+        
         view.addSubview(tableView)
         
         tableView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-16)
+            //make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-16)
+            make.bottom.equalToSuperview().offset(-30)
         }
         
         let refreshControl = UIRefreshControl()
@@ -113,6 +127,8 @@ extension SportsVenueViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! Cell
         let gymData = receivedGymDataArray[indexPath.row]
         configureCell(cell, with: gymData)
+        cell.backgroundColor = .clear
+        cell.selectionStyle = .none
         return cell
     }
    

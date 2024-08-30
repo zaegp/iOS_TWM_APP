@@ -13,9 +13,10 @@ class Cell: UITableViewCell {
     
     var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 10
+        view.backgroundColor = .white.withAlphaComponent(0.65)
+        view.layer.cornerRadius = 15
         view.layer.masksToBounds = true
+        
         return view
     }()
     
@@ -71,7 +72,7 @@ class Cell: UITableViewCell {
         imageBackgroundView.addSubview(venueImageView)
         
         containerView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(2)
+            make.edges.equalToSuperview().inset(5)
         }
         
         venueTitleLabel.snp.makeConstraints { make in
@@ -107,7 +108,7 @@ class Cell: UITableViewCell {
             make.bottom.equalTo(imageBackgroundView.snp.bottom).offset(-8)
         }
         
-        contentView.backgroundColor = UIColor(red: 0.83, green: 0.83, blue: 0.83, alpha: 1.00)
+        contentView.backgroundColor = .clear
     }
     
     required init?(coder: NSCoder) {

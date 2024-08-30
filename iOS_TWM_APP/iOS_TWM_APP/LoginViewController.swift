@@ -69,7 +69,7 @@ class LoginViewController: UIViewController {
         
         userIDLabel.snp.makeConstraints { make in
             make.leading.equalTo(contentView).offset(30)
-            make.top.equalTo(logoImageView.snp.bottom).offset(160)
+            make.top.equalTo(logoImageView.snp.bottom).offset(view.frame.height * 0.15)
         }
         
         passwordLabel.snp.makeConstraints { make in
@@ -120,6 +120,7 @@ class LoginViewController: UIViewController {
         contentView.contentMode = .scaleAspectFill
         
         logoImageView.image = UIImage(named: "logo")
+        logoImageView.contentMode = .scaleAspectFill
         
         userIDLabel.text = "U s e r I D"
         userIDLabel.font = UIFont.systemFont(ofSize: 20, weight: .light)
