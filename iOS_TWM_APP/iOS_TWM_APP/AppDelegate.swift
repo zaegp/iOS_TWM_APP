@@ -8,6 +8,8 @@
 import UIKit
 import CoreData
 import CoreLocation
+import IQKeyboardManagerSwift
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
+        
+        IQKeyboardManager.shared.enable = true
 
         return true
     }

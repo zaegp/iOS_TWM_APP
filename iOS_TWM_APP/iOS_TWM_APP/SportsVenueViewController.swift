@@ -23,8 +23,6 @@ class SportsVenueViewController: UIViewController {
         setupView()
         setupTableView()
         setupLocationManager()
-        
-    
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -36,7 +34,6 @@ class SportsVenueViewController: UIViewController {
     
     // MARK: - Setup Methods
     private func setupView() {
-//        view.backgroundColor = UIColor(red: 0.83, green: 0.83, blue: 0.83, alpha: 1.00)
         
         view.addSubview(backgroundImageView)
         view.backgroundColor = .white
@@ -65,7 +62,7 @@ class SportsVenueViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(Cell.self, forCellReuseIdentifier: "cell")
-        tableView.layer.cornerRadius = 10
+        tableView.layer.cornerRadius = 25
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
         tableView.rowHeight = UITableView.automaticDimension
@@ -131,6 +128,7 @@ extension SportsVenueViewController: UITableViewDataSource {
         cell.selectionStyle = .none
         return cell
     }
+   
 }
 
 // MARK: - UITableViewDelegate

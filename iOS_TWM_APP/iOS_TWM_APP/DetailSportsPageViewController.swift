@@ -156,6 +156,7 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
         
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "DetailGymCell", for: indexPath) as! DetailGymPageCell
+        cell.selectionStyle = .none
         switch indexPath.row {
         case 0:
             cell.titleButton.setTitle("場地公告", for: .normal)
@@ -241,5 +242,6 @@ extension DetailSportsPageViewController: UICollectionViewDelegate, UICollection
         let url = URL(string: (imageCacheArray[indexPath.row] ?? ""))
         cell.imageView.kf.setImage(with: url)
         return cell
+
     }
 }
