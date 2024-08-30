@@ -8,6 +8,8 @@ class GymAnnotation: MKPointAnnotation {
     var gymID: Int?
 }
 
+var isPush = false
+
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     var mapView: MKMapView!
@@ -24,7 +26,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let containerView = UIView()
     let pinImageView = UIImageView()
     let deviceNameLabel = UILabel()
-
+    
     var deviceName = String()
     
     let loadingIndicator = UIActivityIndicatorView(style: .large)
@@ -48,13 +50,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         locationManager.requestWhenInUseAuthorization()
         
         dataRequestAPI.delegate = self
-
+        
         NotificationCenter.default.addObserver(self, selector: #selector(handleLocateButtonTappedNotification(_:)), name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
         
         bottomMenu.completeSearchButton.addTarget(self, action: #selector(didTapCompleteSearchButton), for: .touchUpInside)
         
         observer = NotificationCenter.default.addObserver(forName: Notification.Name("didUpdateMockData"), object: nil, queue: .main) { [weak self] notification in
-                    self?.handleMockDataUpdate()
+            self?.handleMockDataUpdate()
         }
     }
     
@@ -65,13 +67,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     private func handleMockDataUpdate() {
-            if let data = UserDefaults.standard.data(forKey: "MockData"),
-               let mockData = try? JSONDecoder().decode(MockData.self, from: data) {
-                deviceNameLabel.text = mockData.deviceName
-                
-            }
+        if let data = UserDefaults.standard.data(forKey: "MockData"),
+           let mockData = try? JSONDecoder().decode(MockData.self, from: data) {
+            deviceNameLabel.text = mockData.deviceName
         }
-   
+    }
+    
     
     @objc func didTapCompleteSearchButton() {
         
@@ -241,13 +242,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func updateAnnotationsForVisibleRegion(_ visibleRegion: MKMapRect) {
         let centerCoordinate = mapView.centerCoordinate
         
-        // 開始加載顯示指示器
         loadingIndicator.startAnimating()
         
         gymAPI.getLocationDetails(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
         
         gymAPI.onGymDataReceived = { [weak self] gymDataArray in
-            // 加載完成後隱藏指示器
             self?.loadingIndicator.stopAnimating()
             
             guard let self = self else { return }
@@ -293,7 +292,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
             let userLocationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "userLocation")
-
+            
             containerView.addSubview(pinImageView)
             containerView.addSubview(deviceNameLabel)
             userLocationView.addSubview(containerView)
@@ -343,7 +342,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             annotationView?.annotation = annotation
         }
         
-        annotationView?.image = UIImage(named: "pin")
+        annotationView?.image = UIImage(named: "location-pin")
         annotationView?.snp.makeConstraints { make in
             make.width.height.equalTo(40)
         }
@@ -366,7 +365,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                let selectedGymData = receivedGymDataArray.first(where: { $0.gymID == gymID }) {
                 detailSportPage.gymFuncList = selectedGymData.gymFuncList
             }
-            
+            isPush = false
             detailSportPage.modalPresentationStyle = .formSheet
             present(detailSportPage, animated: true, completion: nil)
         } else {
@@ -404,7 +403,7 @@ extension MapViewController: LoginDataRequestDelegate {
     
     func didGetMockData(deviceName: String) {
         print("1---", deviceName)
-//        self.deviceName = deviceName
+        //        self.deviceName = deviceName
         deviceNameLabel.text = deviceName
         print("1---", deviceNameLabel.text)
     }
