@@ -24,7 +24,9 @@ class BottomMenuViewController: UIViewController {
         customizeLabels()
 
         timer = Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(repeatGetMockData), userInfo: nil, repeats: true)
-        tappedRefreshButton()
+
+        //tappedRefreshButton()
+
         
         let userToken = UserDefaults.standard.string(forKey: "userToken")
         
@@ -48,7 +50,6 @@ class BottomMenuViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        passDeviceName?(deviceNameLabel.text ?? "")
     }
     
 
@@ -94,13 +95,13 @@ class BottomMenuViewController: UIViewController {
     var completeSearchButton = UIButton(type: .system)
 
     var window: UIWindow?
-    
+
     
     var hour = Calendar.current.component(.hour, from: Date())
     
     var minutes = Calendar.current.component(.minute, from: Date())
     
-   
+    var reloadMockData: MockData?
     
     var passDeviceName: ((String) -> Void)?
 
@@ -349,6 +350,8 @@ class BottomMenuViewController: UIViewController {
             return}
             
         getMockData(userToken)
+        
+        
     }
     
     @objc func locateButtonTapped() {
@@ -475,6 +478,9 @@ class BottomMenuViewController: UIViewController {
         
     }
     
+    //@objc func getMockData
+    
+    
     @objc func getMockData(_ token: String) {
         
         let calendar = Calendar.current
@@ -496,6 +502,8 @@ class BottomMenuViewController: UIViewController {
                  do {
                      let decoder = JSONDecoder()
                      let decodeData = try decoder.decode(MockData.self, from: data)
+                     
+                     NotificationCenter.default.post(name: Notification.Name("didUpdateMockData"), object: nil)
                      print("MockData Response: \(decodeData)")
                      
                      let formatter = DateFormatter()
@@ -507,9 +515,9 @@ class BottomMenuViewController: UIViewController {
                      self.stepCountValueLabel.text = String(decodeData.step ?? 0)
                      
                      self.frequencyValueLabel.text = decodeData.frequency
-                    
-                     self.passDeviceName?(decodeData.deviceName ?? "")
-
+                     
+                     self.passDeviceName?(decodeData.deviceName ?? "no data")
+                     self.saveMockDataToUserDefaults(decodeData)
                      
                  } catch let decodingError {
                      print("Decoding Error: \(decodingError)")
@@ -541,15 +549,27 @@ extension BottomMenuViewController {
                 self.dateLabel.text = formatter.string(from: Date())
                 self.timeLabel.text = String(format: "%02d:%02d", hour, minutes)
                 self.deviceNameLabel.text = savedMockData.deviceName
-                //self.stepCountValueLabel.text = String(savedMockData.step)
                 self.stepCountValueLabel.text = String(savedMockData.step ?? 0)
                 self.frequencyValueLabel.text = savedMockData.frequency
-                print("=======================================")
-                print(savedMockData)
-                print("=======================================")
+
             } catch {
                 print("Failed to decode saved MockData: \(error)")
             }
         }
     }
+    func saveMockDataToUserDefaults(_ data: MockData) {
+        let encoder = JSONEncoder()
+        do {
+            let encodedData = try encoder.encode(data)
+            UserDefaults.standard.set(encodedData, forKey: "MockData")
+            NotificationCenter.default.post(name: .didUpdateMockData, object: nil)
+
+        } catch {
+            print("Failed to encode MockData: \(error)")
+        }
+    }
+}
+
+extension Notification.Name {
+    static let didUpdateMockData = Notification.Name("didUpdateMockData")
 }
