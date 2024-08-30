@@ -25,9 +25,6 @@ class DetailGymImageCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
        
-//        let layout = UICollectionViewFlowLayout()
-//        layout.scrollDirection = .horizontal
-//        layout.minimumLineSpacing = 50
         setupViews()
     }
     
