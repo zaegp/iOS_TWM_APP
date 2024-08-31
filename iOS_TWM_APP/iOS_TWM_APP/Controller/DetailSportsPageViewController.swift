@@ -83,7 +83,7 @@ class DetailSportsPageViewController: UIViewController {
         
         collectionView.snp.makeConstraints { make in
                make.top.equalTo(cell.titleButton.snp.bottom).offset(10)
-               make.left.equalTo(cell.borderView.snp.right).offset(10)
+               make.left.equalTo(cell.borderView.snp.right).offset(5)
                make.right.equalTo(cell.contentView.snp.right).offset(10)
                make.height.width.equalTo(100)
                make.bottom.equalTo(cell.contentView).inset(20)
@@ -145,7 +145,7 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
         headerLabel.text = gymDetails?.name
         headerLabel.textColor = .black
         headerLabel.textAlignment = .left
-        headerLabel.font = UIFont.systemFont(ofSize: 25)
+        headerLabel.font = UIFont.systemFont(ofSize: 25, weight: .heavy)
         
         headerView.addSubview(headerLabel)
         

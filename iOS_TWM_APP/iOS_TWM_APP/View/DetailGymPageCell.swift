@@ -25,7 +25,7 @@ class DetailGymPageCell: UITableViewCell {
         let button = UIButton()
         button.setTitle("", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .heavy)
         button.contentHorizontalAlignment = .left
         return button
     }()
