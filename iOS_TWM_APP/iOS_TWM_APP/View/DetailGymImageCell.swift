@@ -38,6 +38,14 @@ class DetailGymImageCell: UICollectionViewCell {
         
         borderView.addSubview(imageView)
         
+        borderView.snp.makeConstraints { make in
+            make.top.equalTo(contentView.snp.top).inset(50)
+            make.width.equalTo(105)
+            make.height.equalTo(105)
+            
+        }
+        
+        
         imageView.snp.makeConstraints { make in
             make.width.equalTo(100)
             make.height.equalTo(100)
