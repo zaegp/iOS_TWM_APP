@@ -4,7 +4,12 @@ import SnapKit
 import Kingfisher
 
 class DetailGymImageCell: UICollectionViewCell {
-    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+
+        imageView.image = nil
+    }
 
     let imageView: UIImageView = {
         let imageView = UIImageView()
