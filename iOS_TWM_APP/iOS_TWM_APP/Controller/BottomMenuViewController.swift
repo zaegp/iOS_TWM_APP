@@ -35,6 +35,11 @@ class BottomMenuViewController: UIViewController {
         guard let userToken = userToken else{return}
         
         setFirstMockData()
+                
+        initializeHideKeyboard()
+        
+        searchBar.searchTextField.delegate = self
+
         
     }
     
@@ -425,7 +430,6 @@ class BottomMenuViewController: UIViewController {
 
         SportsVenueViewController().passKeyWords?(searchBar.text ?? "")
         
-
     }
     
 
@@ -433,6 +437,8 @@ class BottomMenuViewController: UIViewController {
         
         searchBar.isHidden = true
         completeSearchButton.isHidden = true
+        
+        view.endEditing(true)
         
         self.deviceNameLabel.snp.updateConstraints { make in
             make.centerY.equalTo(bottomMenuView.snp.top).offset(25)
@@ -578,6 +584,7 @@ extension BottomMenuViewController {
             }
         }
     }
+    
     func saveMockDataToUserDefaults(_ data: MockData) {
         let encoder = JSONEncoder()
         do {
@@ -589,8 +596,35 @@ extension BottomMenuViewController {
             print("Failed to encode MockData: \(error)")
         }
     }
+    
+
 }
 
 extension Notification.Name {
     static let didUpdateMockData = Notification.Name("didUpdateMockData")
 }
+
+extension BottomMenuViewController {
+func initializeHideKeyboard(){
+//Declare a Tap Gesture Recognizer which will trigger our dismissMyKeyboard() function
+let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+target: self,
+action: #selector(dismissMyKeyboard))
+//Add this tap gesture recognizer to the parent view
+view.addGestureRecognizer(tap)
+}
+@objc func dismissMyKeyboard(){
+//endEditing causes the view (or one of its embedded text fields) to resign the first responder status.
+//In short- Dismiss the active keyboard.
+view.endEditing(true)
+}
+}
+
+extension BottomMenuViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+    }
+}
+
+
+
