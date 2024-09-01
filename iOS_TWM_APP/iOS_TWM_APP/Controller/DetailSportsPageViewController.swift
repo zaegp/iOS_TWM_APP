@@ -17,6 +17,7 @@ class DetailSportsPageViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(DetailGymPageCell.self, forCellReuseIdentifier: "DetailGymCell")
         tableView.register(DetailGymPageCell.self, forCellReuseIdentifier: "DetailGymImageCell")
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
         tableView.isHidden = true
         tableView.backgroundColor = .white
@@ -33,8 +34,6 @@ class DetailSportsPageViewController: UIViewController {
         view.isHidden = true
         return view
     }()
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +64,7 @@ class DetailSportsPageViewController: UIViewController {
         }
     }
     
-    private func setupCollectionView(forCell cell: UITableViewCell) {
+    private func setupCollectionView(forCell cell: DetailGymPageCell) {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 20
@@ -83,10 +82,12 @@ class DetailSportsPageViewController: UIViewController {
         cell.contentView.addSubview(collectionView)
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(10)
-            make.left.right.equalToSuperview().inset(20)
-            make.height.equalTo(0)
-        }
+               make.top.equalTo(cell.titleButton.snp.bottom).offset(10)
+               make.left.equalTo(cell.borderView.snp.right).offset(5)
+               make.right.equalTo(cell.contentView.snp.right).offset(10)
+               make.height.width.equalTo(100)
+               make.bottom.equalTo(cell.contentView).inset(20)
+           }
     }
     
     private func fetchData() {
@@ -95,36 +96,40 @@ class DetailSportsPageViewController: UIViewController {
         detailGymAPI.getDetailGymPageData(gymID) { [weak self] data in
             guard let self = self else { return }
             self.gymDetails = data
+            
+            var urlsToPrefetch: [URL] = []
 
             for i in 0..<(self.gymDetails?.gymFuncData?.count ?? 0) {
-                if self.gymDetails?.gymFuncData?[i].photo1 != "https://iplay.sa.gov.tw" {
-                    imageCacheArray.append(self.gymDetails?.gymFuncData?[i].photo1 ?? "")
-                    print("===============")
-                    print(imageCacheArray)
-                    print("===============")
-
+                if let photo1 = self.gymDetails?.gymFuncData?[i].photo1,
+                   photo1 != "https://iplay.sa.gov.tw" {
+                    imageCacheArray.append(photo1)
+                    if let url = URL(string: photo1) {
+                        urlsToPrefetch.append(url)
+                    }
                 }
-                if self.gymDetails?.gymFuncData?[i].photo2 != "https://iplay.sa.gov.tw" {
-                    imageCacheArray.append(self.gymDetails?.gymFuncData?[i].photo2 ?? "")
+                if let photo2 = self.gymDetails?.gymFuncData?[i].photo2,
+                   photo2 != "https://iplay.sa.gov.tw" {
+                    imageCacheArray.append(photo2)
+                    if let url = URL(string: photo2) {
+                        urlsToPrefetch.append(url)
+                    }
                 }
             }
+            print("===========================================")
+            print(imageCacheArray)
+            print("===========================================")
+
+            let prefetcher = ImagePrefetcher(urls: urlsToPrefetch) {
+                skippedResources, failedResources, completedResources in
+                print("Prefetched \(completedResources.count) images.")
+            }
+            prefetcher.start()
             
             DispatchQueue.main.async {
                 self.tableView.isHidden = false
                 self.tableView.reloadData()
                 self.containerView.isHidden = false
             }
-        }
-    }
-    
-    @objc func expandCollectionView() {
-        let shouldExpand = collectionView.frame.height == 0
-        let newHeight: CGFloat = shouldExpand ? 150 : 0
-        UIView.animate(withDuration: 0.3) {
-            self.collectionView.snp.updateConstraints { make in
-                make.height.equalTo(newHeight)
-            }
-            self.view.layoutIfNeeded()
         }
     }
 }
@@ -140,7 +145,7 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
         headerLabel.text = gymDetails?.name
         headerLabel.textColor = .black
         headerLabel.textAlignment = .left
-        headerLabel.font = UIFont.systemFont(ofSize: 25)
+        headerLabel.font = UIFont.systemFont(ofSize: 25, weight: .heavy)
         
         headerView.addSubview(headerLabel)
         
@@ -152,102 +157,104 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
         return headerView
     }
     
-    
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return gymDetails == nil ? 0 : 11
+        return gymDetails == nil ? 0 : 10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "DetailGymCell", for: indexPath) as! DetailGymPageCell
         cell.selectionStyle = .none
+        
         switch indexPath.row {
         case 0:
             cell.titleButton.setTitle("場地公告", for: .normal)
-            cell.titleButton.setTitleColor(.blue, for: .normal)
-            cell.detailLabel.isHidden = false
             cell.detailLabel.text = gymDetails?.introduction
         case 1:
             cell.titleButton.setTitle("\(gymDetails?.addr ?? "無")", for: .normal)
-            cell.detailLabel.isHidden = true
-            
         case 2:
             cell.titleButton.setTitle("交通資訊", for: .normal)
-            cell.titleButton.setTitleColor(.blue, for: .normal)
-            cell.detailLabel.isHidden = false
             cell.detailLabel.text = gymDetails?.publicTransport ?? "無"
         case 3:
             cell.titleButton.setTitle("\(gymDetails?.operationTel ?? "無")", for: .normal)
-            cell.detailLabel.isHidden = true
+            cell.titleButton.addTarget(self, action: #selector(callPhoneNumber), for: .touchUpInside)
+            cell.titleButton.setTitleColor(.blue, for: .normal)
+
         case 4:
             cell.titleButton.setTitle("\(gymDetails?.webURL ?? "無")", for: .normal)
-            cell.detailLabel.isHidden = true
+            cell.titleButton.addTarget(self, action: #selector(openWebPage), for: .touchUpInside)
+            cell.titleButton.setTitleColor(.blue, for: .normal)
         case 5:
             cell.titleButton.setTitle("場館設施", for: .normal)
-            cell.titleButton.setTitleColor(.blue, for: .normal)
-            cell.detailLabel.isHidden = false
             cell.detailLabel.text = gymFuncList ?? "無"
         case 6:
             cell.titleButton.setTitle("一般及無障礙停車場", for: .normal)
-            cell.titleButton.setTitleColor(.blue, for: .normal)
-            cell.detailLabel.isHidden = false
             cell.detailLabel.text = gymDetails?.parkType ?? "無"
         case 7:
             cell.titleButton.setTitle("無障礙設施", for: .normal)
-            cell.titleButton.setTitleColor(.blue, for: .normal)
-            cell.detailLabel.isHidden = false
-            cell.detailLabel.text =
-            "無障礙電梯: \(gymDetails?.passEasyEle ?? 0)間\n無障礙設施: \(gymDetails?.passEasyFuncOthers ?? "0")\n無障礙停車位: \(gymDetails?.passEasyParking ?? 0)個\n無障礙淋浴間: \(gymDetails?.passEasyShower ?? 0)\n無障礙廁所: \(gymDetails?.passEasyToilet ?? 0)\n無障礙通道: \(gymDetails?.passEasyWay ?? 0)個\n無障礙觀眾席: \(gymDetails?.wheelchairAuditorium ?? 0)"
+            cell.detailLabel.text = """
+            無障礙電梯: \(gymDetails?.passEasyEle ?? 0)間
+            無障礙設施: \(gymDetails?.passEasyFuncOthers ?? "0")
+            無障礙停車位: \(gymDetails?.passEasyParking ?? 0)個
+            無障礙淋浴間: \(gymDetails?.passEasyShower ?? 0)
+            無障礙廁所: \(gymDetails?.passEasyToilet ?? 0)
+            無障礙通道: \(gymDetails?.passEasyWay ?? 0)個
+            無障礙觀眾席: \(gymDetails?.wheelchairAuditorium ?? 0)
+            """
         case 8:
             cell.titleButton.setTitle("性別友善設施", for: .normal)
-            cell.titleButton.setTitleColor(.blue, for: .normal)
-            cell.detailLabel.isHidden = false
-            cell.detailLabel.text =
-            "性別友善廁所: 0間 \n親子廁所: 0間 \n哺乳室: 0間 \n性別友善淋浴間: 0間\n親子淋浴間: 0間"
+            cell.detailLabel.text = """
+            性別友善廁所: 0間
+            親子廁所: 0間
+            哺乳室: 0間
+            性別友善淋浴間: 0間
+            親子淋浴間: 0間
+            """
         case 9:
             cell.titleButton.setTitle("實際照片", for: .normal)
-            cell.titleButton.setTitleColor(.blue, for: .normal)
-            cell.titleButton.addTarget(self, action: #selector(expandCollectionView), for: .touchUpInside)
-            
-        case 10:
-            cell.titleButton.isHidden = true
             cell.detailLabel.isHidden = true
-            cell.borderView.isHidden = true
-            cell.viewImage.isHidden = true
             setupCollectionView(forCell: cell)
-            
         default:
-            print("default error")
-            
+            print("error")
         }
-        
-        cell.viewImage.image = UIImage(named: cell.iconArray[indexPath.row])
-        
+        cell.viewImage.image = UIImage(named: cell.iconArray[indexPath.row]) 
         return cell
-        
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
-    
-    
 }
 
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 extension DetailSportsPageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageCacheArray.count ?? 0
+        return imageCacheArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! DetailGymImageCell
-        let url = URL(string: (imageCacheArray[indexPath.row] ?? ""))
+        let url = URL(string: imageCacheArray[indexPath.row])
         cell.imageView.kf.setImage(with: url)
         return cell
-
     }
+}
+
+extension DetailSportsPageViewController {
+    
+    @objc private func openWebPage() {
+           guard let urlString = gymDetails?.webURL, let url = URL(string: urlString) else {
+               print("Invalid URL")
+               return
+           }
+           UIApplication.shared.open(url, options: [:], completionHandler: nil)
+       }
+    @objc private func callPhoneNumber() {
+        guard let number = gymDetails?.operationTel, let url = URL(string: "tel://\(number)") else {
+               print("Invalid phone number")
+               return
+           }
+           if UIApplication.shared.canOpenURL(url) {
+               UIApplication.shared.open(url, options: [:], completionHandler: nil)
+           } else {
+               print("Unable to open dialer")
+           }
+       }
 }
