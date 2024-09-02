@@ -50,6 +50,10 @@ class LoginDataRequest {
     
     func loginData(userID: String, password: String) {
         
+        UserDefaults.standard.set(userID, forKey: "userID")
+        UserDefaults.standard.set(password, forKey: "userPassword")
+
+        
         let parameters: [String: String] = [
             "grant_type": "",
             "username": userID,
@@ -66,16 +70,14 @@ class LoginDataRequest {
                 switch response.result {
                 case .success(let data):
                     do {
-                        print("=========================")
-                        if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
-                                         print("JSON Response: \(json)")
-                                     }
-                        print("=======================")
+                     
 
                         let decoder = JSONDecoder()
                         let decodeData = try decoder.decode(Login.self, from: data)
                         print("Decoded Response: \(decodeData)")
                         self.token = decodeData.accessToken ?? ""
+                        UserDefaults.standard.set(self.token, forKey: "userToken")
+
                         self.getInformation(self.token)
 
                         self.delegate?.didGetToken?(token: self.token)

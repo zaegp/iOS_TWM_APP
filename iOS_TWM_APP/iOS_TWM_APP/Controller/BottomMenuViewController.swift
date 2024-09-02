@@ -15,7 +15,6 @@ class BottomMenuViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
         
         self.view.frame = CGRectMake(0, screenSize.height * 0.85 , screenSize.width, screenSize.height * 0.85)
@@ -27,7 +26,6 @@ class BottomMenuViewController: UIViewController {
 
         timer = Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(repeatGetMockData), userInfo: nil, repeats: true)
 
-        //tappedRefreshButton()
 
         
         let userToken = UserDefaults.standard.string(forKey: "userToken")
@@ -103,6 +101,7 @@ class BottomMenuViewController: UIViewController {
 
     var window: UIWindow?
 
+    let loginRequest = LoginDataRequest()
     
     var hour = Calendar.current.component(.hour, from: Date())
     
@@ -499,15 +498,6 @@ class BottomMenuViewController: UIViewController {
         
     }
     
-    func firstUpdateTextFromMockdata() {
-        
-        
-        
-    }
-    
-    //@objc func getMockData
-    
-    
     @objc func getMockData(_ token: String) {
         
         let calendar = Calendar.current
@@ -521,7 +511,7 @@ class BottomMenuViewController: UIViewController {
         
         let hour = calendar.component(.hour, from: date)
         let minutes = calendar.component(.minute, from: date)
-
+        
          AF.request("https://fastapi-production-a532.up.railway.app/Info/",
                     method: .get, headers: headers).responseData { response in
              switch response.result {
@@ -533,18 +523,27 @@ class BottomMenuViewController: UIViewController {
                      NotificationCenter.default.post(name: Notification.Name("didUpdateMockData"), object: nil)
                      print("MockData Response: \(decodeData)")
                      
-                     let formatter = DateFormatter()
-                     formatter.dateFormat = "MM/dd"
-                     
-                     self.dateLabel.text = formatter.string(from: date)
-                     self.timeLabel.text = String(format: "%02d:%02d", hour, minutes)
-                     self.deviceNameLabel.text = decodeData.deviceName
-                     self.stepCountValueLabel.text = String(decodeData.step ?? 0)
-                     
-                     self.frequencyValueLabel.text = decodeData.frequency
-                     
-                     self.passDeviceName?(decodeData.deviceName ?? "no data")
-                     self.saveMockDataToUserDefaults(decodeData)
+                     if decodeData.deviceName == nil && decodeData.step == nil {
+                         let token = UserDefaults.standard.string(forKey: "userToken")
+                         let savedUserID = UserDefaults.standard.string(forKey: "userID")
+                         let savedUserPassword = UserDefaults.standard.string(forKey: "userPassword")
+                         self.loginRequest.loginData(userID: savedUserID ?? "", password: savedUserPassword ?? "")
+                         self.getMockData(token ?? "")
+                         
+                     } else {
+                         let formatter = DateFormatter()
+                         formatter.dateFormat = "MM/dd"
+                         
+                         self.dateLabel.text = formatter.string(from: date)
+                         self.timeLabel.text = String(format: "%02d:%02d", hour, minutes)
+                         self.deviceNameLabel.text = decodeData.deviceName
+                         self.stepCountValueLabel.text = String(decodeData.step ?? 0)
+                         
+                         self.frequencyValueLabel.text = decodeData.frequency
+                         
+                         self.passDeviceName?(decodeData.deviceName ?? "no data")
+                         self.saveMockDataToUserDefaults(decodeData)
+                     }
                      
                  } catch let decodingError {
                      print("Decoding Error: \(decodingError)")

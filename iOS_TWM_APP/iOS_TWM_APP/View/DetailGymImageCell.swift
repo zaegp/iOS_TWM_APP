@@ -21,7 +21,7 @@ class DetailGymImageCell: UICollectionViewCell {
     let borderView: UIView = {
         let view = UIView()
         view.layer.borderColor = UIColor.lightGray.cgColor
-        view.frame = CGRect(x: 0, y: 15, width: 102, height: 102) // 设置 frame
+        view.frame = CGRect(x: 0, y: 15, width: 102, height: 102) 
         view.layer.borderWidth = 2
         view.layer.cornerRadius = 8
         return view
