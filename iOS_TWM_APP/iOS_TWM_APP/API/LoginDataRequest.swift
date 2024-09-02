@@ -66,10 +66,16 @@ class LoginDataRequest {
                 switch response.result {
                 case .success(let data):
                     do {
+                        print("=========================")
+                        if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
+                                         print("JSON Response: \(json)")
+                                     }
+                        print("=======================")
+
                         let decoder = JSONDecoder()
                         let decodeData = try decoder.decode(Login.self, from: data)
                         print("Decoded Response: \(decodeData)")
-                        self.token = decodeData.accessToken
+                        self.token = decodeData.accessToken ?? ""
                         self.getInformation(self.token)
 
                         self.delegate?.didGetToken?(token: self.token)

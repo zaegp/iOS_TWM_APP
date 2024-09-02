@@ -52,6 +52,17 @@
                ReferencedContainer = "container:iOS_TWM_APP.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "C71289D02C84CB8B00E084FE"
+               BuildableName = "LoginViewControllerUITests.xctest"
+               BlueprintName = "LoginViewControllerUITests"
+               ReferencedContainer = "container:iOS_TWM_APP.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

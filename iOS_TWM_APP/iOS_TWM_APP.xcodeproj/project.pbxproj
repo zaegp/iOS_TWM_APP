@@ -23,6 +23,7 @@
 		AC9B2AE22C781F5B00023FB3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B2AE12C781F5B00023FB3 /* LoginViewController.swift */; };
 		AC9B2AF32C785EC700023FB3 /* LoginDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B2AF22C785EC700023FB3 /* LoginDataRequest.swift */; };
 		AC9B2AF52C785EDE00023FB3 /* LoginDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B2AF42C785EDE00023FB3 /* LoginDataModel.swift */; };
+		C71289DD2C84CC7600E084FE /* LoginViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71289DC2C84CC7600E084FE /* LoginViewControllerUITests.swift */; };
 		C742DAE42C7A24430007DE5A /* DetailSportsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C742DAE32C7A24430007DE5A /* DetailSportsPageViewController.swift */; };
 		C742DAE82C7A2DAE0007DE5A /* DetailGymPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C742DAE72C7A2DAE0007DE5A /* DetailGymPageCell.swift */; };
 		C7832B7E2C781DBF0062C6EA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7832B7D2C781DBF0062C6EA /* AppDelegate.swift */; };
@@ -67,6 +68,9 @@
 		AC9B2AE12C781F5B00023FB3 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		AC9B2AF22C785EC700023FB3 /* LoginDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDataRequest.swift; sourceTree = "<group>"; };
 		AC9B2AF42C785EDE00023FB3 /* LoginDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDataModel.swift; sourceTree = "<group>"; };
+		C71289D32C84CB8B00E084FE /* LoginViewControllerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerUITests.swift; sourceTree = "<group>"; };
+		C71289D52C84CB8B00E084FE /* LoginViewControllerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C71289DC2C84CC7600E084FE /* LoginViewControllerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerUITests.swift; sourceTree = "<group>"; };
 		C742DAE32C7A24430007DE5A /* DetailSportsPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSportsPageViewController.swift; sourceTree = "<group>"; };
 		C742DAE72C7A2DAE0007DE5A /* DetailGymPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGymPageCell.swift; sourceTree = "<group>"; };
 		C7832B7A2C781DBF0062C6EA /* iOS_TWM_APP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOS_TWM_APP.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,12 +180,22 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		C71289D22C84CB8B00E084FE /* LoginViewControllerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C71289D32C84CB8B00E084FE /* LoginViewControllerUITests.swift */,
+				C71289D52C84CB8B00E084FE /* LoginViewControllerUITestsLaunchTests.swift */,
+			);
+			path = LoginViewControllerUITests;
+			sourceTree = "<group>";
+		};
 		C7832B712C781DBF0062C6EA = {
 			isa = PBXGroup;
 			children = (
 				C7832B7C2C781DBF0062C6EA /* iOS_TWM_APP */,
 				C7832B962C781DC10062C6EA /* iOS_TWM_APPTests */,
 				C7832BA02C781DC10062C6EA /* iOS_TWM_APPUITests */,
+				C71289D22C84CB8B00E084FE /* LoginViewControllerUITests */,
 				C7832B7B2C781DBF0062C6EA /* Products */,
 				51D845952C781FA200781C9A /* Frameworks */,
 				7816B9BE2C78955900A59B2C /* Recovered References */,
@@ -230,6 +244,7 @@
 			children = (
 				C7832BA12C781DC10062C6EA /* iOS_TWM_APPUITests.swift */,
 				C7832BA32C781DC10062C6EA /* iOS_TWM_APPUITestsLaunchTests.swift */,
+				C71289DC2C84CC7600E084FE /* LoginViewControllerUITests.swift */,
 			);
 			path = iOS_TWM_APPUITests;
 			sourceTree = "<group>";
@@ -412,6 +427,7 @@
 			files = (
 				C7832BA22C781DC10062C6EA /* iOS_TWM_APPUITests.swift in Sources */,
 				C7832BA42C781DC10062C6EA /* iOS_TWM_APPUITestsLaunchTests.swift in Sources */,
+				C71289DD2C84CC7600E084FE /* LoginViewControllerUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -576,7 +592,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 9CYNC2N5UU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iOS_TWM_APP/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "是否同意使用您的位置";
@@ -606,7 +622,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 9CYNC2N5UU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iOS_TWM_APP/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "是否同意使用您的位置";

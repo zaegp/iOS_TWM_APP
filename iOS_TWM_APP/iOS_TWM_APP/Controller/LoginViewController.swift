@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 import SnapKit
-
+import IQKeyboardManagerSwift
 class LoginViewController: UIViewController {
     
     let contentView = UIImageView()
@@ -38,6 +38,12 @@ class LoginViewController: UIViewController {
         setupButtonAction()
         
         
+        
+        userIDTextField.accessibilityIdentifier = "userIDTextField"
+            passwordTextField.accessibilityIdentifier = "passwordTextField"
+            loginButton.accessibilityIdentifier = "loginButton"
+            signinButton.accessibilityIdentifier = "signinButton"
+            checkButton.accessibilityIdentifier = "checkButton"
     }
     
     override func viewWillAppear(_ animated: Bool) {

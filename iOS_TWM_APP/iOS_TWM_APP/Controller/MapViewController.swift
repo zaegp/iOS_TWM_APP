@@ -39,7 +39,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         mapView.showsUserLocation = true
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.delegate = self
-        
+        view.accessibilityIdentifier = "MapView"
         view.addSubview(mapView)
         view.addSubview(bottomMenu.view)
         
