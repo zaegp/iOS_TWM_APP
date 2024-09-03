@@ -40,12 +40,31 @@ class DetailGymPageCell: UITableViewCell {
         return label
     }()
     
+    var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 20
+        layout.itemSize = CGSize(width: 100, height: 200)
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .white
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.clipsToBounds = false
+        collectionView.isPagingEnabled = false
+        collectionView.isScrollEnabled = true
+        collectionView.isHidden = true
+        collectionView.register(DetailGymImageCell.self, forCellWithReuseIdentifier: "ImageCell")
+        return collectionView
+    }()
     
-    
+    var imageCacheArray: [String] = []
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
         setupConstraints()
+        collectionView.dataSource = self
+        collectionView.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -57,6 +76,7 @@ class DetailGymPageCell: UITableViewCell {
         borderView.addSubview(viewImage)
         contentView.addSubview(titleButton)
         contentView.addSubview(detailLabel)
+        contentView.addSubview(collectionView)
     }
     
     // MARK: - Setup Constraints
@@ -85,9 +105,39 @@ class DetailGymPageCell: UITableViewCell {
             make.bottom.equalTo(contentView).offset(-16)
         }
         
-       
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(titleButton.snp.bottom).offset(10)
+            make.left.equalTo(borderView.snp.right).offset(5)
+            make.right.equalTo(contentView.snp.right).offset(-10)
+            //make.height.equalTo(100)
+            make.bottom.equalTo(contentView).inset(20)
+        }
     }
     
-    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        viewImage.image = nil
+        titleButton.setTitle("", for: .normal)
+        detailLabel.text = ""
+        collectionView.isHidden = true
+        detailLabel.isHidden = false
+        titleButton.isHidden = false
+        titleButton.tintColor = .black
+    }
+}
 
+extension DetailGymPageCell: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return imageCacheArray.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! DetailGymImageCell
+        
+        let url = URL(string: imageCacheArray[indexPath.row])
+        cell.imageView.kf.setImage(with: url)
+        return cell
+    }
 }

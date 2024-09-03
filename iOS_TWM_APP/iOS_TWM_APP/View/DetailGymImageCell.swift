@@ -4,12 +4,7 @@ import SnapKit
 import Kingfisher
 
 class DetailGymImageCell: UICollectionViewCell {
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-
-        imageView.image = nil
-    }
+   
 
     let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -41,7 +36,7 @@ class DetailGymImageCell: UICollectionViewCell {
         
         contentView.addSubview(borderView)
         
-        borderView.addSubview(imageView)
+        contentView.addSubview(imageView)
         
         borderView.snp.makeConstraints { make in
             make.top.equalTo(contentView.snp.top).inset(50)

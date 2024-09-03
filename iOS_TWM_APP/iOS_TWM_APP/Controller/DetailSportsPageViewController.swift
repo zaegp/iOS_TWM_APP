@@ -10,7 +10,6 @@ class DetailSportsPageViewController: UIViewController {
     var gymDetails: GymDetailData?
     var gymFuncList: String?
     var imageCacheArray: [String] = []
-    
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.delegate = self
@@ -19,11 +18,11 @@ class DetailSportsPageViewController: UIViewController {
         tableView.register(DetailGymPageCell.self, forCellReuseIdentifier: "DetailGymImageCell")
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
-        tableView.isHidden = true
         tableView.backgroundColor = .white
         tableView.layer.cornerRadius = 10
         tableView.layer.masksToBounds = true
         tableView.separatorStyle = .none
+
         return tableView
     }()
     
@@ -64,31 +63,6 @@ class DetailSportsPageViewController: UIViewController {
         }
     }
     
-    private func setupCollectionView(forCell cell: DetailGymPageCell) {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 20
-        layout.itemSize = CGSize(width: 100, height: 200)
-        
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .white
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.clipsToBounds = false
-        collectionView.isPagingEnabled = false
-        collectionView.isScrollEnabled = true
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(DetailGymImageCell.self, forCellWithReuseIdentifier: "ImageCell")
-        cell.contentView.addSubview(collectionView)
-        
-        collectionView.snp.makeConstraints { make in
-               make.top.equalTo(cell.titleButton.snp.bottom).offset(10)
-               make.left.equalTo(cell.borderView.snp.right).offset(5)
-               make.right.equalTo(cell.contentView.snp.right).offset(10)
-               make.height.width.equalTo(100)
-               make.bottom.equalTo(cell.contentView).inset(20)
-           }
-    }
     
     private func fetchData() {
         
@@ -115,9 +89,6 @@ class DetailSportsPageViewController: UIViewController {
                     }
                 }
             }
-            print("===========================================")
-            print(imageCacheArray)
-            print("===========================================")
 
             let prefetcher = ImagePrefetcher(urls: urlsToPrefetch) {
                 skippedResources, failedResources, completedResources in
@@ -146,15 +117,28 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
         headerLabel.textColor = .black
         headerLabel.textAlignment = .left
         headerLabel.font = UIFont.systemFont(ofSize: 25, weight: .heavy)
+        headerLabel.numberOfLines = 0 
+        headerLabel.lineBreakMode = .byWordWrapping
         
         headerView.addSubview(headerLabel)
         
         headerLabel.snp.makeConstraints { make in
-            make.left.equalTo(headerView.snp.left).inset(20)
-            make.centerY.equalTo(headerView.snp.centerY)
-        }
+                make.left.equalTo(headerView.snp.left).inset(20)
+                make.right.equalTo(headerView.snp.right).inset(20)
+                make.top.equalTo(headerView.snp.top).inset(10)
+                make.bottom.equalTo(headerView.snp.bottom).inset(10)
+            }
         
         return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.row {
+        case 9:
+            return 150
+        default:
+            return UITableView.automaticDimension
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -165,11 +149,12 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "DetailGymCell", for: indexPath) as! DetailGymPageCell
         cell.selectionStyle = .none
-        
+        cell.imageCacheArray = self.imageCacheArray
         switch indexPath.row {
         case 0:
             cell.titleButton.setTitle("場地公告", for: .normal)
             cell.detailLabel.text = gymDetails?.introduction
+
         case 1:
             cell.titleButton.setTitle("\(gymDetails?.addr ?? "無")", for: .normal)
         case 2:
@@ -213,29 +198,22 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
         case 9:
             cell.titleButton.setTitle("實際照片", for: .normal)
             cell.detailLabel.isHidden = true
-            setupCollectionView(forCell: cell)
+            cell.collectionView.isHidden = false
+            
         default:
             print("error")
         }
-        cell.viewImage.image = UIImage(named: cell.iconArray[indexPath.row]) 
+        
+        cell.viewImage.image = UIImage(named: cell.iconArray[indexPath.row])
         return cell
     }
+    
+    
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
-extension DetailSportsPageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageCacheArray.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! DetailGymImageCell
-        let url = URL(string: imageCacheArray[indexPath.row])
-        cell.imageView.kf.setImage(with: url)
-        return cell
-    }
-}
+
+
 
 extension DetailSportsPageViewController {
     
