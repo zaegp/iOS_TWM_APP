@@ -17,7 +17,7 @@ class SportsVenueViewController: UIViewController {
     var searchKeywords = String()
     var passKeyWords: ((String) -> Void)?
     var backgroundImageView = UIImageView()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -25,14 +25,8 @@ class SportsVenueViewController: UIViewController {
         setupLocationManager()
     }
     
-//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-//        super.viewWillTransition(to: size, with: coordinator)
-//        coordinator.animate(alongsideTransition: nil) { _ in
-//            self.updateTextForOrientation()
-//        }
-//    }
     
-    // MARK: - Setup Methods
+    
     private func setupView() {
         
         view.addSubview(backgroundImageView)
@@ -46,7 +40,7 @@ class SportsVenueViewController: UIViewController {
         backgroundImageView.alpha = 0.8
         setupNavigationBar()
     }
-
+    
     private func setupNavigationBar() {
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.backgroundColor = .white.withAlphaComponent(0.8)
@@ -74,7 +68,6 @@ class SportsVenueViewController: UIViewController {
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
-            //make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-16)
             make.bottom.equalToSuperview().offset(-30)
         }
         
@@ -82,17 +75,17 @@ class SportsVenueViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(handleRefresh(_:)), for: .valueChanged)
         tableView.refreshControl = refreshControl
     }
-
+    
     private func setupLocationManager() {
         locationManager.delegate = self
     }
     
-
+    
     // MARK: - Refresh Control
     @objc private func handleRefresh(_ refreshControl: UIRefreshControl) {
         locationManager.startUpdatingLocation()
     }
-
+    
     // MARK: - Cell Configuration
     private func configureCell(_ cell: Cell, with gymData: Value) {
         cell.setTitle(gymData.name)
@@ -117,7 +110,7 @@ extension SportsVenueViewController: UITableViewDataSource {
         cell.selectionStyle = .none
         return cell
     }
-   
+    
 }
 
 // MARK: - UITableViewDelegate

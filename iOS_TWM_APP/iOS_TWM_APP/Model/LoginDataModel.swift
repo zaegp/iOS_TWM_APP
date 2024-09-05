@@ -14,7 +14,7 @@ struct Register: Codable {
 
 struct Login: Codable {
     let accessToken, tokenType: String
-
+    
     enum CodingKeys: String, CodingKey {
         case accessToken = "access_token"
         case tokenType = "token_type"
@@ -63,7 +63,7 @@ struct GymDetailData: Codable {
     let rate: Double?
     let rateCount: Int?
     let gymFuncData: [GymFuncDatum]?
-
+    
     enum CodingKeys: String, CodingKey {
         case id = "ID"
         case gymType = "GymType"
@@ -140,7 +140,7 @@ struct GymFuncDatum: Codable {
     let passEasyWizardPhotoURL: String?
     let passEasySupport: Bool?
     let passEasySupportPhotoURL, passEasySupportOthers: String?
-
+    
     enum CodingKeys: String, CodingKey {
         case id = "ID"
         case name = "Name"

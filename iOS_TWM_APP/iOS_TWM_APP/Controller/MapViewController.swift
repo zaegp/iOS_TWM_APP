@@ -35,53 +35,80 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mapView = MKMapView(frame: view.bounds)
-        mapView.showsUserLocation = true
-        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        mapView.delegate = self
-        view.accessibilityIdentifier = "MapView"
-        view.addSubview(mapView)
-        view.addSubview(bottomMenu.view)
-        
-        loadingIndicator.center = view.center
-        view.addSubview(loadingIndicator)
-        
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        
-        dataRequestAPI.delegate = self
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(handleLocateButtonTappedNotification(_:)), name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
-        
-        bottomMenu.completeSearchButton.addTarget(self, action: #selector(didTapCompleteSearchButton), for: .touchUpInside)
-        
-        observer = NotificationCenter.default.addObserver(forName: Notification.Name("didUpdateMockData"), object: nil, queue: .main) { [weak self] notification in
-            self?.handleMockDataUpdate()
-        }
+        setupMapView()
+        setupLoadingIndicator()
+        setupBottomMenu()
+        setupLocationManager()
+        setupNotificationObservers()
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
     }
     
-    private func handleMockDataUpdate() {
-
-            if let data = UserDefaults.standard.data(forKey: "MockData"),
-               let mockData = try? JSONDecoder().decode(MockData.self, from: data) {
-                deviceNameLabel.text = mockData.deviceName
-                if mockData.frequency == "低功耗" {
-                    deviceNameLabel.textColor = .blue
-                } else if mockData.frequency == "緊急" {
-                    deviceNameLabel.textColor = .red
-                } else {
-                    deviceNameLabel.textColor = .black
-                }
-                
-            }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        gymAPI.onGymDataReceived = nil
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // MARK: - Setup Methods
+    private func setupMapView() {
+        mapView = MKMapView(frame: view.bounds)
+        mapView.showsUserLocation = true
+        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        mapView.delegate = self
+        view.accessibilityIdentifier = "MapView"
+        view.addSubview(mapView)
+    }
+    
+    private func setupLoadingIndicator() {
+        loadingIndicator.center = view.center
+        view.addSubview(loadingIndicator)
+    }
+    
+    private func setupBottomMenu() {
+        view.addSubview(bottomMenu.view)
+        bottomMenu.completeSearchButton.addTarget(self, action: #selector(didTapCompleteSearchButton), for: .touchUpInside)
+    }
+    
+    private func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        dataRequestAPI.delegate = self
+    }
+    
+    private func setupNotificationObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleLocateButtonTappedNotification(_:)), name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
+        
+        observer = NotificationCenter.default.addObserver(forName: Notification.Name("didUpdateMockData"), object: nil, queue: .main) { [weak self] _ in
+            self?.handleMockDataUpdate()
+        }
+    }
+    
+    // MARK: - Handle Actions
+    private func handleMockDataUpdate() {
+        guard let data = UserDefaults.standard.data(forKey: "MockData"),
+              let mockData = try? JSONDecoder().decode(MockData.self, from: data) else { return }
+        
+        deviceNameLabel.text = mockData.deviceName
+        deviceNameLabel.textColor = getColor(for: mockData.frequency ?? "普通")
+    }
+    
+    private func getColor(for frequency: String) -> UIColor {
+        switch frequency {
+        case "低功耗":
+            return .blue
+        case "緊急":
+            return .red
+        default:
+            return .black
+        }
+    }
     
     @objc func didTapCompleteSearchButton() {
         
@@ -100,11 +127,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             sportsVenueViewController.receivedGymDataArray = gymAPI.gymDataArray ?? []
             self.navigationController?.pushViewController(sportsVenueViewController, animated: true)
         }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        gymAPI.onGymDataReceived = nil
     }
     
     @objc func handleLocateButtonTappedNotification(_ notification: Notification) {
@@ -139,14 +161,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("LocateButtonTappedNotification"), object: nil)
-        
-        if let observer = observer {
-            NotificationCenter.default.removeObserver(observer)
-        }
-    }
-    
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .authorizedWhenInUse, .authorizedAlways:
@@ -177,7 +191,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
-    // 大頭針
     func addAnnotationAtCoordinate(coordinate: CLLocationCoordinate2D, title: String, gymID: Int, imageURL: URL?) {
         let annotation = GymAnnotation()
         annotation.coordinate = coordinate
@@ -407,11 +420,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
 }
 
+
 extension MapViewController: LoginDataRequestDelegate {
     
     func didGetMockData(deviceName: String) {
         print("1---", deviceName)
-        //        self.deviceName = deviceName
         deviceNameLabel.text = deviceName
         print("1---", deviceNameLabel.text)
     }

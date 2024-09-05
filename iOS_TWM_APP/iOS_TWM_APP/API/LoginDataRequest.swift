@@ -17,14 +17,13 @@ import Alamofire
 class LoginDataRequest {
     
     var delegate: LoginDataRequestDelegate?
-
+    
     var token: String = ""
-
+    
     var passDeviceName: ((String) -> Void)?
     
-    func registerData(userID: String, password: String) {
-        let parameters: [String: Any] =
-        [
+    func registerData(userID: String, password: String, completion: @escaping (Bool, String) -> Void) {
+        let parameters: [String: Any] = [
             "userName": userID,
             "email": "\(UUID().uuidString)",
             "password": password
@@ -38,22 +37,20 @@ class LoginDataRequest {
                     let decoder = JSONDecoder()
                     let decodeData = try decoder.decode(Register.self, from: data)
                     print(decodeData)
+                    completion(true, "註冊成功")
                 } catch {
                     print("fail")
+                    completion(false, "資料解析失敗")
                 }
             case .failure(let error):
                 print("bb")
+                completion(false, "註冊失敗：\(error.localizedDescription)")
             }
-            
         }
     }
     
-    func loginData(userID: String, password: String) {
-        
-        UserDefaults.standard.set(userID, forKey: "userID")
-        UserDefaults.standard.set(password, forKey: "userPassword")
-
-        
+    
+    func loginData(userID: String, password: String, completion: @escaping (Bool, String) -> Void) {
         let parameters: [String: String] = [
             "grant_type": "",
             "username": userID,
@@ -62,69 +59,66 @@ class LoginDataRequest {
             "client_id": "",
             "client_secret": ""
         ]
-            AF.request("https://fastapi-production-a532.up.railway.app/login",
-                       method: .post,
-                       parameters: parameters,
-                       encoding: URLEncoding.default,
-                       headers: ["accept": "application/json", "Content-Type": "application/x-www-form-urlencoded"]).responseData { response in
-                switch response.result {
-                case .success(let data):
-                    do {
-                     
-
-                        let decoder = JSONDecoder()
-                        let decodeData = try decoder.decode(Login.self, from: data)
-                        print("Decoded Response: \(decodeData)")
-                        self.token = decodeData.accessToken ?? ""
-                        UserDefaults.standard.set(self.token, forKey: "userToken")
-
-                        self.getInformation(self.token)
-
-                        self.delegate?.didGetToken?(token: self.token)
-
-                    } catch let decodingError {
-                        print("Decoding Error: \(decodingError)")
-                        
-                    }
-                case .failure(let error):
-                    print("Error: \(error)")
-                    
-                }
-            }
         
+        AF.request("https://fastapi-production-a532.up.railway.app/login",
+                   method: .post,
+                   parameters: parameters,
+                   encoding: URLEncoding.default,
+                   headers: ["accept": "application/json", "Content-Type": "application/x-www-form-urlencoded"]).responseData { response in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                    let decodeData = try decoder.decode(Login.self, from: data)
+                    print("Decoded Response: \(decodeData)")
+                    self.token = decodeData.accessToken ?? ""
+                    UserDefaults.standard.set(self.token, forKey: "userToken")
+                    self.getInformation(self.token)
+                    self.delegate?.didGetToken?(token: self.token)
+                    completion(true, "登入成功")
+                } catch let decodingError {
+                    print("Decoding Error: \(decodingError)")
+                    completion(false, "資料解析失敗")
+                }
+            case .failure(let error):
+                print("Error: \(error)")
+                completion(false, "登入失敗：\(error.localizedDescription)")
+            }
+        }
     }
+    
     
     func getInformation(_ token: String) {
         let headers: HTTPHeaders = [
-             "Authorization": "Bearer \(token)",
-             "accept": "application/json"
-         ]
-
-         AF.request("https://fastapi-production-a532.up.railway.app/info",
-                    method: .get, headers: headers).responseData { response in
-             switch response.result {
-             case .success(let data):
-                 do {
-                     let decoder = JSONDecoder()
-                     let decodeData = try decoder.decode(Register.self, from: data)
-                     
-                     print("Decoded Response: \(decodeData)")
-                     
-                 } catch let decodingError {
-                     print("Decoding Error: \(decodingError)")
-                 }
-             case .failure(let error):
-                 print("Error: \(error)")
-             }
-         }
-     }
+            "Authorization": "Bearer \(token)",
+            "accept": "application/json"
+        ]
+        
+        AF.request("https://fastapi-production-a532.up.railway.app/info",
+                   method: .get, headers: headers).responseData { response in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                    let decodeData = try decoder.decode(Register.self, from: data)
+                    
+                    print("Decoded Response: \(decodeData)")
+                    
+                } catch let decodingError {
+                    print("Decoding Error: \(decodingError)")
+                }
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
+    }
     
     func getMockData(_ token: String, completion: @escaping () -> Void) {
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(token)",
             "accept": "application/json"
         ]
-
+        
         AF.request("https://fastapi-production-a532.up.railway.app/Info/",
                    method: .get, headers: headers).responseData { response in
             switch response.result {
@@ -148,34 +142,34 @@ class LoginDataRequest {
             }
         }
     }
-
+    
     func getDetailGymPageData(_ gymID: Int, completion: @escaping (GymDetailData?) -> Void) {
         let urlString = "https://iplay.sa.gov.tw/odata/Gym(\(gymID))?$format=application/json;odata.metadata=none&$expand=GymFuncData"
-
-         print("==============================================")
-         AF.request(urlString, method: .get).responseData { response in
-             switch response.result {
-             case .success(let data):
-                 do {
-                     print("==============================================")
-                     if let json = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) {
-                                         print("Raw JSON Response: \(json)")
-                                     }                    
-                     print("==============================================")
-
-                     let decoder = JSONDecoder()
-                     let decodeData = try decoder.decode(GymDetailData.self, from: data)
-                     print("MockData Response: \(decodeData)")
-                     completion(decodeData) 
-                 } catch let decodingError {
-                     print("Decoding Error: \(decodingError)")
-                     completion(nil)
-                 }
-             case .failure(let error):
-                 print("Error: \(error)")
-                 completion(nil)
-             }
-         }
+        
+        print("==============================================")
+        AF.request(urlString, method: .get).responseData { response in
+            switch response.result {
+            case .success(let data):
+                do {
+                    print("==============================================")
+                    if let json = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) {
+                        print("Raw JSON Response: \(json)")
+                    }
+                    print("==============================================")
+                    
+                    let decoder = JSONDecoder()
+                    let decodeData = try decoder.decode(GymDetailData.self, from: data)
+                    print("MockData Response: \(decodeData)")
+                    completion(decodeData)
+                } catch let decodingError {
+                    print("Decoding Error: \(decodingError)")
+                    completion(nil)
+                }
+            case .failure(let error):
+                print("Error: \(error)")
+                completion(nil)
+            }
+        }
     }
     
     

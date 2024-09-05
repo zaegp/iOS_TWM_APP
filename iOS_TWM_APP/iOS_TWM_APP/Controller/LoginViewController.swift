@@ -32,7 +32,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.navigationBar.backgroundColor = .clear
         loginDataRequest.delegate = self
-
+        
         setupLoginPage()
         setupTextFieldAction()
         setupButtonAction()
@@ -40,10 +40,10 @@ class LoginViewController: UIViewController {
         
         
         userIDTextField.accessibilityIdentifier = "userIDTextField"
-            passwordTextField.accessibilityIdentifier = "passwordTextField"
-            loginButton.accessibilityIdentifier = "loginButton"
-            signinButton.accessibilityIdentifier = "signinButton"
-            checkButton.accessibilityIdentifier = "checkButton"
+        passwordTextField.accessibilityIdentifier = "passwordTextField"
+        loginButton.accessibilityIdentifier = "loginButton"
+        signinButton.accessibilityIdentifier = "signinButton"
+        checkButton.accessibilityIdentifier = "checkButton"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -210,21 +210,25 @@ class LoginViewController: UIViewController {
     }
     
     @objc func loginButtonTapped() {
-        
         guard let userID = userIDTextField.text, let passwordText = passwordTextField.text else {
             return
         }
         
-        self.loginDataRequest.loginData(userID: userID, password: passwordText)
-        
+        loginDataRequest.loginData(userID: userID, password: passwordText) { [weak self] success, message in
+            guard let self = self else { return }
+            self.showAlert(title: success ? "成功" : "失敗", message: message)
+        }
     }
     
     @objc func signinButtonTapped() {
-        
         if let userID = userIDTextField.text, let passwordText = passwordTextField.text {
-            loginDataRequest.registerData(userID: userID, password: passwordText)
+            loginDataRequest.registerData(userID: userID, password: passwordText) { [weak self] success, message in
+                guard let self = self else { return }
+                self.showAlert(title: success ? "成功" : "失敗", message: message)
+            }
         }
     }
+    
     
     @objc func textFieldsDidChange() {
         
@@ -237,7 +241,7 @@ class LoginViewController: UIViewController {
         }
     }
     
-
+    
     func saveLoginState(token: String, expiresIn: TimeInterval) {
         
         let defaults = UserDefaults.standard
@@ -261,7 +265,7 @@ class LoginViewController: UIViewController {
         
         return UserDefaults.standard.string(forKey: "userToken")
     }
-
+    
     
     func isTokenValid() -> Bool {
         let defaults = UserDefaults.standard
@@ -281,7 +285,7 @@ class LoginViewController: UIViewController {
             return false
         }
     }
-
+    
     func clearLoginState() {
         let defaults = UserDefaults.standard
         defaults.removeObject(forKey: "userToken")
@@ -289,6 +293,11 @@ class LoginViewController: UIViewController {
         print("Cleared userToken and tokenExpirationDate")
     }
     
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true)
+    }
 }
 
 extension LoginViewController: LoginDataRequestDelegate {
@@ -304,7 +313,7 @@ extension LoginViewController: LoginDataRequestDelegate {
                     let mapVC = MapViewController()
                     navigationController.pushViewController(mapVC, animated: true)
                 }
-
+                
                 if self.checkButton.isSelected {
                     let expiresIn: TimeInterval = 3600
                     self.saveLoginState(token: self.loginDataRequest.token, expiresIn: expiresIn)

@@ -22,7 +22,7 @@ class DetailSportsPageViewController: UIViewController {
         tableView.layer.cornerRadius = 10
         tableView.layer.masksToBounds = true
         tableView.separatorStyle = .none
-
+        
         return tableView
     }()
     
@@ -72,7 +72,7 @@ class DetailSportsPageViewController: UIViewController {
             self.gymDetails = data
             
             var urlsToPrefetch: [URL] = []
-
+            
             for i in 0..<(self.gymDetails?.gymFuncData?.count ?? 0) {
                 if let photo1 = self.gymDetails?.gymFuncData?[i].photo1,
                    photo1 != "https://iplay.sa.gov.tw" {
@@ -89,7 +89,7 @@ class DetailSportsPageViewController: UIViewController {
                     }
                 }
             }
-
+            
             let prefetcher = ImagePrefetcher(urls: urlsToPrefetch) {
                 skippedResources, failedResources, completedResources in
                 print("Prefetched \(completedResources.count) images.")
@@ -123,11 +123,11 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
         headerView.addSubview(headerLabel)
         
         headerLabel.snp.makeConstraints { make in
-                make.left.equalTo(headerView.snp.left).inset(20)
-                make.right.equalTo(headerView.snp.right).inset(20)
-                make.top.equalTo(headerView.snp.top).inset(10)
-                make.bottom.equalTo(headerView.snp.bottom).inset(10)
-            }
+            make.left.equalTo(headerView.snp.left).inset(20)
+            make.right.equalTo(headerView.snp.right).inset(20)
+            make.top.equalTo(headerView.snp.top).inset(10)
+            make.bottom.equalTo(headerView.snp.bottom).inset(10)
+        }
         
         return headerView
     }
@@ -154,7 +154,7 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
         case 0:
             cell.titleButton.setTitle("場地公告", for: .normal)
             cell.detailLabel.text = gymDetails?.introduction
-
+            
         case 1:
             cell.titleButton.setTitle("\(gymDetails?.addr ?? "無")", for: .normal)
         case 2:
@@ -164,7 +164,7 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
             cell.titleButton.setTitle("\(gymDetails?.operationTel ?? "無")", for: .normal)
             cell.titleButton.addTarget(self, action: #selector(callPhoneNumber), for: .touchUpInside)
             cell.titleButton.setTitleColor(.blue, for: .normal)
-
+            
         case 4:
             cell.titleButton.setTitle("\(gymDetails?.webURL ?? "無")", for: .normal)
             cell.titleButton.addTarget(self, action: #selector(openWebPage), for: .touchUpInside)
@@ -218,21 +218,21 @@ extension DetailSportsPageViewController: UITableViewDelegate, UITableViewDataSo
 extension DetailSportsPageViewController {
     
     @objc private func openWebPage() {
-           guard let urlString = gymDetails?.webURL, let url = URL(string: urlString) else {
-               print("Invalid URL")
-               return
-           }
-           UIApplication.shared.open(url, options: [:], completionHandler: nil)
-       }
+        guard let urlString = gymDetails?.webURL, let url = URL(string: urlString) else {
+            print("Invalid URL")
+            return
+        }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
     @objc private func callPhoneNumber() {
         guard let number = gymDetails?.operationTel, let url = URL(string: "tel://\(number)") else {
-               print("Invalid phone number")
-               return
-           }
-           if UIApplication.shared.canOpenURL(url) {
-               UIApplication.shared.open(url, options: [:], completionHandler: nil)
-           } else {
-               print("Unable to open dialer")
-           }
-       }
+            print("Invalid phone number")
+            return
+        }
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            print("Unable to open dialer")
+        }
+    }
 }

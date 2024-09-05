@@ -4,8 +4,8 @@ import SnapKit
 import Kingfisher
 
 class DetailGymImageCell: UICollectionViewCell {
-   
-
+    
+    
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -24,7 +24,7 @@ class DetailGymImageCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-       
+        
         setupViews()
     }
     

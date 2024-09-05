@@ -18,46 +18,46 @@ class BottomMenuViewController: UIViewController {
         
         
         self.view.frame = CGRectMake(0, screenSize.height * 0.85 , screenSize.width, screenSize.height * 0.85)
-
+        
         
         configBottomMenuView()
         
         customizeLabels()
-
+        
         timer = Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(repeatGetMockData), userInfo: nil, repeats: true)
-
-
+        
+        
         
         let userToken = UserDefaults.standard.string(forKey: "userToken")
         
         guard let userToken = userToken else{return}
         
         setFirstMockData()
-                
+        
         initializeHideKeyboard()
         
         searchBar.searchTextField.delegate = self
-
+        
         
     }
     
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         timer?.invalidate()
         timer = nil
     }
-
+    
     
     var timer: Timer?
-
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
     }
     
-
+    
     
     let bottomMenuView = UIImageView()
     
@@ -94,13 +94,13 @@ class BottomMenuViewController: UIViewController {
     let searchButtonContainerView = UIView()
     
     let screenSize: CGRect = UIScreen.main.bounds
-
+    
     let searchBar = UISearchBar()
     
     var completeSearchButton = UIButton(type: .system)
-
+    
     var window: UIWindow?
-
+    
     let loginRequest = LoginDataRequest()
     
     var hour = Calendar.current.component(.hour, from: Date())
@@ -110,7 +110,7 @@ class BottomMenuViewController: UIViewController {
     var reloadMockData: MockData?
     
     var passDeviceName: ((String) -> Void)?
-
+    
     
     func configBottomMenuView() {
         
@@ -175,7 +175,7 @@ class BottomMenuViewController: UIViewController {
         bottomMenuView.layer.borderColor = UIColor.white.cgColor
         
         bottomMenuView.layer.borderWidth = 0.5
-
+        
         bottomMenuView.image = UIImage(named: "sports-background")
         
         bottomMenuView.alpha = 0.5
@@ -207,12 +207,12 @@ class BottomMenuViewController: UIViewController {
         bottomMenuView.addGestureRecognizer(tapBottomMenuGesture)
         
         searchButton.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
-
+        
         refreshButton.addTarget(self, action: #selector(tappedRefreshButton), for: .touchUpInside)
-
+        
         //completeSearchButton.addTarget(self, action: #selector(didTapCompleteSearchButton), for: .touchUpInside)
         //test
-//        locateButton.addTarget(self, action: #selector(testPush), for: .touchUpInside)
+        //        locateButton.addTarget(self, action: #selector(testPush), for: .touchUpInside)
         
         setBottomViewConstraint()
         
@@ -329,17 +329,15 @@ class BottomMenuViewController: UIViewController {
     
     func customizeLabels() {
         
-
-      
+        
+        
         
         recentUpdateLabel.text = "最近更新"
-//        timeLabel.text = "\(hour):\(minutes)"
-//        dateLabel.text = "\(Calendar.current)"
+        
         deviceNameLabel.text = "DeviceName"
         stepCountTextLabel.text = "今日步數"
         stepCountValueLabel.text = "0"
         frequencyLabel.text = "頻率"
-//        frequencyValueLabel.text = "一般"
         
         recentUpdateLabel.textColor = .darkGray
         
@@ -347,7 +345,6 @@ class BottomMenuViewController: UIViewController {
         
         frequencyLabel.textColor = .darkGray
         
-        // Customize fonts, colors, and alignment as needed
         recentUpdateLabel.font = .systemFont(ofSize: 14)
         stepCountTextLabel.font = .systemFont(ofSize: 14)
         frequencyLabel.font = .systemFont(ofSize: 14)
@@ -369,7 +366,7 @@ class BottomMenuViewController: UIViewController {
             print("userToken not found")
             
             return}
-            
+        
         getMockData(userToken)
         
         
@@ -386,9 +383,9 @@ class BottomMenuViewController: UIViewController {
         completeSearchButton.isHidden = false
         completeSearchButton.isEnabled = true
         
-
+        
         self.view.frame = CGRectMake(0, screenSize.height * 0.63, screenSize.width, screenSize.height * 0.4)
-
+        
         
         self.deviceNameLabel.snp.updateConstraints { make in
             make.centerY.equalTo(bottomMenuView.snp.top).offset(105)
@@ -426,12 +423,12 @@ class BottomMenuViewController: UIViewController {
     
     
     @objc func didTapCompleteSearchButton() {
-
+        
         SportsVenueViewController().passKeyWords?(searchBar.text ?? "")
         
     }
     
-
+    
     @objc func didTappedBottomView() {
         
         searchBar.isHidden = true
@@ -447,7 +444,7 @@ class BottomMenuViewController: UIViewController {
             if self.isExpanded == false {
                 
                 self.view.frame = CGRectMake(0, self.screenSize.height * 0.74, self.screenSize.width, self.screenSize.height * 0.29)
-
+                
                 
                 self.searchButtonContainerView.isHidden = false
                 
@@ -463,7 +460,7 @@ class BottomMenuViewController: UIViewController {
             } else {
                 
                 self.view.frame = CGRectMake(0, self.screenSize.height * 0.85, self.screenSize.width, self.screenSize.height * 0.20)
-
+                
                 
                 self.searchButtonContainerView.transform = CGAffineTransform(translationX: 0, y: 60)
                 self.locateButtonContainerView.transform = CGAffineTransform(translationX: 0, y: 60)
@@ -473,13 +470,13 @@ class BottomMenuViewController: UIViewController {
                 self.isExpanded = false
                 
             }
-            self.view.layoutIfNeeded()  // Apply the constraint changes
+            self.view.layoutIfNeeded()
         })
         
         
     }
-
-
+    
+    
     @objc func tappedRefreshButton () {
         
         let userToken = UserDefaults.standard.string(forKey: "userToken")
@@ -492,9 +489,9 @@ class BottomMenuViewController: UIViewController {
             return}
         
         print("get token: \(userToken)")
-            
+        
         self.getMockData(userToken)
-            
+        
         
     }
     
@@ -505,59 +502,62 @@ class BottomMenuViewController: UIViewController {
         let date = Date()
         
         let headers: HTTPHeaders = [
-             "Authorization": "Bearer \(token)",
-             "accept": "application/json"
-         ]
+            "Authorization": "Bearer \(token)",
+            "accept": "application/json"
+        ]
         
         let hour = calendar.component(.hour, from: date)
         let minutes = calendar.component(.minute, from: date)
         
-         AF.request("https://fastapi-production-a532.up.railway.app/Info/",
-                    method: .get, headers: headers).responseData { response in
-             switch response.result {
-             case .success(let data):
-                 do {
-                     let decoder = JSONDecoder()
-                     let decodeData = try decoder.decode(MockData.self, from: data)
-                     
-                     NotificationCenter.default.post(name: Notification.Name("didUpdateMockData"), object: nil)
-                     print("MockData Response: \(decodeData)")
-                     
-                     if decodeData.deviceName == nil && decodeData.step == nil {
-                         let token = UserDefaults.standard.string(forKey: "userToken")
-                         let savedUserID = UserDefaults.standard.string(forKey: "userID")
-                         let savedUserPassword = UserDefaults.standard.string(forKey: "userPassword")
-                         self.loginRequest.loginData(userID: savedUserID ?? "", password: savedUserPassword ?? "")
-                         self.getMockData(token ?? "")
-                         
-                     } else {
-                         let formatter = DateFormatter()
-                         formatter.dateFormat = "MM/dd"
-                         
-                         self.dateLabel.text = formatter.string(from: date)
-                         self.timeLabel.text = String(format: "%02d:%02d", hour, minutes)
-                         self.deviceNameLabel.text = decodeData.deviceName
-                         self.stepCountValueLabel.text = String(decodeData.step ?? 0)
-                         
-                         self.frequencyValueLabel.text = decodeData.frequency
-                         
-                         self.passDeviceName?(decodeData.deviceName ?? "no data")
-                         self.saveMockDataToUserDefaults(decodeData)
-                     }
-                     
-                 } catch let decodingError {
-                     print("Decoding Error: \(decodingError)")
-                 }
-             case .failure(let error):
-                 print("Error: \(error)")
-             }
-         }
-     }
+        AF.request("https://fastapi-production-a532.up.railway.app/Info/",
+                   method: .get, headers: headers).responseData { response in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                    let decodeData = try decoder.decode(MockData.self, from: data)
+                    
+                    NotificationCenter.default.post(name: Notification.Name("didUpdateMockData"), object: nil)
+                    print("MockData Response: \(decodeData)")
+                    
+                    if decodeData.deviceName == nil && decodeData.step == nil {
+                        let token = UserDefaults.standard.string(forKey: "userToken")
+                        let savedUserID = UserDefaults.standard.string(forKey: "userID")
+                        let savedUserPassword = UserDefaults.standard.string(forKey: "userPassword")
+                        self.loginRequest.loginData(userID: savedUserID ?? "", password: savedUserPassword ?? "") { [weak self] success, message in
+                            guard let self = self else { return }
+                        }
+                        
+                        self.getMockData(token ?? "")
+                        
+                    } else {
+                        let formatter = DateFormatter()
+                        formatter.dateFormat = "MM/dd"
+                        
+                        self.dateLabel.text = formatter.string(from: date)
+                        self.timeLabel.text = String(format: "%02d:%02d", hour, minutes)
+                        self.deviceNameLabel.text = decodeData.deviceName
+                        self.stepCountValueLabel.text = String(decodeData.step ?? 0)
+                        
+                        self.frequencyValueLabel.text = decodeData.frequency
+                        
+                        self.passDeviceName?(decodeData.deviceName ?? "no data")
+                        self.saveMockDataToUserDefaults(decodeData)
+                    }
+                    
+                } catch let decodingError {
+                    print("Decoding Error: \(decodingError)")
+                }
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
+    }
     
     @objc func testPush() {
         self.navigationController?.pushViewController(SportsVenueViewController(), animated: true)
     }
-
+    
     
 }
 
@@ -577,7 +577,7 @@ extension BottomMenuViewController {
                 self.deviceNameLabel.text = savedMockData.deviceName
                 self.stepCountValueLabel.text = String(savedMockData.step ?? 0)
                 self.frequencyValueLabel.text = savedMockData.frequency
-
+                
             } catch {
                 print("Failed to decode saved MockData: \(error)")
             }
@@ -590,13 +590,13 @@ extension BottomMenuViewController {
             let encodedData = try encoder.encode(data)
             UserDefaults.standard.set(encodedData, forKey: "MockData")
             NotificationCenter.default.post(name: .didUpdateMockData, object: nil)
-
+            
         } catch {
             print("Failed to encode MockData: \(error)")
         }
     }
     
-
+    
 }
 
 extension Notification.Name {
@@ -604,19 +604,16 @@ extension Notification.Name {
 }
 
 extension BottomMenuViewController {
-func initializeHideKeyboard(){
-//Declare a Tap Gesture Recognizer which will trigger our dismissMyKeyboard() function
-let tap: UITapGestureRecognizer = UITapGestureRecognizer(
-target: self,
-action: #selector(dismissMyKeyboard))
-//Add this tap gesture recognizer to the parent view
-view.addGestureRecognizer(tap)
-}
-@objc func dismissMyKeyboard(){
-//endEditing causes the view (or one of its embedded text fields) to resign the first responder status.
-//In short- Dismiss the active keyboard.
-view.endEditing(true)
-}
+    func initializeHideKeyboard(){
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(dismissMyKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    @objc func dismissMyKeyboard(){
+        
+        view.endEditing(true)
+    }
 }
 
 extension BottomMenuViewController: UITextFieldDelegate {

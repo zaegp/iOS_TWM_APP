@@ -123,24 +123,17 @@ class Cell: UITableViewCell {
     
     func setLocation(_ location: String) {
         venueLocationLabel.text = location
-
+        
         let isPortrait = UIDevice.current.orientation.isPortrait
         let labelWidth = isPortrait ? 150 : 300
-
-//        venueLocationLabel.snp.updateConstraints { make in
-//            make.width.equalTo(labelWidth)
-//        }
     }
-
+    
     func setFacilities(_ facilities: String) {
         venueFacilitiesLabel.text = facilities
-
+        
         let isPortrait = UIDevice.current.orientation.isPortrait
         let labelWidth = isPortrait ? 150 : 300
-
-//        venueFacilitiesLabel.snp.updateConstraints { make in
-//            make.width.equalTo(labelWidth)
-//        }
+        
     }
     
     func setImage(_ image: String) {

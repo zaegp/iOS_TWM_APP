@@ -29,6 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         IQKeyboardManager.shared.enable = true
+        
+        let appearance = UINavigationBar.appearance()
+        appearance.tintColor = UIColor.orange
 
         return true
     }

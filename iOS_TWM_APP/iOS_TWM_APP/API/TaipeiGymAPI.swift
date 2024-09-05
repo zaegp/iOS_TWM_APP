@@ -24,7 +24,7 @@ enum CityName: String {
     case KIN = "金門縣"
     case LIE = "連江縣"
     case MIA = "苗栗縣"
-
+    
     static func getCityName(from abbreviation: String) -> String {
         switch abbreviation {
         case "TPE": return CityName.TPE.rawValue
@@ -60,7 +60,7 @@ class TaipeiGymAPI: UIViewController{
     var gymDataArray:[Value]? = []
     var onGymDataReceived: (([Value]) -> Void)?
     var cache: [String: [Value]] = [:]
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -85,8 +85,8 @@ extension TaipeiGymAPI {
                 self.City = CityName.getCityName(from: county)
                 self.Country = town
                 self.searchGym(String(latitude), String(longitude))
-
-
+                
+                
             }
         }
     }
@@ -99,14 +99,14 @@ extension TaipeiGymAPI {
             self.onGymDataReceived?(cachedData)
             return
         }
-
+        
         let url: String
         if let nextPage = nextPageURL {
             url = nextPage
         } else {
             url = "https://iplay.sa.gov.tw/odata/GymSearch"
         }
-
+        
         let headers: HTTPHeaders = [
             "Accept": "application/json;odata.metadata=none"
         ]
@@ -122,7 +122,7 @@ extension TaipeiGymAPI {
                 "orderby": "Distance asc"
             ]
         }
-
+        
         AF.request(url, parameters: parameters, headers: headers).responseDecodable(of: GymData.self) { response in
             switch response.result {
             case .success(let gymData):
@@ -146,10 +146,10 @@ extension TaipeiGymAPI {
             }
         }
     }
-
-
-
-
+    
+    
+    
+    
 }
 
 
@@ -163,11 +163,11 @@ extension TaipeiGymAPI {
 struct GymData: Codable {
     let value: [Value]
     let odataNextLink: String?
-
-       enum CodingKeys: String, CodingKey {
-           case value
-           case odataNextLink = "@odata.nextLink"
-       }
+    
+    enum CodingKeys: String, CodingKey {
+        case value
+        case odataNextLink = "@odata.nextLink"
+    }
 }
 
 // MARK: - Value

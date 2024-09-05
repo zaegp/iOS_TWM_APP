@@ -58,7 +58,7 @@ class DetailGymPageCell: UITableViewCell {
     }()
     
     var imageCacheArray: [String] = []
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -109,7 +109,6 @@ class DetailGymPageCell: UITableViewCell {
             make.top.equalTo(titleButton.snp.bottom).offset(10)
             make.left.equalTo(borderView.snp.right).offset(5)
             make.right.equalTo(contentView.snp.right).offset(-10)
-            //make.height.equalTo(100)
             make.bottom.equalTo(contentView).inset(20)
         }
     }
