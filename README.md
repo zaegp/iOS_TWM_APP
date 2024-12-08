@@ -5,4 +5,5 @@
 - Utilized Alamofire to manage network quests, ensuring efficient communication.
 
 ## Demo video
-https://youtu.be/ZjQJVELR_M0
+[Demo](https://youtu.be/ZjQJVELR_M0)
+
